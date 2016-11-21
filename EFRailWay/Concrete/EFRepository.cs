@@ -10,7 +10,7 @@ namespace EFRailWay.Concrete
     public class EFRepository
     {
         protected EFDbContext context = new EFDbContext();
-        protected EFDbContext context_edit = new EFDbContext();
+        protected EFDbContext context_edit = new EFDbContext(); //TODO: !!!! Удалить сделать одну (context) проблема после изменения данных нет обновления
 
         public EFRepository() { }
 

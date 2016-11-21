@@ -241,7 +241,8 @@ namespace TransferWagons.Transfers
                 Oracle_ArrivalSostav kis_sostav = new Oracle_ArrivalSostav();
                 kis_sostav = or_as;
                 // Поставим состав на станции АМКР системы RailCars
-                int res = transfer_rc.PutCarsToStation(ref kis_sostav);
+                int res_put = transfer_rc.PutCarsToStation(ref kis_sostav);
+                int res_upd = transfer_rc.UpdateCarsToStation(ref kis_sostav);
                 //TODO: ВЫПОЛНИТЬ КОД: Поставим состав на станции АМКР системы RailWay         
                 //.............................
 

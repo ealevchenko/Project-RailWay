@@ -133,6 +133,49 @@ namespace conLibrary
                     t.KOD_GR,t.GR,t.OLD);        
         }
 
+        public void Test_PromContent_GetNatHist()
+        {
+            foreach (PromNatHist t in promsostav.GetNatHist())
+            {
+                WL(t);
+            }
+        }
+
+        public void Test_PromContent_GetNatHist(int natur, int station, int day, int month, int year, int wag)
+        {
+            WL(promsostav.GetNatHist(natur, station, day, month, year, wag));
+        }
+        public void WL(PromNatHist t) 
+        {
+            if (t == null) { Console.WriteLine(" = Null"); return; }
+            Console.WriteLine("N_NATUR: {0},\t D_PR_DD: {1},\t D_PR_MM: {2},\t D_PR_YY: {3},\t T_PR_HH: {4},\t T_PR_MI: {5},\t N_VAG: {6},\t NPP: {7},\t GODN: {8},\t K_ST: {9},\t N_VED_PR: {10},\t N_NAK_MPS: {11},\t N_NAK_KMK: {12},\t WES_GR: {13},\t K_OP: {14},\t K_FRONT: {15},\t KOD_STRAN: {16},\t DAT_VVOD: {17}",
+                    t.N_NATUR,t.D_PR_DD,t.D_PR_MM,t.D_PR_YY,t.T_PR_HH,t.T_PR_MI,t.N_VAG,t.NPP,t.GODN,t.K_ST,t.N_VED_PR,t.N_NAK_MPS,t.N_NAK_KMK,t.WES_GR,t.K_OP,t.K_FRONT,t.KOD_STRAN,t.DAT_VVOD);        
+        }
+
+        public void Test_PromContent_GetCex()
+        {
+            foreach (PromCex t in promsostav.GetCex())
+            {
+                WL(t);
+            }
+        }
+
+        public void Test_PromContent_GetCex(int k_podr)
+        {
+            WL(promsostav.GetCex(k_podr));
+        }
+
+        public void WL(PromCex t) 
+        {
+            if (t == null) { Console.WriteLine(" = Null"); return; }
+            Console.WriteLine("K_PODR: {0},\t NAME_P: {1},\t ABREV_P: {2}",
+                    t.K_PODR,t.NAME_P,t.ABREV_P);        
+        }
+
+
+
+
+
         // TODO: Потестить NatHist Vagons (добавлять составные ключи?)
         //**************************** Тест Wagons ****************************************************************************
         

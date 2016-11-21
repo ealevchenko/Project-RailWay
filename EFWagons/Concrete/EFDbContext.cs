@@ -40,6 +40,8 @@ namespace EFWagons.Concrete
         public DbSet<PromNatHist> PromNatHist { get; set;}
         public DbSet<PromVagon> PromVagon { get; set; }
         public DbSet<PromGruzSP> PromGruzSP { get; set; } // грузы на приходе
+        public DbSet<PromCex> PromCex { get; set; } // перечень цехов
+
         // Информация по вагонам
         public DbSet<NumVagStan> NumVagStan { get; set; }
         public DbSet<NumVagStpr1Gr> NumVagStpr1Gr { get; set; } // груз на станции прибытия?

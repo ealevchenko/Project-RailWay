@@ -35,7 +35,7 @@ namespace EFRailWay.Railcars
         /// </summary>
         /// <param name="id_station_kis"></param>
         /// <returns></returns>
-        public STATIONS GetStations(int id_station_kis) 
+        public STATIONS GetStationsOfKis(int id_station_kis) 
         {
             return GetStations().Where(s => s.id_ora == id_station_kis).FirstOrDefault();
         }
@@ -44,9 +44,9 @@ namespace EFRailWay.Railcars
         /// </summary>
         /// <param name="id_station_kis"></param>
         /// <returns></returns>
-        public int? GetIDStations(int id_station_kis) 
+        public int? GetIDStationsOfKis(int id_station_kis) 
         {
-            STATIONS st = GetStations(id_station_kis);
+            STATIONS st = GetStationsOfKis(id_station_kis);
             if (st != null) return st.id_stat;
             return null;
         }

@@ -18,6 +18,7 @@ namespace EFWagons.Entities
         public  int? GODN { get; set; }
         public  int? K_ST { get; set; }
         public  int N_NATUR { get; set; }
+
         // дата
         public  int? D_PR_DD { get; set; }
         public  int? D_PR_MM { get; set; }

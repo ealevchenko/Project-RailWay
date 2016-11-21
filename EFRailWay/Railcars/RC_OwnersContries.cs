@@ -44,7 +44,7 @@ namespace EFRailWay.Railcars
         /// </summary>
         /// <param name="id_ora"></param>
         /// <returns></returns>
-        public OWNERS_COUNTRIES GetOwnersContriesToKis(int id_ora) 
+        public OWNERS_COUNTRIES GetOwnersContriesOfKis(int id_ora) 
         {
             return GetOwnersContries().Where(o => o.id_ora == id_ora).FirstOrDefault();
         }
@@ -53,9 +53,9 @@ namespace EFRailWay.Railcars
         /// </summary>
         /// <param name="id_ora"></param>
         /// <returns></returns>
-        public int? GetIDOwnersContriesToKis(int id_ora) 
+        public int? GetIDOwnersContriesOfKis(int id_ora) 
         {
-            OWNERS_COUNTRIES oc = GetOwnersContriesToKis(id_ora);
+            OWNERS_COUNTRIES oc = GetOwnersContriesOfKis(id_ora);
             if (oc != null) { return oc.id_own_country; }
             return null;
         }

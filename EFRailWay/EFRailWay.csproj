@@ -66,6 +66,7 @@
     <Compile Include="Abstract\Railcars\IVagonsOperationsRepository.cs" />
     <Compile Include="Abstract\Railcars\IVagonsRepository.cs" />
     <Compile Include="Abstract\Railcars\IOwnersRepository.cs" />
+    <Compile Include="Abstract\Railcars\IShopsRepository.cs" />
     <Compile Include="Abstract\Railcars\IWaysRepository.cs" />
     <Compile Include="Abstract\Railcars\IStationsRepository.cs" />
     <Compile Include="Concrete\EFAppSettingsRepository.cs" />
@@ -81,6 +82,7 @@
     <Compile Include="Concrete\EFDbContext.cs" />
     <Compile Include="Concrete\EFReferenceRailwayRepository.cs" />
     <Compile Include="Concrete\KIS\EFOracleArrivalSostavRepository.cs" />
+    <Compile Include="Concrete\Railcars\EFShopsRepository.cs" />
     <Compile Include="Concrete\Railcars\EFOwnersContriesRepository.cs" />
     <Compile Include="Concrete\Railcars\EFGruzsRepository.cs" />
     <Compile Include="Concrete\Railcars\EFVagonsOperationsRepository.cs" />
@@ -118,6 +120,7 @@
     <Compile Include="Entities\MTConsignee.cs" />
     <Compile Include="MT\MTContent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Railcars\RC_Shops.cs" />
     <Compile Include="Railcars\RC_Gruzs.cs" />
     <Compile Include="Railcars\RC_Stations.cs" />
     <Compile Include="Railcars\RC_Owners.cs" />

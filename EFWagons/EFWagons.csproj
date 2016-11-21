@@ -55,6 +55,7 @@
     <Compile Include="Abstarct\IKometaSobstvForNaklRepository.cs" />
     <Compile Include="Abstarct\IKometaVagonSobRepository.cs" />
     <Compile Include="Abstarct\INumVagStpr1GrRepository.cs" />
+    <Compile Include="Abstarct\IPromCexRepository.cs" />
     <Compile Include="Abstarct\IPromGruzSPRepository.cs" />
     <Compile Include="Abstarct\IPromVagonRepository.cs" />
     <Compile Include="Abstarct\IPromNatHistRepository.cs" />
@@ -66,6 +67,7 @@
     <Compile Include="Concrete\EFKometaVagonSobRepository.cs" />
     <Compile Include="Concrete\EFNumVagStpr1GrRepository.cs" />
     <Compile Include="Concrete\EFPromPromGruzSPRepository.cs" />
+    <Compile Include="Concrete\EFPromCexRepository.cs" />
     <Compile Include="Concrete\EFPromVagonRepository.cs" />
     <Compile Include="Concrete\EFPromNatHistRepository.cs" />
     <Compile Include="Concrete\EFPromSostavRepository.cs" />
@@ -76,6 +78,7 @@
     <Compile Include="Entities\NumVagStpr1Gr.cs" />
     <Compile Include="Entities\NumVagStan.cs" />
     <Compile Include="Entities\PromGruzSP.cs" />
+    <Compile Include="Entities\PromCex.cs" />
     <Compile Include="Entities\PromVagon.cs" />
     <Compile Include="Entities\PromNatHist.cs" />
     <Compile Include="Entities\PromSostav.cs" />
@@ -90,7 +93,12 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Logs\Logs.csproj">
+      <Project>{fe05cb4c-d508-41c6-b247-1875ee5b92e9}</Project>
+      <Name>Logs</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

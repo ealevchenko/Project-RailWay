@@ -44,7 +44,7 @@ namespace EFRailWay.Railcars
         /// </summary>
         /// <param name="id_station"></param>
         /// <returns></returns>
-        public IQueryable<WAYS> GetWaysToStations(int id_station)
+        public IQueryable<WAYS> GetWaysOfStations(int id_station)
         {
             return rep_w.WAYS.Where(w => w.id_stat == id_station);
         }
@@ -54,14 +54,14 @@ namespace EFRailWay.Railcars
         /// <param name="id_station_kis"></param>
         /// <param name="num"></param>
         /// <returns></returns>
-        public WAYS GetWaysToStations(int id_station, string num)
+        public WAYS GetWaysOfStations(int id_station, string num)
         {
-            return GetWaysToStations(id_station).Where(w => w.num.ToUpper() == num.ToUpper()).FirstOrDefault();
+            return GetWaysOfStations(id_station).Where(w => w.num.ToUpper() == num.ToUpper()).FirstOrDefault();
         }
 
         public int? GetIDWaysToStations(int id_station, string num)
         {
-            WAYS ws = GetWaysToStations(id_station, num);
+            WAYS ws = GetWaysOfStations(id_station, num);
             if (ws != null) return ws.id_way;
             return null;
         }

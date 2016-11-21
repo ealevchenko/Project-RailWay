@@ -10,6 +10,8 @@ namespace conLibrary
 {
     public class Test_RailCars
     {
+        RC_Shops shops = new RC_Shops();
+
         public Test_RailCars() 
         { 
         
@@ -88,8 +90,8 @@ namespace conLibrary
         public void Test_RC_Owners_GetOwnersToKis(int id_sob_kis) 
         {
             RC_Owners ow = new RC_Owners();
-            WL(ow.GetOwnersToKis(id_sob_kis));
-            Console.WriteLine("id : {0}", ow.GetIDOwnersToKis(id_sob_kis));
+            WL(ow.GetOwnersOfKis(id_sob_kis));
+            Console.WriteLine("id : {0}", ow.GetIDOwnersOfKis(id_sob_kis));
 
         }
 
@@ -560,7 +562,7 @@ namespace conLibrary
         public void Test_RC_WaysToStations(int id_station) 
         {
             RC_Ways ws = new RC_Ways();
-            IQueryable<WAYS> list = ws.GetWaysToStations(id_station);
+            IQueryable<WAYS> list = ws.GetWaysOfStations(id_station);
             foreach (WAYS t in list)
             {
                 WL(t);
@@ -571,7 +573,7 @@ namespace conLibrary
         public void Test_RC_WaysToStations(int id_station, string num) 
         {
             RC_Ways ws = new RC_Ways();
-            WAYS w = ws.GetWaysToStations(id_station, num);
+            WAYS w = ws.GetWaysOfStations(id_station, num);
             int? nw = ws.GetIDWaysToStations(id_station, num);
             WL(w);
             Console.WriteLine(" id: {0}", nw);
@@ -639,7 +641,7 @@ namespace conLibrary
         public void Test_RC_OwnersContriesToKis(int id_ora) 
         {
             RC_OwnersContries oс = new RC_OwnersContries();
-            WL(oс.GetOwnersContriesToKis(id_ora));
+            WL(oс.GetOwnersContriesOfKis(id_ora));
         }       
 
         public void WL(OWNERS_COUNTRIES t) 
@@ -713,6 +715,63 @@ namespace conLibrary
             {
                 Console.WriteLine("id_gruz: {0}, name: {1}, name_full: {2}, id_ora: {3}, id_ora2: {4}",
                         t.id_gruz, t.name, t.name_full, t.id_ora, t.id_ora2);
+            }
+            else { Console.WriteLine("= NULL"); }
+        }
+        #endregion
+
+        #region RC_Shops
+
+        public void Test_RC_Shops() 
+        {
+            foreach (SHOPS t in shops.GetShops())
+            {
+                WL(t);
+            }
+        }
+
+        public void Test_RC_Shops(int id_shop)
+        {
+            WL(shops.GetShops(id_shop));
+        }
+
+        public void Test_RC_ShopsOfKis(int id_shop_kis)
+        {
+            WL(shops.GetShopsOfKis(id_shop_kis));
+        }
+
+        public void Test_SUD_RC_Shops()
+        {
+            SHOPS s1 = new SHOPS()
+            {
+                id_shop = 0,
+                name = "Тест",
+                name_full = "Тест_name_full",
+                id_stat = null,
+                id_ora = 0,
+            };
+            int id_new = shops.SaveShop(s1);
+            Test_RC_Shops(id_new);
+            SHOPS s2 = new SHOPS()
+            {
+                id_shop = id_new,
+                name = "Тест1",
+                name_full = "Тест_name_full1",
+                id_stat = null,
+                id_ora = 0,
+            };
+            int id_ch = shops.SaveShop(s2);
+            Test_RC_Shops(id_ch);
+            SHOPS del = shops.DeleteShops(id_ch);
+            WL(del);
+        }
+
+        public void WL(SHOPS t) 
+        {
+            if (t != null)
+            {
+                Console.WriteLine("id_shop: {0}, name: {1}, name_full: {2}, id_stat: {3}, id_ora: {4}",
+                        t.id_shop, t.name, t.name_full, t.id_stat, t.id_ora);
             }
             else { Console.WriteLine("= NULL"); }
         }

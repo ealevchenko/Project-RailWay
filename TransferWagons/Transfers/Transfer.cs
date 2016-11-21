@@ -20,8 +20,11 @@ namespace TransferWagons.Transfers
         global = -1,
         no_stations = -2,
         no_ways = -3,
-        no_Wagons = -4,
-
+        no_wagons = -4,
+        no_owner_country = -5,
+        no_owner = -6,
+        no_shop = -7,
+        no_gruz = -8
     }
     /// <summary>
     /// Класс данных результат переноса массва данных

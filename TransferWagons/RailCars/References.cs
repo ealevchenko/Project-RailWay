@@ -20,6 +20,7 @@ namespace TransferWagons.RailCars
         RC_Owners rs_own = new RC_Owners();
         RC_OwnersContries rs_ocn = new RC_OwnersContries();
         RC_Gruzs rs_gr = new RC_Gruzs();
+        RC_Shops rs_shp = new RC_Shops();
         VagonsContent vc = new VagonsContent();
         KometaContent kc = new KometaContent();
         PromContent pc = new PromContent();
@@ -38,7 +39,7 @@ namespace TransferWagons.RailCars
         /// <returns>id станции системы Railcars</returns>
         public int? DefinitionIDStations(int id_station_kis, int? num_way)
         {
-            int? stan = rs_stat.GetIDStations(id_station_kis);
+            int? stan = rs_stat.GetIDStationsOfKis(id_station_kis);
             if (stan == null)
             {
                 if (num_way != null) { num_way = 0; }
@@ -90,7 +91,7 @@ namespace TransferWagons.RailCars
             }
             else
             {
-                WAYS ws = rs_ways.GetWaysToStations(id_station).OrderBy(w => w.num).FirstOrDefault();
+                WAYS ws = rs_ways.GetWaysOfStations(id_station).OrderBy(w => w.num).FirstOrDefault();
                 if (ws != null) return ws.id_way;
             }
             return null;
@@ -185,7 +186,7 @@ namespace TransferWagons.RailCars
         /// <returns></returns>
         public int? DefinitionIDOwner(int id_sob_kis, int? id_owner_country)
         {
-            int? id_own = rs_own.GetIDOwnersToKis(id_sob_kis);
+            int? id_own = rs_own.GetIDOwnersOfKis(id_sob_kis);
             if (id_own == null)
             {
                 KometaSobstvForNakl sfn = kc.GetSobstvForNakl(id_sob_kis);
@@ -212,7 +213,7 @@ namespace TransferWagons.RailCars
         /// <returns></returns>
         public int? DefinitionIDOwnersContries(int id_stran_ora)
         {
-            int? id_own_cont = rs_ocn.GetIDOwnersContriesToKis(id_stran_ora);
+            int? id_own_cont = rs_ocn.GetIDOwnersContriesOfKis(id_stran_ora);
             if (id_own_cont == null)
             {
                 KometaStrana kst = kc.GetKometaStrana(id_stran_ora);
@@ -320,6 +321,32 @@ namespace TransferWagons.RailCars
 
             }
             return id_gr;
+        }
+        /// <summary>
+        /// Определить id цеха (если id нет в системе RailCars создать из данных КИС)
+        /// </summary>
+        /// <param name="id_shop_kis"></param>
+        /// <returns></returns>
+        public int? DefinitionIDShop(int id_shop_kis) 
+        {
+            int? id_shop = rs_shp.GetIDShopsOfKis(id_shop_kis);
+            if (id_shop == null)
+            {
+                PromCex cex = pc.GetCex(id_shop_kis);
+                if (cex != null)
+                {
+                    int res = rs_shp.SaveShop(new SHOPS()
+                    {
+                        id_shop = 0,
+                        name = cex.ABREV_P,
+                        name_full = cex.NAME_P,
+                        id_stat = null,
+                        id_ora = id_shop_kis
+                    });
+                    if (res > 0) { id_shop = res; }
+                }
+            }
+            return id_shop;
         }
     }
 }

@@ -35,7 +35,7 @@ namespace EFRailWay.Railcars
         /// </summary>
         /// <param name="num_vag"></param>
         /// <returns></returns>
-        public OWNERS GetOwnersToKis(int id_sob_kis) 
+        public OWNERS GetOwnersOfKis(int id_sob_kis) 
         {
             return GetOwners().Where(o => o.id_ora == id_sob_kis).FirstOrDefault();
         }
@@ -53,9 +53,9 @@ namespace EFRailWay.Railcars
         /// </summary>
         /// <param name="id_sob_kis"></param>
         /// <returns></returns>
-        public int? GetIDOwnersToKis(int id_sob_kis) 
+        public int? GetIDOwnersOfKis(int id_sob_kis) 
         {
-            OWNERS ow = GetOwnersToKis(id_sob_kis);
+            OWNERS ow = GetOwnersOfKis(id_sob_kis);
             if (ow != null) return ow.id_owner;
             return null;
         }

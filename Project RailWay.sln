@@ -15,6 +15,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EFISA95", "EFISA95\EFISA95.csproj", "{96BCBDCE-A4E2-4AFD-9176-9C8AB25C0211}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EFWagons", "EFWagons\EFWagons.csproj", "{1F4A574B-7D7C-40A7-86DB-9C61DE4B43FA}"
+	ProjectSection(ProjectDependencies) = postProject
+		{FE05CB4C-D508-41C6-B247-1875EE5B92E9} = {FE05CB4C-D508-41C6-B247-1875EE5B92E9}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test_EFRailWay", "Test_EFRailWay\Test_EFRailWay.csproj", "{46AE5FE8-2DE5-4972-8592-A5B639717F43}"
 	ProjectSection(ProjectDependencies) = postProject

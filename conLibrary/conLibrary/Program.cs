@@ -48,8 +48,8 @@ namespace conLibrary
             #endregion
 
             #region Test_TrasferKIS
-            Test_TrasferKIS test = new Test_TrasferKIS();
-            test.Test_ArrivalKIS();
+            //Test_TrasferKIS test = new Test_TrasferKIS();
+            //test.Test_ArrivalKIS();
             //test.Test_References_Owner();
             //test.Test_References_Vagon();
             //test.Test_References_OwnersContries();
@@ -80,12 +80,17 @@ namespace conLibrary
             //test.Test_PromContent_GetGruzSPToTarGR(161012,false);
             //test.Test_PromContent_GetGruzSPToTarGR(null,false);
             //test.Test_PromContent_GetGruzSPToTarGR(16100,true);
-            //test.Test_VagonsContent_GetSTPR1GR();
+
+            //test.Test_PromContent_GetNatHist();
+            //test.Test_PromContent_GetNatHist(3920,1,21,11,2016,67251868);
+            //test.Test_PromContent_GetCex();
+            //test.Test_PromContent_GetCex(148);
+             //test.Test_VagonsContent_GetSTPR1GR();
             //test.Test_VagonsContent_GetSTPR1GR(26);
             #endregion
 
             #region Test_RailCars
-            //Test_RailCars test = new Test_RailCars();
+            Test_RailCars test = new Test_RailCars();
             //test.Test_RC_Vagons();
             //test.Test_RC_Vagons(53075479);
             //test.Test_SUD_RC_Vagons();
@@ -120,6 +125,10 @@ namespace conLibrary
             //test.Test_RC_Gruzs(285, 211);
             //test.Test_RC_Gruzs(null, null);
             //test.Test_SUD_RC_Gruzs();
+            //test.Test_RC_Shops();
+            //test.Test_RC_Shops(85);
+            //test.Test_RC_ShopsOfKis(54);
+            test.Test_SUD_RC_Shops();
             #endregion
             Console.WriteLine("Press any key to exit...");
             Console.ReadKey(); 

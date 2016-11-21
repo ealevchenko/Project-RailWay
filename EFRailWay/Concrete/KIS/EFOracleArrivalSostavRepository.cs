@@ -92,7 +92,19 @@ namespace EFRailWay.Concrete.KIS
             }
             catch (Exception e)
             {
-                LogRW.LogError(e, "SaveOracle_ArrivalSostav", eventID);
+                LogRW.LogError(e,"SaveOracle_ArrivalSostav", eventID);                
+                //LogRW.LogError(String.Format("SaveOracle_ArrivalSostav IDOrcSostav:{0},NaturNum:{1},DateTime:{2},CountWagons:{3},CountSetWagons:{4},ListWagons:{5},ListNoSetWagons:{6},ListNoUpdateWagons:{7},WayNum:{8},Napr;{9}",
+                //    oracle_ArrivalSostav.IDOrcSostav, 
+                //    oracle_ArrivalSostav.NaturNum, 
+                //    oracle_ArrivalSostav.DateTime, 
+                //    oracle_ArrivalSostav.CountWagons, 
+                //    oracle_ArrivalSostav.CountSetWagons,
+                //    oracle_ArrivalSostav.ListWagons, 
+                //    oracle_ArrivalSostav.ListNoSetWagons, 
+                //    oracle_ArrivalSostav.ListNoUpdateWagons,
+                //    oracle_ArrivalSostav.WayNum,
+                //    oracle_ArrivalSostav.Napr)
+                    //, eventID);
                 return -1;
             }
             return dbEntry.IDOrcSostav;

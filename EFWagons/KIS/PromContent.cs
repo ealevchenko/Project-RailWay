@@ -1,6 +1,7 @@
 ﻿using EFWagons.Abstarct;
 using EFWagons.Concrete;
 using EFWagons.Entities;
+using Logs;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -11,15 +12,21 @@ using System.Threading.Tasks;
 
 namespace EFWagons.KIS
 {
+
+    
     /// <summary>
     /// Класс информации по станции Промышленная
     /// </summary>
     public class PromContent
     {
+
+        private eventID eventID = eventID.EFWagons_KIS_PromContent;      
+  
         IPromSostavRepository rep_ps;
         IPromNatHistRepository rep_pnh; 
         IPromVagonRepository rep_pv;
         IPromGruzSPRepository rep_gsp;
+        IPromCexRepository rep_pcx;
 
         public PromContent() 
         {
@@ -27,14 +34,16 @@ namespace EFWagons.KIS
             this.rep_pnh = new EFPromNatHistRepository();
             this.rep_pv = new EFPromVagonRepository();
             this.rep_gsp = new EFPromGruzSPRepository();
+            this.rep_pcx = new EFPromCexRepository();
         }
 
-        public PromContent(IPromSostavRepository rep_ps, IPromNatHistRepository rep_pnh, IPromVagonRepository rep_pv, IPromGruzSPRepository rep_gsp) 
+        public PromContent(IPromSostavRepository rep_ps, IPromNatHistRepository rep_pnh, IPromVagonRepository rep_pv, IPromGruzSPRepository rep_gsp, IPromCexRepository rep_pcx) 
         {
             this.rep_ps = rep_ps;
             this.rep_pnh = rep_pnh;
             this.rep_pv = rep_pv;
             this.rep_gsp = rep_gsp;
+            this.rep_pcx = rep_pcx;
         }
 
         #region PROM.SOSTAV
@@ -143,6 +152,21 @@ namespace EFWagons.KIS
         {
             return GetNatHist(natur, station, day, month, year, null);
         }
+        /// <summary>
+        /// Получить вагон по натурному листу станции и дате поступления
+        /// </summary>
+        /// <param name="natur"></param>
+        /// <param name="station"></param>
+        /// <param name="day"></param>
+        /// <param name="month"></param>
+        /// <param name="year"></param>
+        /// <param name="wag"></param>
+        /// <returns></returns>
+        public PromNatHist GetNatHist(int natur, int station, int day, int month, int year, int wag) 
+        {
+            return GetNatHist(natur, station, day, month, year, null).Where(h=>h.N_VAG==wag).FirstOrDefault();
+        }
+
         /// <summary>
         /// Получить количество вагонов по натурному листу станции и дате поступления
         /// </summary>
@@ -260,6 +284,34 @@ namespace EFWagons.KIS
             }
         } 
 
+        #endregion
+
+        #region PROM.CEX
+        /// <summary>
+        /// Получить перечень всех цехов
+        /// </summary>
+        /// <returns></returns>
+        public IQueryable<PromCex> GetCex()
+        {
+            try
+            {
+                return rep_pcx.PromCex;
+            }
+            catch (Exception e)
+            {
+                LogRW.LogError(e, "GetCex", eventID);
+                return null;
+            }
+        }
+        /// <summary>
+        /// Получить цех по id
+        /// </summary>
+        /// <param name="k_podr"></param>
+        /// <returns></returns>
+        public PromCex GetCex(int k_podr)
+        {
+            return GetCex().Where(c => c.K_PODR == k_podr).FirstOrDefault();
+        }
         #endregion
     }
 }
