@@ -1,6 +1,7 @@
 ﻿using EFRailWay.Abstract.Railcars;
 using EFRailWay.Concrete.Railcars;
 using EFRailWay.Entities.Railcars;
+using Logs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,7 @@ namespace EFRailWay.Railcars
 {
     public class RC_Vagons
     {
+        private eventID eventID = eventID.EFRailWay_RailCars_RC_Vagons;
         IVagonsRepository rep_v;
 
         public RC_Vagons() 
@@ -28,7 +30,15 @@ namespace EFRailWay.Railcars
         /// <returns></returns>
         public IQueryable<VAGONS> GetVagons()
         {
-            return rep_v.VAGONS;
+            try
+            {
+                return rep_v.VAGONS;
+            }
+            catch (Exception e)
+            {
+                LogRW.LogError(e, "GetVagons", eventID);
+                return null;
+            }
         }
         /// <summary>
         /// Получить информацию по вагону по указаному номеру
@@ -57,7 +67,7 @@ namespace EFRailWay.Railcars
         /// <returns></returns>
         public VAGONS GetNewVagons(int num_vag, DateTime dt) 
         {
-            return GetVagons(num_vag).Where(v => v.date_in <= dt).OrderByDescending(v => v.date_in).FirstOrDefault();
+            return GetVagons(num_vag).Where(v => v.date_in <= dt & v.date_ar==null & v.date_end ==null).OrderByDescending(v => v.date_in).FirstOrDefault();
         }
         /// <summary>
         /// Получить ID вагона по номеру и дате захода на АМКР

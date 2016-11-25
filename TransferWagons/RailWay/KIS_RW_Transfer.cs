@@ -16,11 +16,5 @@ namespace TransferWagons.RailWay
         {
 
         }
-
-        public int InsertWagons()
-        {
-
-            return 0; // TODO: исправить возврат
-        }
     }
 }

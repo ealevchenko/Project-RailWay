@@ -47,17 +47,17 @@ namespace conLibrary
         public void Test_References_Vagon()
         {
             References refer = new References();
-            Console.WriteLine("вагон id (917664) = {0}", refer.DefinitionIDVagon(67166710, DateTime.Now));
-            //Console.WriteLine("Новый вагон #67669887 = {0}", refer.DefinitionIDVagon(67669887, DateTime.Now));
-            Console.WriteLine("Null = {0}", refer.DefinitionIDVagon(0, DateTime.Now));
-            int? new_vag = refer.DefinitionIDVagon(67669887, DateTime.Now);
-            Console.WriteLine("Новыйвагон #67669887 ID = {0}", new_vag);
-            if (new_vag != null)
-            {
-                RC_Vagons vag = new RC_Vagons();
-                VAGONS vag_del = vag.DeleteVAGONS((int)new_vag);
+            //Console.WriteLine("вагон id (917664) = {0}", refer.DefinitionIDVagon(67166710, DateTime.Now));
+            ////Console.WriteLine("Новый вагон #67669887 = {0}", refer.DefinitionIDVagon(67669887, DateTime.Now));
+            //Console.WriteLine("Null = {0}", refer.DefinitionIDVagon(0, DateTime.Now));
+            //int? new_vag = refer.DefinitionIDVagon(67669887, DateTime.Now);
+            //Console.WriteLine("Новыйвагон #67669887 ID = {0}", new_vag);
+            //if (new_vag != null)
+            //{
+            //    RC_Vagons vag = new RC_Vagons();
+            //    VAGONS vag_del = vag.DeleteVAGONS((int)new_vag);
 
-            }
+            //}
         }
 
         public void Test_References_OwnersContries() 
@@ -86,7 +86,9 @@ namespace conLibrary
 
         public void Test_TrasferKIS_KISTransfer() { 
             KIS_Transfer kist = new KIS_Transfer();
+
             kist.DayControllingAddNatur = 2;
+            kist.PutCarsToStations();
                 //kist.UpdateSostavs();
                 Console.WriteLine("Обновлено {0}", kist.CopyArrivalSostavToRailway());
         }
@@ -101,6 +103,13 @@ namespace conLibrary
             int res = kisrs.SetListWagon(ref oras, list_pv);
 
             Console.WriteLine("Обновлено {0}", res);
+        }
+
+        public void Test_References_SynchronizeWagons(int day) 
+        { 
+            References refer = new References();
+            refer.SynchronizeWagons(day);
+            
         }
 
     }

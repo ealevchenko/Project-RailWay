@@ -41,6 +41,8 @@
   <ItemGroup>
     <Compile Include="Service\ArrivalKIS.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service\CopyingInlandKIS.cs" />
+    <Compile Include="Service\SynchronizeKIS.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EFRailWay\EFRailWay.csproj">

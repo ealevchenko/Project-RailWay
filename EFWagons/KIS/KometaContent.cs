@@ -1,6 +1,7 @@
 ﻿using EFWagons.Abstarct;
 using EFWagons.Concrete;
 using EFWagons.Entities;
+using Logs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,8 @@ namespace EFWagons.KIS
 {
     public class KometaContent
     {
+        private eventID eventID = eventID.EFWagons_KIS_KometaContent;  
+        
         IKometaVagonSobRepository rep_vsob;
         IKometaSobstvForNaklRepository rep_sfn;
         IKometaStranaRepository rep_str;
@@ -36,7 +39,15 @@ namespace EFWagons.KIS
         /// <returns></returns>
         public IQueryable<KometaVagonSob> GetVagonsSob()
         {
-            return rep_vsob.KometaVagonSob;
+            try
+            {
+                return rep_vsob.KometaVagonSob;
+            }
+            catch (Exception e)
+            {
+                LogRW.LogError(e, "GetVagonsSob", eventID);
+                return null;
+            }
         }
         /// <summary>
         /// Получить список вагонов по указаному номеру
@@ -55,7 +66,28 @@ namespace EFWagons.KIS
         /// <returns></returns>
         public KometaVagonSob GetVagonsSob(int num, DateTime dt)
         {
-            return GetVagonsSob(num).Where(v => v.DATE_AR <= dt & v.DATE_END == null ).FirstOrDefault();
+            return GetVagonsSob(num).Where(v => v.DATE_AR <= dt & v.DATE_END == null).FirstOrDefault();
+        }
+        /// <summary>
+        /// Получить список вагонов по которым поменяли владельца за указаную дату период до
+        /// </summary>
+        /// <param name="dt"></param>
+        /// <param name="day_period"></param>
+        /// <returns></returns>
+        public IQueryable<KometaVagonSob> GetChangeVagonsSob(DateTime dt, int day_period)
+        {
+            DateTime start_dt = dt.AddDays(-1 * day_period);
+            return GetVagonsSob().Where(c => c.DATE_AR>=start_dt & c.DATE_AR<=dt).OrderBy(c => c.DATE_AR);
+        }
+        /// <summary>
+        /// Получить список вагонов по которым поменяли владельца за указанный период
+        /// </summary>
+        /// <param name="dt"></param>
+        /// <param name="day_period"></param>
+        /// <returns></returns>
+        public IQueryable<KometaVagonSob> GetChangeVagonsSob(int day_period)
+        {
+            return GetChangeVagonsSob(DateTime.Now, day_period);
         }
         #endregion
 

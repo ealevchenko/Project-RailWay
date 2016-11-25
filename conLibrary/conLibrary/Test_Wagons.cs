@@ -176,7 +176,6 @@ namespace conLibrary
 
 
 
-        // TODO: Потестить NatHist Vagons (добавлять составные ключи?)
         //**************************** Тест Wagons ****************************************************************************
         
         //PromSostav ps3483 = promsostav.GetInputPromSostavToNatur(3483);

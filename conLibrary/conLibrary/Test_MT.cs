@@ -19,10 +19,10 @@ namespace conLibrary
         {
             MT mts = new MT();
 
-            int v1 = mts.ArrivalToRailWay(4230);                
-            int v2 = mts.ArrivalToRailWay(4231);
-                if (v1>0){
-                Console.WriteLine("Состав {0} - вагонов {1}", "d", v1);}
+            int v1 = mts.ArrivalToRailWay(4493);                
+            //int v2 = mts.ArrivalToRailWay(4231);
+            //    if (v1>0){
+            //    Console.WriteLine("Состав {0} - вагонов {1}", "d", v1);}
  
 
         }

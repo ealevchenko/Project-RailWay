@@ -484,7 +484,7 @@ namespace conLibrary
         public void Test_InsertVagon() 
         {
             RC_VagonsOperations vo = new RC_VagonsOperations();
-            int ivag = vo.InsertVagon(-777, DateTime.Now, 238191, 4, 51, 0);
+            int ivag = vo.InsertVagon(-777, DateTime.Now, 238191,33, 4, 51, 0);
             Console.WriteLine("id_oper нового вагона: {0}", ivag);
             VAGON_OPERATIONS del = vo.DeleteVagonsOperations(ivag);
             WL(del);
@@ -538,6 +538,7 @@ namespace conLibrary
                 Console.WriteLine("edit_user: {0}",t.edit_user);
                 Console.WriteLine("edit_dt: {0}",t.edit_dt);
                 Console.WriteLine("IDSostav: {0}",t.IDSostav);
+                Console.WriteLine("num_vagon: {0}", t.num_vagon);
         }
         #endregion
 

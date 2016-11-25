@@ -1,6 +1,7 @@
 ﻿using EFRailWay.Abstract;
 using EFRailWay.Concrete;
 using EFRailWay.Entities;
+using Logs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,8 @@ namespace EFRailWay.MT
 
     public class MTContent
     {
+        private eventID eventID = eventID.EFRailWay_MT_MTContent;
+        
         private IMTRepository rep_MT;        
         #region КОНСТРУКТОРЫ
         /// <summary>
@@ -188,12 +191,43 @@ namespace EFRailWay.MT
         /// <returns></returns>
         public int[] GetIDSostavToWagons(string num_wag, DateTime dt)
         {
-            string[] wag_s = num_wag.Split(';');
-            string sql = "SELECT IDMTSostav FROM RailWay.MTList "+
-                           "WHERE (CarriageNumber IN (" + num_wag.Replace(";", ",").Remove(num_wag.Length - 1) + ")) AND (DateOperation <= CONVERT(datetime, '" + dt.ToString("yyyy-MM-dd HH:mm:ss")+ "', 120)) " +
-                            "GROUP BY DateOperation, IDMTSostav "+
-                            "ORDER BY Count(IDMTSostav) DESC, DateOperation DESC";
-                return  rep_MT.db.SqlQuery<int>(sql).ToArray();
+            try
+            {
+                string[] wag_s = num_wag.Split(';');
+                string sql = "SELECT IDMTSostav FROM RailWay.MTList " +
+                               "WHERE (CarriageNumber IN (" + num_wag.Replace(";", ",").Remove(num_wag.Length - 1) + ")) AND (DateOperation <= CONVERT(datetime, '" + dt.ToString("yyyy-MM-dd HH:mm:ss") + "', 120)) " +
+                                "GROUP BY DateOperation, IDMTSostav " +
+                                "ORDER BY Count(IDMTSostav) DESC, DateOperation DESC";
+                return rep_MT.db.SqlQuery<int>(sql).ToArray();
+            }
+            catch (Exception e)
+            {
+                LogRW.LogError(e, "GetIDSostavToWagons", eventID);
+                return null;
+            }
+        }
+        /// <summary>
+        /// Проставить натурный лист на вагоны пришедшие по КИС
+        /// </summary>
+        /// <param name="natur"></param>
+        /// <param name="num"></param>
+        /// <param name="dt"></param>
+        /// <returns></returns>
+        public int SetNaturToMTList(int natur, int num, DateTime dt)
+        {
+            try
+            {
+                string sql = "UPDATE RailWay.MTList "+
+	                            "SET NaturList = " + natur.ToString() +
+	                            " where NaturList is null and CarriageNumber = "+num.ToString() +
+                                " and (DateOperation >= convert(datetime,DATEADD(day,-1, '" + dt.ToString("yyyy-MM-dd HH:mm:ss") + "'),120) and DateOperation < convert(datetime,'" + dt.ToString("yyyy-MM-dd HH:mm:ss") + "',120))";
+                return rep_MT.db.ExecuteSqlCommand(sql);
+            }
+            catch (Exception e)
+            {
+                LogRW.LogError(e, "SetNaturToMTList", eventID);
+                return -1;
+            }
         }
         #endregion
 

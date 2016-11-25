@@ -4,6 +4,7 @@ using EFRailWay.Railcars;
 using EFRailWay.References;
 using EFWagons.Entities;
 using EFWagons.KIS;
+using Logs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,8 @@ namespace TransferWagons.RailCars
 {
     public class References
     {
+        private eventID eventID = eventID.TransferWagons_RailCars_References;
+
         RC_Stations rs_stat = new RC_Stations();
         RC_Ways rs_ways = new RC_Ways();
         RC_Vagons rs_vag = new RC_Vagons();
@@ -31,6 +34,7 @@ namespace TransferWagons.RailCars
 
         }
 
+        #region Определение ID по справочникам
         /// <summary>
         /// Определить ID станции системы Railcars (если ID нет в системе создать по данным справочника KIS)
         /// </summary>
@@ -97,87 +101,84 @@ namespace TransferWagons.RailCars
             return null;
         }
         /// <summary>
-        /// Получить ID вагона системы Railcars (если id нет создать из данных КИС если нет вернуть Null)
-        /// </summary>
-        /// <param name="num_vag"></param>
-        /// <param name="dt"></param>
-        /// <returns></returns>
-        public int? DefinitionIDVagon(int num_vag, DateTime dt)
-        {
-            int? id_vag = rs_vag.GetIDVagons(num_vag, dt);
-            if (id_vag == null)
-            {
-                KometaVagonSob kvs = kc.GetVagonsSob(num_vag, dt);
-                if (kvs != null)
-                {
-                    int? owner = DefinitionIDOwner(kvs.SOB, null); // Определим id владельца (системы railCars)
-                    // TODO : можно добавить сообщение о неопределенном владельце
-                    int res = rs_vag.SaveVAGONS(new VAGONS()
-                    {
-                        id_vag = 0,
-                        num = num_vag,
-                        id_ora = null,
-                        id_owner = owner,
-                        id_stat = null,
-                        is_locom = 0,
-                        locom_seria = null,
-                        rod = kvs.ROD,
-                        st_otpr = "-",
-                        date_ar = kvs.DATE_AR,
-                        date_end = kvs.DATE_END,
-                        date_in = dt,
-                    });
-                    if (res > 0) { id_vag = res; }
-                }
-            }
-            return id_vag;
-        }
-        /// <summary>
-        /// Получить ID вагона системы Railcars (если id нет создать из данных КИС если нет, проверить создовался как новый, если нет вернуть null)
-        /// </summary>
-        /// <param name="num_vag"></param>
-        /// <param name="dt"></param>
-        /// <returns></returns>
-        public int? DefinitionIDNewVagon(int num_vag, DateTime dt)
-        {
-            int? id_vag = DefinitionIDVagon(num_vag, dt);
-            if (id_vag == null)
-            {
-                id_vag = rs_vag.GetIDNewVagons(num_vag, dt); // Вагон не создавался как новый ранее?
-            }
-            return id_vag;
-        }
-        /// <summary>
-        /// Получить ID вагона системы Railcars (если id нет, создать из данных КИС если нет в КИС создать строку указав номер локомотива и время захода)
+        /// Получить ID вагона системы Railcars (если id нет создать из данных КИС или создать временную строку)
         /// </summary>
         /// <param name="num_vag"></param>
         /// <param name="dt"></param>
         /// <param name="train_number"></param>
+        /// <param name="id_sostav"></param>
+        /// <param name="natur"></param>
+        /// <param name="transit"></param>
         /// <returns></returns>
-        public int DefinitionIDNewVagon(int num_vag, DateTime dt, int train_number)
+        public int DefinitionSetIDVagon(int num_vag, DateTime dt, int train_number, int? id_sostav, int? natur, bool transit)
         {
-            int? id_vag = DefinitionIDNewVagon(num_vag, dt);
-            if (id_vag == null) // Вагона нет в справочнике и нет как вновь созданного
-            {
-                int res = rs_vag.SaveVAGONS(new VAGONS()
+            int? id_vagons = rs_vag.GetIDVagons(num_vag, dt);
+            if (id_vagons == null) { 
+                id_vagons = rs_vag.GetIDNewVagons(num_vag, dt);
+                if (id_vagons == null) 
                 {
-                    id_vag = 0,
-                    num = num_vag,
-                    id_ora = null,
-                    id_owner = null,
-                    id_stat = null,
-                    is_locom = train_number,
-                    locom_seria = null,
-                    rod = null,
-                    st_otpr = "-",
-                    date_ar = null,
-                    date_end = null,
-                    date_in = dt,
-                });
-                id_vag = res;
+
+                    KometaVagonSob kvs = kc.GetVagonsSob(num_vag, dt);
+                    VAGONS wag;
+                    if (kvs != null)
+                    {
+                        int? owner = DefinitionIDOwner(kvs.SOB, null); // Определим id владельца (системы railCars)                        
+                        wag = new VAGONS()
+                        {
+                            id_vag = 0,
+                            num = num_vag,
+                            id_ora = null,
+                            id_owner = owner,
+                            id_stat = null,
+                            is_locom = train_number,
+                            locom_seria = null,
+                            rod = kvs.ROD,
+                            st_otpr = "-",
+                            date_ar = kvs.DATE_AR,
+                            date_end = kvs.DATE_END,
+                            date_in = dt,
+                            IDSostav = id_sostav,
+                            Natur = natur,
+                            Transit = transit
+                        };
+                    }
+                    else
+                    {
+                        wag = new VAGONS()
+                        {
+                            id_vag = 0,
+                            num = num_vag,
+                            id_ora = null,
+                            id_owner = null,
+                            id_stat = null,
+                            is_locom = train_number,
+                            locom_seria = null,
+                            rod = null,
+                            st_otpr = "-",
+                            date_ar = null,
+                            date_end = null,
+                            date_in = dt,
+                            IDSostav = id_sostav,
+                            Natur = natur,
+                            Transit = transit
+                        };
+                    }
+                    id_vagons = rs_vag.SaveVAGONS(wag); // Вернуть id или ошибку
+                }
             }
-            return (int)id_vag;
+            return (int)id_vagons;
+
         }
+        ///// <summary>
+        ///// Обновить информацию по вагону зашедшему ранее
+        ///// </summary>
+        ///// <param name="num_vag"></param>
+        ///// <param name="dt"></param>
+        ///// <returns></returns>
+        //public int DefinitionUpdIDVagon(int num_vag, DateTime dt)
+        //{
+        //    return 0;
+        //}
         /// <summary>
         /// Определить Id владельца (если id нет в системе RailCars создать из данных КИС)
         /// </summary>
@@ -348,5 +349,117 @@ namespace TransferWagons.RailCars
             }
             return id_shop;
         }
+        #endregion
+
+        #region Синхронизация справочников 
+        /// <summary>
+        /// Синхронизировать справочник вагонов (тип, владелец, аренда, страна владельца)
+        /// </summary>
+        /// <param name="day"></param>
+        /// <returns></returns>
+        public int SynchronizeWagons(int day)
+        {
+            List<KometaVagonSob> list_shange = kc.GetChangeVagonsSob(day).ToList();
+            if (list_shange.Count() == 0) return 0;
+            int updates = 0;
+            int errors = 0;
+            int skippeds = 0;
+            foreach (KometaVagonSob kvs in list_shange) 
+            {
+                int? owner = DefinitionIDOwner(kvs.SOB, null); // Определим id владельца (системы railCars) 
+                VAGONS wag_new = null; 
+                VAGONS wag = rs_vag.GetVagons(kvs.N_VAGON, kvs.DATE_AR);
+                if (wag == null)
+                {
+                    wag = rs_vag.GetNewVagons(kvs.N_VAGON, kvs.DATE_AR);
+                    if (wag == null)
+                    {
+                        // создадим новую строку с этой арендой                        
+                        wag_new = new VAGONS()
+                        {
+                            id_vag = 0,
+                            num = kvs.N_VAGON,
+                            id_ora = null,
+                            id_owner = owner,
+                            id_stat = null,
+                            is_locom = null,
+                            locom_seria = null,
+                            rod = kvs.ROD,
+                            st_otpr = "-",
+                            date_ar = kvs.DATE_AR,
+                            date_end = kvs.DATE_END,
+                            date_in = null,
+                            IDSostav = null,
+                            Natur = null,
+                            Transit = false,
+                        };
+                    }
+                    else
+                    {
+                        // обновим аренду на вновь сосзданом
+                        wag_new = new VAGONS()
+                        {
+                            id_vag = wag.id_vag,
+                            num = wag.num,
+                            id_ora = wag.id_ora,
+                            id_owner = owner,
+                            id_stat = wag.id_stat,
+                            is_locom = wag.is_locom,
+                            locom_seria = wag.locom_seria,
+                            rod = kvs.ROD,
+                            st_otpr = wag.st_otpr,
+                            date_ar = kvs.DATE_AR,
+                            date_end = kvs.DATE_END,
+                            date_in = wag.date_in,
+                            IDSostav = wag.IDSostav,
+                            Natur = wag.Natur,
+                            Transit = wag.Transit,
+                        };
+                    }
+                }
+                else 
+                {
+                    if (wag.date_ar < kvs.DATE_AR | wag.id_owner != owner)
+                    {
+                        // создадим новую строку с этой арендой старую закроем
+                        wag_new = new VAGONS()
+                        {
+                            id_vag = 0,
+                            num = kvs.N_VAGON,
+                            id_ora = null,
+                            id_owner = owner,
+                            id_stat = null,
+                            is_locom = null,
+                            locom_seria = null,
+                            rod = kvs.ROD,
+                            st_otpr = "-",
+                            date_ar = kvs.DATE_AR,
+                            date_end = kvs.DATE_END,
+                            date_in = null,
+                            IDSostav = null,
+                            Natur = null,
+                            Transit = false,
+                        };
+                        if (wag.date_end == null)
+                        {
+                            wag.date_end = kvs.DATE_AR.AddMinutes(-1);
+                            rs_vag.SaveVAGONS(wag);
+                        }
+                    }
+                    else skippeds++;
+                }
+                if (wag_new != null) { 
+
+                    int res = rs_vag.SaveVAGONS(wag_new);
+                    if (res > 0) updates++;
+                    if (res < 0) errors++;
+                }
+            }
+            LogRW.LogWarning(String.Format("Определено для синхронизации справочника RailWay: {0} строк, синхронизировано: {1}, пропущено: {2}, ошибок синхронизации: {3}.",
+            list_shange.Count(), updates, skippeds, errors), eventID);
+            return updates;
+        }
+        #endregion
+
     }
 }

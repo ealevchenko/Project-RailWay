@@ -363,43 +363,67 @@ namespace MetallurgTrans.Helpers
         /// <returns></returns>
         private List<trWagon> GetListWagonInArrival(IQueryable<MTList> list, int? id_stat_receiving, int[] code_consignee) 
         {
-                bool bOk = false;
+                //bool bOk = false;
                 if (list == null | id_stat_receiving == null | code_consignee == null) return null;
                 List<trWagon> list_wag = new List<trWagon>();
                 try
                 {
-
+                    int position = 0;
                     foreach (MTList wag in list)
                     {
+                        // состояние вагонов
+                        int id_conditions = 17; // ожидает прибытие с УЗ                        
                         // червоная
                         if (id_stat_receiving == 467201) {
                             if (wag.IDStation == id_stat_receiving | IsConsignee(wag.Consignee, code_consignee))
-                                bOk = true;
+                            {
+                                //bOk = true; 
+                                list_wag.Add(new trWagon()
+                               {
+                                   Position = position++,
+                                   CarriageNumber = wag.CarriageNumber,
+                                   CountryCode = wag.CountryCode,
+                                   Weight = wag.Weight,
+                                   IDCargo = wag.IDCargo,
+                                   Cargo = wag.Cargo,
+                                   IDStation = wag.IDStation,
+                                   Station = wag.Station,
+                                   Consignee = wag.Consignee,
+                                   Operation = wag.Operation,
+                                   CompositionIndex = wag.CompositionIndex,
+                                   DateOperation = wag.DateOperation,
+                                   TrainNumber = wag.TrainNumber,
+                                   Conditions = id_conditions,
+                               });
+                            }
+                            //else { id_conditions = 18; } // маневры на УЗ
                             // если есть хоть один вагон АМКР и конечная станция червонная
                         }
                         // главн
                         if (id_stat_receiving == 467004)
                         {
-                            bOk = true;
+                            //bOk = true;
                             if (wag.IDStation != id_stat_receiving | !IsConsignee(wag.Consignee, code_consignee))
-                                return null; // есть вагон недошедший до станции назанчения или с кодом грузополучателя не АМКР                        
+                                return null; // есть вагон недошедший до станции назанчения или с кодом грузополучателя не АМКР 
+                            list_wag.Add(new trWagon()
+                           {
+                               Position = wag.Position,
+                               CarriageNumber = wag.CarriageNumber,
+                               CountryCode = wag.CountryCode,
+                               Weight = wag.Weight,
+                               IDCargo = wag.IDCargo,
+                               Cargo = wag.Cargo,
+                               IDStation = wag.IDStation,
+                               Station = wag.Station,
+                               Consignee = wag.Consignee,
+                               Operation = wag.Operation,
+                               CompositionIndex = wag.CompositionIndex,
+                               DateOperation = wag.DateOperation,
+                               TrainNumber = wag.TrainNumber,
+                               Conditions = id_conditions,
+                           });
                         }
-                        list_wag.Add(new trWagon()
-                        {
-                            Position = wag.Position,
-                            CarriageNumber = wag.CarriageNumber,
-                            CountryCode = wag.CountryCode,
-                            Weight = wag.Weight,
-                            IDCargo = wag.IDCargo,
-                            Cargo = wag.Cargo,
-                            IDStation = wag.IDStation,
-                            Station = wag.Station,
-                            Consignee = wag.Consignee,
-                            Operation = wag.Operation,
-                            CompositionIndex = wag.CompositionIndex,
-                            DateOperation = wag.DateOperation,
-                            TrainNumber = wag.TrainNumber,
-                        });
+
                     }
                 }
                 catch (Exception e)
@@ -407,7 +431,7 @@ namespace MetallurgTrans.Helpers
                     LogRW.LogError(String.Format("[MT.GetListWagonInArrival] :Ошибка формирования перечня вагонов List<trWagon> (источник: {0}, № {1}, описание:  {2})", e.Source, e.HResult, e.Message), this.eventID);
                     return null;
                 }
-            return bOk ? list_wag: null;
+            return list_wag;
         }
         /// <summary>
         /// Поставить состав в прибытие системы RailCars & RailWay

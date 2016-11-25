@@ -61,7 +61,7 @@ namespace TransferWagons.Transfers
         public bool SetResultInsert(int result) 
         {
             this.result = result;
-            if (result < 0) { IncInsert(); return true; }
+            if (result < 0) { IncError(); return true; }
             if (result == 0) { IncSkipped(); }
             if (result > 0) { IncInsert(); }
             return false;
@@ -83,6 +83,7 @@ namespace TransferWagons.Transfers
         public string CompositionIndex { get; set; }
         public DateTime DateOperation { get; set; }
         public int TrainNumber { get; set; }
+        public int Conditions { get; set; }
     }
 
     public class trSostav

@@ -78,6 +78,7 @@ namespace EFRailWay.Concrete.Railcars
                     edit_user = VAGONOPERATIONS.edit_user,
                     edit_dt = VAGONOPERATIONS.edit_dt,
                     IDSostav = VAGONOPERATIONS.IDSostav,
+                     num_vagon = VAGONOPERATIONS.num_vagon,
                 };
                 context_edit.VAGON_OPERATIONS.Add(dbEntry);
             }
@@ -132,6 +133,7 @@ namespace EFRailWay.Concrete.Railcars
                     dbEntry.edit_user = VAGONOPERATIONS.edit_user;
                     dbEntry.edit_dt = VAGONOPERATIONS.edit_dt;
                     dbEntry.IDSostav = VAGONOPERATIONS.IDSostav;
+                    dbEntry.num_vagon = VAGONOPERATIONS.num_vagon;
                 }
             }
             try

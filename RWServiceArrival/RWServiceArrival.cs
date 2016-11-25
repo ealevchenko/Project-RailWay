@@ -66,7 +66,7 @@ namespace RWServiceArrival
             serviceStatus.dwCurrentState = ServiceState.SERVICE_START_PENDING;
             serviceStatus.dwWaitHint = 100000;
             SetServiceStatus(this.ServiceHandle, ref serviceStatus);
-            LogRW.LogWarning(String.Format("Сервис {0} - запущен. Интервал выполнения - {1} млс.", this.ServiceName, this.Interval.ToString()), this.eventID);
+            LogRW.LogWarning(String.Format("Сервис {0} - запущен. Интервал выполнения - {1} мсек.", this.ServiceName, this.Interval.ToString()), this.eventID);
             // Set up a timer to trigger every minute.
             System.Timers.Timer timer = new System.Timers.Timer();
             timer.Interval = this.Interval; // 60 seconds
@@ -85,16 +85,20 @@ namespace RWServiceArrival
 
         public void OnTimer(object sender, System.Timers.ElapsedEventArgs args)
         {
-            // TODO: Insert monitoring activities here.
             try
             {
                 if (!runTimer)
                 {
+                    DateTime dt_start = DateTime.Now;
                     LogRW.LogInformation(String.Format("Сервис {0} - активен", this.ServiceName), this.eventID);
                     ArrivalMT amt = new ArrivalMT();
                     amt.Transfer();
                     ArrivalKIS akis = new ArrivalKIS();
                     akis.Transfer();
+                    SynchronizeKIS skis = new SynchronizeKIS();
+                    skis.Synchronize();
+                    TimeSpan ts = DateTime.Now - dt_start;
+                    LogRW.LogInformation(String.Format("Сервис {0} - время выполнения: {1} мин {2} сек {3} мсек", this.ServiceName,ts.Minutes, ts.Seconds, ts.Milliseconds), this.eventID);
                 }
                 else 
                 {

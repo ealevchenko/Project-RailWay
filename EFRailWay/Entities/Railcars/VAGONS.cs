@@ -39,7 +39,13 @@ namespace EFRailWay.Entities.Railcars
 
         public DateTime? date_end { get; set; }
 
-        public DateTime? date_in { get; set; }
+        public DateTime? date_in { get; set; }  // дата входа нового вагона
+
+        public int? IDSostav { get; set; }      // id состава МТ входа нового вагона
+
+        public int? Natur { get; set; }         // номер натурки нового вагона
+
+        public bool? Transit { get; set; }      // вагон пришел транзитом
 
         public virtual OWNERS OWNERS { get; set; }
 

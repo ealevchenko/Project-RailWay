@@ -1,5 +1,6 @@
 ﻿using EFRailWay.Abstract.Railcars;
 using EFRailWay.Entities.Railcars;
+using Logs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,8 @@ namespace EFRailWay.Concrete.Railcars
 {
     public class EFVagonsRepository : EFRepository, IVagonsRepository
     {
+        private eventID eventID = eventID.EFRailWay_RailCars_EFVagonsRepository;
+        
         /// <summary>
         /// Получить
         /// </summary>
@@ -41,6 +44,9 @@ namespace EFRailWay.Concrete.Railcars
                     date_ar =  VAGONS.date_ar, 
                     date_end =  VAGONS.date_end,
                     date_in = VAGONS.date_in,
+                    IDSostav =VAGONS.IDSostav, 
+                    Natur = VAGONS.Natur,
+                    Transit=VAGONS.Transit
                 };
                 context_edit.VAGONS.Add(dbEntry);
             }
@@ -49,7 +55,7 @@ namespace EFRailWay.Concrete.Railcars
                 dbEntry = context_edit.VAGONS.Find(VAGONS.id_vag);
                 if (dbEntry != null)
                 {
-                    dbEntry.id_vag =  VAGONS.id_vag;
+                    //dbEntry.id_vag =  VAGONS.id_vag;
                     dbEntry.num =  VAGONS.num; 
                     dbEntry.id_ora =  VAGONS.id_ora; 
                     dbEntry.id_owner =  VAGONS.id_owner; 
@@ -61,6 +67,9 @@ namespace EFRailWay.Concrete.Railcars
                     dbEntry.date_ar =  VAGONS.date_ar;
                     dbEntry.date_end = VAGONS.date_end;
                     dbEntry.date_in = VAGONS.date_in;
+                    dbEntry.IDSostav =VAGONS.IDSostav;
+                    dbEntry.Natur = VAGONS.Natur;
+                    dbEntry.Transit = VAGONS.Transit;
                 }
             }
             try
@@ -69,6 +78,7 @@ namespace EFRailWay.Concrete.Railcars
             }
             catch (Exception e)
             {
+                LogRW.LogError(e, "SaveVAGONS", eventID);
                 return -1;
             }
             return dbEntry.id_vag;
@@ -84,7 +94,15 @@ namespace EFRailWay.Concrete.Railcars
             if (dbEntry != null)
             {
                 context_edit.VAGONS.Remove(dbEntry);
-                context_edit.SaveChanges();
+                try
+                {
+                    context_edit.SaveChanges();
+                }
+                catch (Exception e)
+                {
+                    LogRW.LogError(e, "DeleteVAGONS", eventID);
+                    return null;
+                }
             }
             return dbEntry;
         }

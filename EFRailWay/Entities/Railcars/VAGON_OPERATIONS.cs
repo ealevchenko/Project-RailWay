@@ -111,6 +111,8 @@ namespace EFRailWay.Entities.Railcars
 
         public int? IDSostav { get; set; }
 
+        public int? num_vagon { get; set; }
+
         public virtual GDSTAIT GDSTAIT { get; set; }
 
         public virtual GRUZS GRUZS { get; set; }

@@ -242,229 +242,37 @@ namespace TransferWagons.Transfers
                 kis_sostav = or_as;
                 // Поставим состав на станции АМКР системы RailCars
                 int res_put = transfer_rc.PutCarsToStation(ref kis_sostav);
-                int res_upd = transfer_rc.UpdateCarsToStation(ref kis_sostav);
+                //T-ODO: ВКЛЮЧИТЬ КОД: Обновление составов на станции АМКР системы RailCars
+                int res_upd = transfer_rc.UpdateCarsToStation(ref kis_sostav); 
                 //TODO: ВЫПОЛНИТЬ КОД: Поставим состав на станции АМКР системы RailWay         
                 //.............................
 
-                //// Формирование общего списка вагонов и постановка их на путь станции прибытия
-                //List<PromVagon> list_pv = pc.GetVagon(or_as.NaturNum, or_as.IDOrcStation, or_as.Day, or_as.Month, or_as.Year, or_as.Napr == 2 ? true : false).ToList();
-                //// Состав только защел
-                //if (or_as.CountWagons == null & list_pv.Count() > 0)
-                //{
-                //    //Создать и список вагонов заново и поставить их на путь ( or_as.CountWagons, or_as.ListWagons )
-                //    foreach (PromVagon pv in list_pv)
-                //    {
-                //        or_as.ListWagons += pv.N_VAG.ToString() + ";";
-                //    }
-                //    or_as.CountWagons = list_pv.Count();
-                //    int res = oas.SaveOracle_ArrivalSostav(or_as);
-                //    //Поставить состав на путь
-                //    int res = transfer_rc.PutCarsToStation(or_as);
-                //    if (res >= 0) or_as.CountSetWagons = res;
-                //}
-                //// Состав изменил колличество вагонов
-                //if (or_as.CountWagons != null & list_pv.Count() > 0 & or_as.CountWagons != list_pv.Count())
-                //{
-                //    //Обновить и список вагонов и поставить их на путь (or_as.CountWagons, or_as.ListWagons, or_as.ListNoSetWagons, )
-                //    or_as.ListWagons = null;
-                //    int[] wagons = GetWagonsToInt(or_as.ListWagons);
-                //    int[] wagons_no_set = GetWagonsToInt(or_as.ListNoSetWagons);
-                //    foreach (PromVagon pv in list_pv)
-                //    {
-                //        if (wagons != null)
-                //        {
-                //            if (!IsWagonToList(pv.N_VAG, wagons)) // Добавим к списку не поставленых вагонов
-                //            {
-                //                if (wagons_no_set != null) { or_as.ListNoSetWagons += pv.N_VAG.ToString() + ";"; }
-                //            }
-                //        }
-                //        or_as.ListWagons += pv.N_VAG.ToString() + ";";
-                //    }
-                //    or_as.CountWagons = list_pv.Count();
-                //    int res = oas.SaveOracle_ArrivalSostav(or_as);
-                //    //Поставить состав на путь
-                //}
-
-
-                //// Формирование списка обнавленных вагонов
-                ////int? count_nh = or_as.CountWagons = pc.CountWagonsNatHist(or_as.NaturNum, or_as.IDOrcStation, or_as.Day, or_as.Month, or_as.Year);
-                //List<PromNatHist> list_nh = pc.GetNatHist(or_as.NaturNum, or_as.IDOrcStation, or_as.Day, or_as.Month, or_as.Year, or_as.Napr == 2 ? true : false).ToList();
-                //if (or_as.CountNatHIist == null & list_nh.Count() > 0 & or_as.CountWagons > 0)
-                //{
-                //    //Поиск вагонов с 0 (or_as.CountSetWagons, or_as.ListNoSetWagons)
-                //    // Получим Id состава mt
-                //    KIS_RC_Transfer transfer_rc = new KIS_RC_Transfer();
-                //    KIS_RW_Transfer transfer_rw = new KIS_RW_Transfer();
-                //    transfer_rc.CopyWagonsInKIS(or_as);
-
-                //    or_as.CountNatHIist = list_nh.Count();
-                //}
-                //if (or_as.CountNatHIist != null & list_nh.Count() > 0 & or_as.CountNatHIist != list_nh.Count() & or_as.CountWagons > 0)
-                //{
-                //    //Обновить и список поставленных вагонов (or_as.CountSetWagons, or_as.ListNoSetWagons )
-                //    or_as.CountNatHIist = list_nh.Count();
-                //}
                 //Закрыть состав
-                if (kis_sostav.CountWagons != null & kis_sostav.CountNatHIist != null & kis_sostav.CountSetWagons != null
-                    & kis_sostav.CountWagons == kis_sostav.CountNatHIist & kis_sostav.CountWagons == kis_sostav.CountSetWagons)
+                if (kis_sostav.CountWagons != null & kis_sostav.CountNatHIist != null & kis_sostav.CountSetWagons != null & kis_sostav.CountSetNatHIist !=null
+                    & kis_sostav.CountWagons == kis_sostav.CountNatHIist & kis_sostav.CountWagons == kis_sostav.CountSetWagons & kis_sostav.CountWagons == kis_sostav.CountSetNatHIist)
                 {
                     kis_sostav.Close = DateTime.Now;
                     int res_close = oas.SaveOracle_ArrivalSostav(kis_sostav);
+                    //TODO: ВЫПОЛНИТЬ КОД: Убрать с прибытия с УЗ на станции АМКР
                 }
-
             }
             return 0; // TODO: исправить возврат
         }
         #endregion
 
+        #region Синхронизация справочников
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="day"></param>
+        /// <returns></returns>
+        public int SynchronizeWagons(int day) 
+        {
+            //TODO: ВЫПОЛНИТЬ синхронизацию справочника системы RailWay
+            return transfer_rc.SynchronizeWagons(day);
 
-        ///// <summary>
-        ///// Преобразовать строку список вагонов в масив номеров вагонов типа int
-        ///// </summary>
-        ///// <param name="list"></param>
-        ///// <returns></returns>
-        //private int[] GetWagonsToInt(string list) 
-        //{
-        //    if (list==null) return null;
-        //    string[] wagons = !String.IsNullOrWhiteSpace(list) ? list.Split(';') : null;
-        //    List<int> ints = new List<int>();
-        //    foreach (string st in wagons) 
-        //    {
-        //        if (!String.IsNullOrWhiteSpace(st)) 
-        //        {
-        //            ints.Add(Int16.Parse(st));
-        //        }
-        //    }
-        //    return ints.ToArray();
-        //}
-        ///// <summary>
-        ///// Переносим информацию о вагонах 
-        ///// </summary>
-        ///// <returns></returns>
-        //public int UpdateSostavs()
-        //{
-        //    IQueryable<Oracle_ArrivalSostav> list_noClose = oas.Get_ArrivalSostavNoClose();
-        //    //log.LogWarning(String.Format("CopyWagons(): Определено для переноса {0} составов.", list_noClose.Count()), this.eventID);
-        //    foreach (Oracle_ArrivalSostav or_as in list_noClose)
-        //    {
-        //        // Формирование общего списка вагонов
-        //        //int? count = or_as.CountWagons = pc.CountWagonsVagon(or_as.NaturNum, or_as.IDOrcStation, or_as.Day, or_as.Month, or_as.Year);
-        //        List<PromVagon> list_pv = pc.GetVagon(or_as.NaturNum, or_as.IDOrcStation, or_as.Day, or_as.Month, or_as.Year, or_as.Napr == 2 ? true : false).ToList();
-        //        if (or_as.CountWagons == null & list_pv.Count()>0) 
-        //        {
+        }
+        #endregion
 
-        //            //Создать и список вагонов заново ( or_as.CountWagons, or_as.ListWagons )
-        //            foreach (PromVagon pv in list_pv) 
-        //            {
-        //                or_as.ListWagons += pv.N_VAG.ToString() + ";";
-        //            }
-        //            or_as.CountWagons = list_pv.Count();
-        //            int res = oas.SaveOracle_ArrivalSostav(or_as);
-        //        }
-        //        if (or_as.CountWagons != null & list_pv.Count() > 0 & or_as.CountWagons != list_pv.Count())
-        //        {
-        //               //Обновить и список вагонов (or_as.CountWagons, or_as.ListWagons, or_as.ListNoSetWagons, )
-        //            or_as.ListWagons = null;
-        //            int[] wagons = GetWagonsToInt(or_as.ListWagons);
-        //            int[] wagons_no_set = GetWagonsToInt(or_as.ListNoSetWagons);
-        //            foreach (PromVagon pv in list_pv) 
-        //            {
-        //                if (wagons != null) 
-        //                {
-        //                    if (!IsWagonToList(pv.N_VAG, wagons)) // Добавим к списку не поставленых вагонов
-        //                    {
-        //                        if (wagons_no_set != null) { or_as.ListNoSetWagons += pv.N_VAG.ToString() + ";"; }
-        //                    }
-        //                }
-        //                or_as.ListWagons += pv.N_VAG.ToString() + ";";
-        //            }
-        //            or_as.CountWagons = list_pv.Count();
-        //            int res = oas.SaveOracle_ArrivalSostav(or_as);
-        //        }
-        //        // Формирование списка обнавленных вагонов
-        //        //int? count_nh = or_as.CountWagons = pc.CountWagonsNatHist(or_as.NaturNum, or_as.IDOrcStation, or_as.Day, or_as.Month, or_as.Year);
-        //        List<PromNatHist> list_nh = pc.GetNatHist(or_as.NaturNum, or_as.IDOrcStation, or_as.Day, or_as.Month, or_as.Year, or_as.Napr == 2 ? true : false).ToList();
-        //        if (or_as.CountNatHIist == null & list_nh.Count() > 0 & or_as.CountWagons > 0) 
-        //        {
-        //            //Поиск вагонов с 0 (or_as.CountSetWagons, or_as.ListNoSetWagons)
-        //            // Получим Id состава mt
-        //            KIS_RC_Transfer transfer_rc = new KIS_RC_Transfer();
-        //            KIS_RW_Transfer transfer_rw = new KIS_RW_Transfer();
-        //            transfer_rc.UpdateWagonsToArrival(or_as, mtcont.GetIDSostavToWagons(or_as.ListWagons, or_as.DateTime));
-        //            or_as.CountNatHIist = list_nh.Count();
-        //        }
-        //        if (or_as.CountNatHIist != null & list_nh.Count() > 0 & or_as.CountNatHIist != list_nh.Count() & or_as.CountWagons > 0)
-        //        {
-        //            //Обновить и список поставленных вагонов (or_as.CountSetWagons, or_as.ListNoSetWagons )
-        //            or_as.CountNatHIist = list_nh.Count();
-        //        }
-        //        //Закрыть состав
-        //        if (or_as.CountWagons != null & or_as.CountNatHIist!=null & or_as.CountSetWagons != null 
-        //            & or_as.CountWagons == or_as.CountNatHIist & or_as.CountWagons == or_as.CountSetWagons)
-        //        {
-        //            or_as.Close = DateTime.Now;
-        //            int res = oas.SaveOracle_ArrivalSostav(or_as);
-        //        }
-
-        //    }
-        //    return 0; // TODO: исправить возврат
-        //}
-        //PutCarsToStations
-        //public int UpdateSostav(Oracle_ArrivalSostav or_as) 
-        //{
-        //    if (or_as.Close != null) return 0;
-        //    or_as.CountWagons = pc.CountWagonsVagon(or_as.NaturNum, or_as.IDOrcStation, or_as.Day, or_as.Month, or_as.Year);
-        //    or_as.CountNatHIist = pc.CountWagonsNatHist(or_as.NaturNum, or_as.IDOrcStation, or_as.Day, or_as.Month, or_as.Year);
-        //    // Сохраним информацию по количеству вагонов
-        //    int res = oas.SaveOracle_ArrivalSostav(or_as);
-        //    KIS_RC_Transfer transfer_rc = new KIS_RC_Transfer();
-        //    KIS_RW_Transfer transfer_rw = new KIS_RW_Transfer();
-        //    //Закончить код обновления информации по вагонам стоящим на приходе по данным КИС
-
-        //    return 0; // TODO: исправить возврат        
-        //}
-
-
-
-        //public int CopyWagons()
-        //{
-        //    IQueryable<Oracle_ArrivalSostav> list_noClose = oas.Get_ArrivalSostavNoClose();
-        //    log.LogWarning(String.Format("CopyWagons(): Определено для переноса {0} составов.", list_noClose.Count()), this.eventID);
-        //    foreach (Oracle_ArrivalSostav or_as in list_noClose)
-        //    {
-        //        log.LogInformation(String.Format("CopyWagons(): Переносим состав (натурный лист: {0},  дата: {1},  станция (КИС): {2})", or_as.NaturNum, or_as.DateTime, or_as.IDOrcStation), this.eventID);
-        //        //int? cNatHist = pc.CountWagonsNatHist(or_as.NaturNum, or_as.IDOrcStation, or_as.Day, or_as.Month, or_as.Year); 
-        //        //List<PromNatHist> list_nh = pc.GetNatHist(or_as.NaturNum, or_as.IDOrcStation, or_as.Day, or_as.Month, or_as.Year,false).ToList();
-        //        //int? cVagon = pc.CountWagonsVagon(or_as.NaturNum, or_as.IDOrcStation, or_as.Day, or_as.Month, or_as.Year);
-        //        //List<PromVagon> list_pv= pc.GetVagon(or_as.NaturNum, or_as.IDOrcStation, or_as.Day, or_as.Month, or_as.Year,false).ToList();
-        //        // Определим количество вагонов из таблиц Vagon и NatHist
-        //        or_as.CountWagons = pc.CountWagonsVagon(or_as.NaturNum, or_as.IDOrcStation, or_as.Day, or_as.Month, or_as.Year);
-        //        or_as.CountNatHIist = pc.CountWagonsNatHist(or_as.NaturNum, or_as.IDOrcStation, or_as.Day, or_as.Month, or_as.Year);
-        //        // Сохраним информацию по количеству вагонов
-        //        int res = oas.SaveOracle_ArrivalSostav(or_as);
-        //        KIS_RC_Transfer transfer_rc = new KIS_RC_Transfer();
-        //        KIS_RW_Transfer transfer_rw = new KIS_RW_Transfer();
-
-        //        log.LogWarning(String.Format("CopyWagons(): Информация по составу (натурный лист: {0},  дата: {1},  станция (КИС): {2} ,CountWagons: {3} ,CountSetWagons: {4})", or_as.NaturNum, or_as.DateTime, or_as.IDOrcStation, or_as.CountWagons, or_as.CountSetWagons), this.eventID);                 // Поставить вагоны
-        //        if ((or_as.CountWagons != null & or_as.CountSetWagons == null) | (or_as.CountWagons != null & or_as.CountWagons > or_as.CountSetWagons))
-        //        {
-        //            log.LogInformation(String.Format("CopyWagons(): Ставим состав на путь (натурный лист: {0},  дата: {1},  станция (КИС): {2}, определено для переноса: {3})", or_as.NaturNum, or_as.DateTime, or_as.IDOrcStation, or_as.CountWagons), this.eventID);
-        //            or_as.CountSetWagons = transfer_rc.InsertWagons(or_as);
-        //            if (or_as.CountWagons != or_as.CountSetWagons)
-        //            {
-        //                log.LogError(String.Format("CopyWagons(): Натурный лист: {0},  дата: {1},  станция (КИС): {2}, определено для переноса: {3} вагонов, фактически поставлено: {4}", or_as.NaturNum, or_as.DateTime, or_as.IDOrcStation, or_as.CountWagons, or_as.CountSetWagons), this.eventID);
-        //            }
-        //            oas.SaveOracle_ArrivalSostav(or_as);
-        //            // добавить для RailWay
-        //        }
-        //        // Обновить информацию по вагонам
-        //        // добавить для RailWay
-
-        //        // Закрыть составы перенесенные составы и убрать с прибытия информацию МТ
-        //        // добавить для RailWay
-        //    }
-
-        //    return 0; // TODO: исправить возврат
-        //}
     }
 }

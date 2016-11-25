@@ -41,14 +41,14 @@ namespace conLibrary
             
             #region Test_MT
             //Test_MT test = new Test_MT();
-            //test.Test_MT_Helpers_MT_ArrivalToRailWay();
+            // test.Test_MT_Helpers_MT_ArrivalToRailWay();
             //test.Test_MT_Helpers_MT_ArrivalToRailWayAll();
             //test.Test_SUD_MTContent_MTConsignee();
             //test.Test_MTContent_MTList();
             #endregion
 
             #region Test_TrasferKIS
-            //Test_TrasferKIS test = new Test_TrasferKIS();
+            Test_TrasferKIS test = new Test_TrasferKIS();
             //test.Test_ArrivalKIS();
             //test.Test_References_Owner();
             //test.Test_References_Vagon();
@@ -56,6 +56,7 @@ namespace conLibrary
             //test.Test_References_Gruzs();
             //test.Test_TrasferKIS_KISTransfer();
             //test.Test_KIS_RC_Transfer_SetListWagon();
+            test.Test_References_SynchronizeWagons(2);
             #endregion
 
             #region Test_Wagons
@@ -90,7 +91,7 @@ namespace conLibrary
             #endregion
 
             #region Test_RailCars
-            Test_RailCars test = new Test_RailCars();
+            //Test_RailCars test = new Test_RailCars();
             //test.Test_RC_Vagons();
             //test.Test_RC_Vagons(53075479);
             //test.Test_SUD_RC_Vagons();
@@ -128,7 +129,7 @@ namespace conLibrary
             //test.Test_RC_Shops();
             //test.Test_RC_Shops(85);
             //test.Test_RC_ShopsOfKis(54);
-            test.Test_SUD_RC_Shops();
+            //test.Test_SUD_RC_Shops();
             #endregion
             Console.WriteLine("Press any key to exit...");
             Console.ReadKey(); 
