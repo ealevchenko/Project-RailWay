@@ -112,6 +112,12 @@ namespace conLibrary
             
         }
 
+        public void Test_KIS_RC_Transfer_ClearArrivingWagons() 
+        { 
+            KIS_RC_Transfer kisrs = new KIS_RC_Transfer();
+            int res = kisrs.ClearArrivingWagons(new int[] { 3, 9, 10, 11, 14, 18, 19, 21, 22, 25, 26 }, 2);        
+        }
+
     }
 
 }

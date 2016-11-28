@@ -540,6 +540,33 @@ namespace TransferWagons.RailCars
         }
         #endregion
 
+        #region Чистка старых запесей прибытие и зачисление вагонов на станцию
+        /// <summary>
+        /// Очистить записи прибытия вагонов за day от текущей даты
+        /// </summary>
+        /// <param name="day"></param>
+        /// <returns></returns>
+        public int ClearArrivingWagons(int[] stations , int day)
+        {
+            int result=0;
+            foreach (int id_station in stations) 
+            {
+                result += rc_vo.ClearArrivingWagons(id_station, DateTime.Now.AddDays(-1 * day));
+            }
+            return result;
+        }
+        /// <summary>
+        /// Очистить записи ожидания зачисления на путь вагонов за day от текущей даты
+        /// </summary>
+        /// <param name="day"></param>
+        /// <returns></returns>
+        public int ClearPendingWagons(int[] stations, int day)
+        {
+            //TODO: ВЫПОЛНИТЬ код очистки из ожидания если надо
+            return 0;
+        }
+        #endregion
+
         // Состав только защел
             //if (orc_sostav.CountWagons == null & list_pv.Count() > 0)
             //{

@@ -91,11 +91,9 @@ namespace KIS.Service
                 }
 
                 if (activeDelete) 
-                { 
-                
+                {
+                    int res_del = kist.ClearArrivingWagons(dayControllingDelete);
                 }
-                //int res_swagons = kist.SynchronizeWagons(this.dayControllingWagons);
-
             }
             catch (Exception e)
             {

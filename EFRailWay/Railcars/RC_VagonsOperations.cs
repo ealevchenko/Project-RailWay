@@ -4,6 +4,8 @@ using EFRailWay.Entities.Railcars;
 using Logs;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -379,6 +381,28 @@ namespace EFRailWay.Railcars
             catch (Exception e)
             {
                 LogRW.LogError(e, "DeleteVagonsToNaturList", eventID);
+                return -1;
+            }
+            
+            
+        }
+        /// <summary>
+        /// Очистить данные из прибытия по указанной станции до указанного времени
+        /// </summary>
+        /// <param name="id_station"></param>
+        /// <param name="date"></param>
+        /// <returns></returns>
+        public int ClearArrivingWagons(int id_station, DateTime date)
+        {
+            try
+            {
+                SqlParameter id_st = new SqlParameter("@id_station", id_station);
+                SqlParameter dt = new SqlParameter("@dt", date);
+                return rep_vo.db.ExecuteSqlCommand("EXEC RailWay.ClearArrivingWagons @id_station, @dt", id_st, dt);
+            }
+            catch (Exception e)
+            {
+                LogRW.LogError(e, "ClearArrivingWagons", eventID);
                 return -1;
             }
             
