@@ -430,11 +430,17 @@ namespace TransferWagons.RailCars
                 {
                     set_wagons = GetWagonsToListInt(orc_sostav.ListNoUpdateWagons); // до обновим вагоны
                 }
-                // Обновляем вагоны в первый раз
-                if (orc_sostav.CountSetNatHIist == null & orc_sostav.ListNoUpdateWagons == null & orc_sostav.CountSetWagons != null)
+                if (orc_sostav.CountSetNatHIist != null & orc_sostav.ListNoUpdateWagons == null & orc_sostav.CountSetWagons != null & orc_sostav.CountSetWagons!=orc_sostav.CountSetNatHIist)
                 {
                     set_wagons = GetWagonsToListInt(orc_sostav.ListWagons); // поставим занаво
                 }
+                // Обновляем вагоны в первый раз
+                if ((orc_sostav.CountSetNatHIist == null | orc_sostav.CountSetNatHIist == 0) & orc_sostav.ListNoUpdateWagons == null & orc_sostav.CountSetWagons != null)
+                {
+                    set_wagons = GetWagonsToListInt(orc_sostav.ListWagons); // поставим занаво
+                }
+
+
                 if (set_wagons.Count() == 0) return 0;
                 
                 ResultTransfers result = new ResultTransfers(set_wagons.Count(), 0, null, null, 0, 0);

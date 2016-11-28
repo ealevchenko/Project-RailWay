@@ -13,9 +13,7 @@ namespace MetallurgTrans.Service
 {
     public class ArrivalMT
     {
-        private int eventID = 0;
-        private int eventIDMT = 0;
-        private int eventIDSFTPClient = 0;
+        private eventID eventID = eventID.MetallurgTrans_Service_ArrivalMT;
         private string className = "ArrivalMT";
         private string classDescription = "Прибытие составов на станции Кривого Рога (информация МеталлургТранс)";
         private bool error_settings = false;
@@ -50,9 +48,6 @@ namespace MetallurgTrans.Service
                 this.toTMPDirPath = set.GetStringSettingConfigurationManager("toTMPDirPath", this.className, true);
                 this.DeleteFile = (bool)set.GetBoolSettingConfigurationManager("DeleteFile", this.className, true);
                 this.RewriteFile = (bool)set.GetBoolSettingConfigurationManager("RewriteFile", this.className, true);
-                this.eventID = (int)set.GetIntSettingConfigurationManager("eventID_ArrivalMT", this.className, true);
-                this.eventIDMT = (int)set.GetIntSettingConfigurationManager("eventID_MT", this.className, true);
-                this.eventIDSFTPClient = (int)set.GetIntSettingConfigurationManager("eventID_SFTPClient", this.className, true);
             }
             catch (Exception e)
             {
@@ -75,7 +70,6 @@ namespace MetallurgTrans.Service
             try
             {
                 SFTPClient csftp = new SFTPClient(connect_SFTP);
-                csftp.EventID = eventIDSFTPClient;
                 csftp.fromPathsHost = fromPathHost;
                 csftp.FileFiltrHost = FileFiltrHost;
                 csftp.toDirPath = toDirPath;
@@ -91,7 +85,6 @@ namespace MetallurgTrans.Service
             try
             {
                 mettrans = new MT();
-                mettrans.EventID = eventIDMT;
                 mettrans.FromPath = toTMPDirPath;
                 mettrans.DeleteFile = DeleteFile;
                 return mettrans.Transfer();

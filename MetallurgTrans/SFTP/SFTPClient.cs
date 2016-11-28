@@ -38,9 +38,7 @@ namespace MetallurgTrans.SFTP
 
     public class SFTPClient
     {
-        //Log log = new Log();
-        private int eventID = 0; //3
-        public int EventID { get { return this.eventID; } set { this.eventID = value; } }
+        private eventID eventID = eventID.MetallurgTrans_SFTP_SFTPClient;
         private Sftp client_sftp;
         private connectSFTP connect_SFTP;
         private string _fromPathsHost;  // Путь для чтения файлов из host

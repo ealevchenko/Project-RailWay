@@ -45,9 +45,7 @@ namespace MetallurgTrans.Helpers
 
     public class MT
     {
-        //Log log = new Log();
-        private int eventID = 0;
-        public int EventID { get { return this.eventID; } set { this.eventID = value; } }
+        private eventID eventID = eventID.MetallurgTrans_Helpers_MT;
         private MTContent mtc = new MTContent();
         private ReferenceRailway refRW = new ReferenceRailway();
         private string fromPath;

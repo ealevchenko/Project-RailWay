@@ -11,6 +11,7 @@ namespace Logs
     public enum eventID : int
     {
         EFISA95 = 1000,
+        
         EFRailWay= 2000,
         EFRailWay_KIS = 2100,
         EFRailWay_KIS_EFOracleArrivalSostavRepository = 2101,
@@ -24,17 +25,26 @@ namespace Logs
         EFRailWay_RailWay = 2300,
         EFRailWay_MT = 2400,
         EFRailWay_MT_MTContent = 2401,
+        
         EFWagons= 3000,
         EFWagons_KIS= 3100,
         EFWagons_KIS_PromContent = 3101,
         EFWagons_KIS_KometaContent = 3102,
+        
         KIS= 4000,
         KIS_Service=4100,
-
+        KIS_Service_ArrivalKIS = 4101,
         KIS_Service_SynchronizeKIS =4102,
         KIS_Service_CopyingInlandKIS = 4103,
 
         MetallurgTrans= 5000,
+        MetallurgTrans_Service = 5100,
+        MetallurgTrans_Service_ArrivalMT = 5101,
+        MetallurgTrans_Helpers  = 5200,
+        MetallurgTrans_Helpers_MT  = 5201,
+        MetallurgTrans_SFTP = 5300,
+        MetallurgTrans_SFTP_SFTPClient = 5301,
+
         TransferWagons = 6000,
         TransferWagons_Transfer = 6100,
         TransferWagons_KIS_Transfer = 6100,

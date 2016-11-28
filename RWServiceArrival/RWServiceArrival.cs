@@ -21,7 +21,6 @@ namespace RWServiceArrival
 {
     public partial class RWServiceArrival : ServiceBase
     {
-        //Log log = new Log();
         private int eventID = 0;
         private int Interval = 60000;
         private bool runTimer = false;
@@ -127,7 +126,6 @@ namespace RWServiceArrival
                 // Проверим наличие секций проекты
                 set.Get_Project(this.ServiceName, this.ServiceDescription, true);
                 this.Interval = (int)set.GetIntSettingConfigurationManager("Interval", this.ServiceName, true);
-                this.eventID = (int)set.GetIntSettingConfigurationManager("eventID_RWServiceArrival", this.ServiceName, true);
             }
             catch (Exception e)
             {

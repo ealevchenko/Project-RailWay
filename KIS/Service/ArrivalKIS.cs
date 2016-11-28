@@ -13,9 +13,7 @@ namespace KIS.Service
 {
     public class ArrivalKIS
     {
-        //Log log = new Log();
-        private int eventID = 0;//2
-        //private int eventIDKISTransfer = 0;//5
+        private eventID eventID = eventID.KIS_Service_ArrivalKIS;
         private string className = "ArrivalKIS";
         private string classDescription = "Прибытие составов на станцию Восточная (информация КИС)";
         private bool error_settings = false;
@@ -30,8 +28,6 @@ namespace KIS.Service
             {
                 Settings set = new Settings();
                 set.Get_Project(this.className, this.classDescription, true); // Проверим наличие проекта
-                this.eventID = (int)set.GetIntSettingConfigurationManager("eventID_ArrivalKIS", this.className, true);
-                //this.eventIDKISTransfer = (int)set.GetIntSettingConfigurationManager("eventID_KISTransfer", this.className, true);
                 this.active = (bool)set.GetBoolSettingConfigurationManager("activeArrivalKIS", this.className, true);
                 this.mode = (int)set.GetIntSettingConfigurationManager("modeArrivalKIS", this.className, true);
                 this.dayControllingAddNatur = (int)set.GetIntSettingConfigurationManager("dayControllingAddNatur", this.className, true);
@@ -57,7 +53,6 @@ namespace KIS.Service
                 return 0;
             }
             KIS_Transfer kist = new KIS_Transfer();
-            //kist.EventID = eventIDKISTransfer;
             LogRW.LogInformation(String.Format("Сервис переноса данных из КИС в БД RailWay :{0} - запущен, режим копирования: {1}", this.className, this.mode), this.eventID);
             try
             {
