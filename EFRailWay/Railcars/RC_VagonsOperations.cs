@@ -360,7 +360,27 @@ namespace EFRailWay.Railcars
             }
             catch (Exception e)
             {
-                LogRW.LogError(e, "DeleteVagonsToInsertMT", eventID);
+                LogRW.LogError(e, "DeleteVagonsToInsertMT(1)", eventID);
+                return -1;
+            }
+            
+            
+        }
+        /// <summary>
+        /// Удалить вагон пренадлежащий составу перенесеному по данным металлург транс 
+        /// </summary>
+        /// <param name="id_sostav"></param>
+        /// <param name="num_vag"></param>
+        /// <returns></returns>
+        public int DeleteVagonsToInsertMT(int id_sostav, int num_vag)
+        {
+            try
+            {
+                return rep_vo.db.ExecuteSqlCommand("DELETE FROM dbo.VAGON_OPERATIONS WHERE IDSostav = " + id_sostav.ToString()+" AND num_vagon = "+num_vag.ToString());
+            }
+            catch (Exception e)
+            {
+                LogRW.LogError(e, "DeleteVagonsToInsertMT(2)", eventID);
                 return -1;
             }
             

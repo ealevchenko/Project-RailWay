@@ -118,6 +118,11 @@ namespace conLibrary
             int res = kisrs.ClearArrivingWagons(new int[] { 3, 9, 10, 11, 14, 18, 19, 21, 22, 25, 26 }, 2);        
         }
 
+        public void Test_KIS_RC_Transfer_DeleteInArrival() 
+        { 
+            KIS_RC_Transfer kisrs = new KIS_RC_Transfer();
+            int res = kisrs.DeleteInArrival(4066,DateTime.Parse("2016-11-28 10:30:00"));        
+        }
     }
 
 }

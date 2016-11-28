@@ -229,6 +229,37 @@ namespace EFRailWay.MT
                 return -1;
             }
         }
+        /// <summary>
+        /// Вернуть список вагонов металлург транса по которым проставлен натурный лист и не ранее указанной даты
+        /// </summary>
+        /// <param name="natur"></param>
+        /// <param name="dt"></param>
+        /// <returns></returns>
+        public IQueryable<MTList> GetListToNatur(int natur, DateTime dt) 
+        {
+            try
+            {
+                return rep_MT.MTList.Where(l => l.NaturList == natur & l.DateOperation >= dt).OrderByDescending(l => l.DateOperation).ThenBy(l => l.IDMTSostav).ThenBy(l => l.Position);
+            }
+            catch (Exception e)
+            {
+                LogRW.LogError(e, "GetListToNatur", eventID);
+                return null;
+            }
+        }
+        /// <summary>
+        /// Вернуть список вагонов металлург транса по которым проставлен натурный лист и не ранее dt - day
+        /// </summary>
+        /// <param name="natur"></param>
+        /// <param name="dt"></param>
+        /// <param name="day"></param>
+        /// <returns></returns>
+        public IQueryable<MTList> GetListToNatur(int natur, DateTime dt, int day) 
+        {
+            DateTime dt_op = dt.AddDays(-1 * day);
+            return GetListToNatur(natur, dt_op);
+        }
+
         #endregion
 
         #region MTConsignee

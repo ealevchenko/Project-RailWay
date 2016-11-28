@@ -253,7 +253,9 @@ namespace TransferWagons.Transfers
                 {
                     kis_sostav.Close = DateTime.Now;
                     int res_close = oas.SaveOracle_ArrivalSostav(kis_sostav);
-                    //TODO: ВЫПОЛНИТЬ КОД: Убрать с прибытия с УЗ на станции АМКР
+
+                    int res_del_arr = transfer_rc.DeleteInArrival(kis_sostav.NaturNum, kis_sostav.DateTime);
+                    //TODO: ВЫПОЛНИТЬ КОД: Убрать с прибытия с УЗ на станции АМКР в системе RailWay
                 }
             }
             return 0; // TODO: исправить возврат

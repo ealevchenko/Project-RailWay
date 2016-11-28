@@ -96,6 +96,9 @@ namespace RWServiceArrival
                     akis.Transfer();
                     SynchronizeKIS skis = new SynchronizeKIS();
                     skis.Synchronize();
+                    CopyingInlandKIS cikis = new CopyingInlandKIS();
+                    cikis.Copy();
+
                     TimeSpan ts = DateTime.Now - dt_start;
                     LogRW.LogInformation(String.Format("Сервис {0} - время выполнения: {1} мин {2} сек {3} мсек", this.ServiceName,ts.Minutes, ts.Seconds, ts.Milliseconds), this.eventID);
                 }

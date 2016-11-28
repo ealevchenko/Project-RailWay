@@ -58,7 +58,8 @@ namespace conLibrary
 
             //test.Test_KIS_RC_Transfer_SetListWagon();
             //test.Test_References_SynchronizeWagons(2);
-            test.Test_KIS_RC_Transfer_ClearArrivingWagons();
+            //test.Test_KIS_RC_Transfer_ClearArrivingWagons();
+            test.Test_KIS_RC_Transfer_DeleteInArrival();
             #endregion
 
             #region Test_Wagons

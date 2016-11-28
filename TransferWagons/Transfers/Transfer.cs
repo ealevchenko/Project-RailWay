@@ -53,6 +53,7 @@ namespace TransferWagons.Transfers
         public void IncSkipped() { if (skippeds != null) skippeds++; }
         public void IncError() { if (errors != null) errors++; }
         public int ResultInsert { get { if (this.inserts != null & this.skippeds != null) { return (int)this.inserts + (int)this.skippeds; } else return 0; } }
+        public int ResultDelete { get { if (this.deletes != null & this.skippeds != null) { return (int)this.deletes + (int)this.skippeds; } else return 0; } }
         /// <summary>
         /// Обработать резултат (возращает true если была ошибка)
         /// </summary>
@@ -64,6 +65,14 @@ namespace TransferWagons.Transfers
             if (result < 0) { IncError(); return true; }
             if (result == 0) { IncSkipped(); }
             if (result > 0) { IncInsert(); }
+            return false;
+        }
+        public bool SetResultDelete(int result) 
+        {
+            this.result = result;
+            if (result < 0) { IncError(); return true; }
+            if (result == 0) { IncSkipped(); }
+            if (result > 0) { IncDelete(); }
             return false;
         }
     }

@@ -1,4 +1,5 @@
-﻿using EFRailWay.Entities.KIS;
+﻿using EFRailWay.Entities;
+using EFRailWay.Entities.KIS;
 using EFRailWay.KIS;
 using EFRailWay.MT;
 using EFRailWay.Railcars;
@@ -566,6 +567,33 @@ namespace TransferWagons.RailCars
             return 0;
         }
         #endregion
+
+        #region Убрать вагоны из прибытия или перенести на станцию
+        /// <summary>
+        /// Убрать вагоны из прибытия УЗ по данным МТ, принятые по КИС
+        /// </summary>
+        /// <param name="natur_list"></param>
+        /// <param name="dt_amkr"></param>
+        /// <returns></returns>
+        public int DeleteInArrival(int natur_list, DateTime dt_amkr) 
+        {
+            List<MTList> list = mtcont.GetListToNatur(natur_list, dt_amkr, 2).ToList();
+            if (list.Count() == 0) return 0;
+            ResultTransfers result = new ResultTransfers(list.Count(), null, null, 0, 0, 0);
+            foreach (MTList mt in list) 
+            {
+                if (result.SetResultDelete(rc_vo.DeleteVagonsToInsertMT(mt.IDMTSostav, mt.CarriageNumber))) 
+                {
+                    // Ошибка
+                }
+            }
+            if (result.errors > 0) { LogRW.LogError(String.Format("[KIS_RC_Transfer.DeleteInArrival] :Ошибка удаления вагонов из прибытия с УЗ после переноса по данным КИС, натурный лист: {0}, дата: {1}, количество ошибок: {2}",
+                natur_list,dt_amkr,result.errors)
+                , eventID); }
+            return result.ResultDelete;
+        }
+        #endregion
+
 
         // Состав только защел
             //if (orc_sostav.CountWagons == null & list_pv.Count() > 0)
