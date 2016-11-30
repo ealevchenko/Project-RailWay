@@ -25,6 +25,8 @@ namespace Logs
         EFRailWay_RailWay = 2300,
         EFRailWay_MT = 2400,
         EFRailWay_MT_MTContent = 2401,
+        EFRailWay_SAP = 2500,
+        EFRailWay_SAP_EFSAPIncSupplyRepository = 2501,
         
         EFWagons= 3000,
         EFWagons_KIS= 3100,
@@ -46,11 +48,15 @@ namespace Logs
         MetallurgTrans_SFTP_SFTPClient = 5301,
 
         TransferWagons = 6000,
-        TransferWagons_Transfer = 6100,
-        TransferWagons_KIS_Transfer = 6100,
+        TransferWagons_Transfers = 6100,
+        TransferWagons_Transfers_Transfer = 6101, 
+        TransferWagons_Transfers_SAP_Transfer = 6102,
+        TransferWagons_Transfers_KIS_Transfer = 6103,
         TransferWagons_RailCars= 6300,
         TransferWagons_RailCars_References = 6301,
         TransferWagons_RailWay= 6400,
+        TransferWagons_SAP = 6500,
+        TransferWagons_SAP_References = 6501,
     }
 
     public class LogRW

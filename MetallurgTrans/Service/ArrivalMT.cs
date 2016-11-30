@@ -24,6 +24,7 @@ namespace MetallurgTrans.Service
         private string toTMPDirPath = null;
         private bool DeleteFile;
         private bool RewriteFile;
+        private int dayMonitoringTrains;
 
         /// <summary>
         /// Конструктор
@@ -48,6 +49,7 @@ namespace MetallurgTrans.Service
                 this.toTMPDirPath = set.GetStringSettingConfigurationManager("toTMPDirPath", this.className, true);
                 this.DeleteFile = (bool)set.GetBoolSettingConfigurationManager("DeleteFile", this.className, true);
                 this.RewriteFile = (bool)set.GetBoolSettingConfigurationManager("RewriteFile", this.className, true);
+                this.dayMonitoringTrains = (int)set.GetIntSettingConfigurationManager("dayMonitoringTrains", this.className, true);
             }
             catch (Exception e)
             {
@@ -87,6 +89,7 @@ namespace MetallurgTrans.Service
                 mettrans = new MT();
                 mettrans.FromPath = toTMPDirPath;
                 mettrans.DeleteFile = DeleteFile;
+                mettrans.DayMonitoringTrains = dayMonitoringTrains;
                 return mettrans.Transfer();
             }
             catch (Exception e)

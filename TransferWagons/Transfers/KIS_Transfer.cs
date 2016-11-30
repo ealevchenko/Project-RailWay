@@ -20,8 +20,8 @@ namespace TransferWagons.Transfers
     {
         KIS_RC_Transfer transfer_rc = new KIS_RC_Transfer();
         KIS_RW_Transfer transfer_rw = new KIS_RW_Transfer();
-        
-        private eventID eventID = eventID.TransferWagons_KIS_Transfer;
+
+        private eventID eventID = eventID.TransferWagons_Transfers_KIS_Transfer;
         ArrivalSostav oas = new ArrivalSostav();
         PromContent pc = new PromContent();
         MTContent mtcont = new MTContent();

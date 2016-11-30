@@ -69,6 +69,7 @@
     <Compile Include="Abstract\Railcars\IShopsRepository.cs" />
     <Compile Include="Abstract\Railcars\IWaysRepository.cs" />
     <Compile Include="Abstract\Railcars\IStationsRepository.cs" />
+    <Compile Include="Abstract\SAP\ISAPIncSupplyRepository.cs" />
     <Compile Include="Concrete\EFAppSettingsRepository.cs" />
     <Compile Include="Concrete\EFLogErrorsRepository.cs" />
     <Compile Include="Concrete\EFProjectRepository.cs" />
@@ -90,6 +91,7 @@
     <Compile Include="Concrete\Railcars\EFOwnersRepository.cs" />
     <Compile Include="Concrete\Railcars\EFWaysRepository.cs" />
     <Compile Include="Concrete\Railcars\EFStationsRepository.cs" />
+    <Compile Include="Concrete\SAP\EFSAPIncSupplyRepository.cs" />
     <Compile Include="Entities\Code_Cargo.cs" />
     <Compile Include="Entities\Code_InternalRailroad.cs" />
     <Compile Include="Entities\Code_State.cs" />
@@ -118,6 +120,7 @@
     <Compile Include="Entities\Railcars\VAG_CONDITIONS2.cs" />
     <Compile Include="Entities\Railcars\WAYS.cs" />
     <Compile Include="Entities\MTConsignee.cs" />
+    <Compile Include="Entities\SAP\SAP_Inc_Supply.cs" />
     <Compile Include="MT\MTContent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Railcars\RC_Shops.cs" />
@@ -129,6 +132,7 @@
     <Compile Include="Railcars\RC_OwnersContries.cs" />
     <Compile Include="Railcars\RC_Ways.cs" />
     <Compile Include="References\ReferenceRailway.cs" />
+    <Compile Include="SAP\SAPIncomingSupply.cs" />
     <Compile Include="Settings\Settings.cs" />
   </ItemGroup>
   <ItemGroup>

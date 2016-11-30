@@ -174,7 +174,7 @@ namespace EFRailWay.Railcars
         /// <summary>
         /// Удалить
         /// </summary>
-        /// <param name="id_way"></param>
+        /// <param name="id_oper"></param>
         /// <returns></returns>
         public VAGON_OPERATIONS DeleteVagonsOperations(int id_oper)
         {

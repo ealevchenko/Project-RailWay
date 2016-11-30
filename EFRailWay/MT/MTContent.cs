@@ -96,6 +96,28 @@ namespace EFRailWay.MT
             return rep_MT.MTSostav.Where(s => s.CompositionIndex == CompositionIndex & s.Close == null & s.DateTime <= date).OrderByDescending(s => s.DateTime).FirstOrDefault();
         }
         /// <summary>
+        /// Получить последний не закрытый состав за период времени определенный от date-day по date
+        /// </summary>
+        /// <param name="CompositionIndex"></param>
+        /// <param name="date"></param>
+        /// <param name="day"></param>
+        /// <returns></returns>
+        public MTSostav Get_NoCloseMTSostav(string CompositionIndex, DateTime date, int day) 
+        {
+            try
+            {
+                DateTime dt_start = date.AddDays(-1 * day);
+                return rep_MT.MTSostav.Where(s => s.CompositionIndex == CompositionIndex & s.Close == null & s.DateTime>= dt_start & s.DateTime <= date).OrderByDescending(s => s.DateTime).FirstOrDefault();
+            }
+            catch (Exception e)
+            {
+                LogRW.LogError(e, "Get_NoCloseMTSostav(3)", eventID);
+                return null;
+            }
+            
+
+        }
+        /// <summary>
         /// Добавить или править состав
         /// </summary>
         /// <param name="mtsostav"></param>

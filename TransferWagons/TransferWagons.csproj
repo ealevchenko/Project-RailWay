@@ -43,7 +43,9 @@
     <Compile Include="RailCars\KIS_RC_Transfer.cs" />
     <Compile Include="RailCars\References.cs" />
     <Compile Include="RailWay\KIS_RW_Transfer.cs" />
+    <Compile Include="SAP\References.cs" />
     <Compile Include="Transfers\KIS_Transfer.cs" />
+    <Compile Include="Transfers\SAP_Transfer.cs" />
     <Compile Include="Transfers\Transfer.cs" />
   </ItemGroup>
   <ItemGroup>

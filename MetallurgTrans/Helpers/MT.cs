@@ -52,7 +52,8 @@ namespace MetallurgTrans.Helpers
         public string FromPath { get { return this.fromPath; } set { this.fromPath = value; } }
         private bool delete_file = false;
         public bool DeleteFile { get { return this.delete_file; } set { this.delete_file = value; } }
-
+        private int dayMonitoringTrains;
+        public int DayMonitoringTrains { get { return this.dayMonitoringTrains; } set { this.dayMonitoringTrains = value; } }
 
         public MT()
         {
@@ -264,14 +265,15 @@ namespace MetallurgTrans.Helpers
                     {
                         int? ParentIDSostav;
                         // получить не закрытый состав
-                        MTSostav no_close_sostav = mtc.Get_NoCloseMTSostav(fs.Index, fs.Date);
+                        //MTSostav no_close_sostav = mtc.Get_NoCloseMTSostav(fs.Index, fs.Date); 
+                        MTSostav no_close_sostav = mtc.Get_NoCloseMTSostav(fs.Index, fs.Date, this.dayMonitoringTrains); // Включил режим ограничения по времени dayMonitoringTrains
                         ParentIDSostav = null;
                         if (no_close_sostav != null)
                         {
-                            // дополнительная проверка совпадение по поездам
-                            int? TrainNumber = mtc.GetTrainNumberToSostav(no_close_sostav.IDMTSostav);
-                            int TrainNumber_xml = GetTrainNumberToXml(fs.File);
-                            if (TrainNumber == TrainNumber_xml)
+                            //// TODO: !УБРАЛ дополнительная проверка совпадение по поездам и включил режим ограничения по времени dayMonitoringTrains(разные поезда двигают один состав) дополнительная проверка совпадение по поездам 
+                            //int? TrainNumber = mtc.GetTrainNumberToSostav(no_close_sostav.IDMTSostav);
+                            //int TrainNumber_xml = GetTrainNumberToXml(fs.File);
+                            //if (TrainNumber == TrainNumber_xml) 
                             {
                                 ParentIDSostav = no_close_sostav.IDMTSostav;
                                 // Закрыть состав
@@ -366,14 +368,14 @@ namespace MetallurgTrans.Helpers
                 List<trWagon> list_wag = new List<trWagon>();
                 try
                 {
-                    int position = 0;
+                    int position = 1;
                     foreach (MTList wag in list)
                     {
                         // состояние вагонов
                         int id_conditions = 17; // ожидает прибытие с УЗ                        
                         // червоная
                         if (id_stat_receiving == 467201) {
-                            if (wag.IDStation == id_stat_receiving | IsConsignee(wag.Consignee, code_consignee))
+                            if (wag.IDStation == id_stat_receiving & IsConsignee(wag.Consignee, code_consignee))
                             {
                                 //bOk = true; 
                                 list_wag.Add(new trWagon()
@@ -442,6 +444,7 @@ namespace MetallurgTrans.Helpers
             {
                 KIS_RC_Transfer rc_transfer = new KIS_RC_Transfer(); // Перенос в системе RailCars
                 KIS_RW_Transfer rw_transfer = new KIS_RW_Transfer(); // Перенос в системе RailWay
+                SAP_Transfer sap_transfer = new SAP_Transfer();
                 // Определим класс данных состав
                 MTSostav sost = mtc.Get_MTSostav(id_sostav);
                 // Определим код станции по справочникам
@@ -466,6 +469,7 @@ namespace MetallurgTrans.Helpers
                 };
                 // Поставим вагоны в систему RailCars
                 int res_arc;
+
                 try
                 {
                     res_arc  = rc_transfer.PutInArrival(sostav);
@@ -481,6 +485,19 @@ namespace MetallurgTrans.Helpers
                 // Поставим вагоны в систему RailWay            
                 // TODO: Выполнить код постановки вагонов в систему RailWay (прибытие из КР)
                 // ..................
+                
+                
+                // Создаем или изменяем строки в справочнике САП
+                int rec_sap;                
+                try
+                {
+                    rec_sap = sap_transfer.PutInSapIncomingSupply(sostav);
+                }
+                catch (Exception e)
+                {
+                    LogRW.LogError(String.Format("[MT.ArrivalToRailWay] :Ошибка формирования строк справочника SAP входящие поставки, состав: {0}. Подробно: (источник: {1}, № {2}, описание:  {3})", sostav.id, e.Source, e.HResult, e.Message), this.eventID);
+                    rec_sap = -1;
+                }
             }
             catch (AggregateException agex)
             {

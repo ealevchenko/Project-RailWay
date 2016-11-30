@@ -2,6 +2,7 @@
 using EFRailWay.Entities;
 using EFRailWay.Entities.KIS;
 using EFRailWay.Entities.Railcars;
+using EFRailWay.Entities.SAP;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -52,6 +53,9 @@ namespace EFRailWay.Concrete
         public virtual DbSet<WAYS> WAYS { get; set; }
         public virtual DbSet<PARKS> PARKS { get; set; }
         public virtual DbSet<VAGON_OPERATIONS> VAGON_OPERATIONS { get; set; }
+
+        //SAP
+        public virtual DbSet<SAPIncSupply> SAPIncSupply { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -126,6 +130,15 @@ namespace EFRailWay.Concrete
 
             modelBuilder.Entity<VAGON_OPERATIONS>()
                 .Property(e => e.weight_gruz)
+                .HasPrecision(18, 3);
+
+            //SAP
+            modelBuilder.Entity<SAPIncSupply>()
+                .Property(e => e.WeightDoc)
+                .HasPrecision(18, 3);
+
+            modelBuilder.Entity<SAPIncSupply>()
+                .Property(e => e.WeightReweighing)
                 .HasPrecision(18, 3);
         }
     }

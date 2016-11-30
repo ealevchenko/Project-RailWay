@@ -75,6 +75,14 @@ namespace TransferWagons.Transfers
             if (result > 0) { IncDelete(); }
             return false;
         }
+        public bool SetResultUpdate(int result) 
+        {
+            this.result = result;
+            if (result < 0) { IncError(); return true; }
+            if (result == 0) { IncSkipped(); }
+            if (result > 0) { IncUpdate(); }
+            return false;
+        }
     }
 
     public class trWagon
@@ -117,7 +125,7 @@ namespace TransferWagons.Transfers
         //protected string classDescription = "Система переноса данных из КИС";
         //protected bool error_settings = false;
         //private int eventID = (int)eventID.TransferWagons;//6
-        private eventID eventID = eventID.TransferWagons_Transfer;
+        private eventID eventID = eventID.TransferWagons_Transfers_Transfer;
 
         public Transfer() 
         {
@@ -134,7 +142,7 @@ namespace TransferWagons.Transfers
             //}
         }
 
-        #region Обшие методы
+        #region Операции с списками номеров вагонов
         /// <summary>
         /// Пренадлежит указаный вагон списку вагонов
         /// </summary>
@@ -268,6 +276,56 @@ namespace TransferWagons.Transfers
             }
         }
 
+        #endregion
+
+        #region trWagon
+        /// <summary>
+        /// Получить список номеров вагонов с trWagon[]
+        /// </summary>
+        /// <param name="wagons"></param>
+        /// <returns></returns>
+        protected int[] GetWagonsToInt(trWagon[] wagons) 
+        {
+            if (wagons == null | wagons.Count()==0) return null;
+            List<int> res = null;
+            foreach (trWagon wag in wagons)
+            {
+                res.Add(wag.CarriageNumber);
+            }
+            return res.ToArray();
+        }
+        /// <summary>
+        /// Получить список номеров вагонов с trWagon[]
+        /// </summary>
+        /// <param name="wagons"></param>
+        /// <returns></returns>
+        protected List<int> GetWagonsToListInt(trWagon[] wagons) 
+        {
+            List<int> res = new List<int>();
+            if (wagons != null)
+            {
+                foreach (trWagon wag in wagons)
+                {
+                    res.Add(wag.CarriageNumber);
+                }
+            }
+            return res;
+        }
+        /// <summary>
+        /// Вернуть trWagon по номеру вагона из спсиска trWagon[]
+        /// </summary>
+        /// <param name="wagons"></param>
+        /// <param name="num"></param>
+        /// <returns></returns>
+        protected trWagon GetWagons(trWagon[] wagons, int num) 
+        {
+            if (wagons == null | wagons.Count()==0) return null;
+            foreach (trWagon wag in wagons)
+            {
+                if (wag.CarriageNumber==num) return wag;
+            }
+            return null;
+        }
         #endregion
 
 
