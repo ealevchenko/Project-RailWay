@@ -12,12 +12,17 @@ namespace EFWagons.Entities
     [Table("PROM.SOSTAV")]
     public partial class PromSostav
     {
-        [Key]
+        [Key, Column(Order = 1)]
         public int N_NATUR { get; set; }
+        [Key, Column(Order = 2)]
         public int? D_DD { get; set; }
+        [Key, Column(Order = 3)]
         public int? D_MM { get; set; }
+        [Key, Column(Order = 4)]
         public int? D_YY { get; set; }
+        [Key, Column(Order = 5)]
         public int? T_HH { get; set; }
+        [Key, Column(Order = 6)]
         public int? T_MI { get; set; }
         public int? K_ST { get; set; }
         public int? N_PUT { get; set; }

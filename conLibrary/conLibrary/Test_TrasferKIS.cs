@@ -93,7 +93,7 @@ namespace conLibrary
             KIS_Transfer kist = new KIS_Transfer();
 
             kist.DayControllingAddNatur = 2;
-            kist.PutCarsToStations();
+            //kist.PutCarsToStations();
                 //kist.UpdateSostavs();
                 Console.WriteLine("Обновлено {0}", kist.CopyArrivalSostavToRailway());
         }
