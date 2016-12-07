@@ -57,5 +57,10 @@ namespace EFRailWay.Concrete
             }
             return true;
         }
+
+        public IQueryable<Code_Country> Code_Country
+        {
+            get { return context.Code_Country; }
+        }
     }
 }

@@ -13,6 +13,7 @@ namespace TransferWagons.Transfers
     {
         private eventID eventID = eventID.TransferWagons_Transfers_SAP_Transfer;
         private SAPIncomingSupply sapis = new SAPIncomingSupply();
+        private References trans_ref = new References();
 
         public SAP_Transfer():base() 
         { 
@@ -43,6 +44,17 @@ namespace TransferWagons.Transfers
             foreach (int wag in list_new_wag) 
             {
                 trWagon new_wag = GetWagons(sostav.Wagons, wag);
+                //Определим страну по общему справочнику
+                int id_country=0;
+                if (new_wag.CountryCode > 0)
+                {
+                    int country = 0;
+                    country = int.Parse(new_wag.CountryCode.ToString().Substring(1, 2));
+                    id_country = trans_ref.DefinitionIDCountrySNG(country);
+                }
+                //Определим груз по общему справочнику
+                int id_cargo = trans_ref.DefinitionIDCargo(new_wag.IDCargo); 
+
                 if (new_wag != null) 
                 {
                     SAPIncSupply sap_Supply = new SAPIncSupply() {
@@ -53,13 +65,15 @@ namespace TransferWagons.Transfers
                         Position = new_wag.Position,
                         NumNakl = null,
                         CountryCode = new_wag.CountryCode,
+                        IDCountry = id_country, 
                         WeightDoc = (decimal?)new_wag.Weight,
                         DocNumReweighing = null,
                         DocDataReweighing = null,
                         WeightReweighing = null,
                         DateTimeReweighing = null,
                         PostReweighing = null,
-                        IDCargo = new_wag.IDCargo,
+                        CodeCargo = new_wag.IDCargo,
+                        IDCargo = id_cargo,
                         CodeMaterial = null,
                         NameMaterial = null,
                         CodeStationShipment = null,

@@ -181,7 +181,7 @@ namespace EFRailWay.Railcars
             return rep_vo.DeleteVAGONOPERATIONS(id_oper);
         }
         /// <summary>
-        /// Поставить вагон на станцию
+        /// Поставить вагон на станцию по данным КИС
         /// </summary>
         /// <param name="natur"></param>
         /// <param name="dt_amkr"></param>
@@ -199,7 +199,9 @@ namespace EFRailWay.Railcars
             VAGON_OPERATIONS vo = new VAGON_OPERATIONS()
             {
                 id_oper = 0,
+                dt_uz = null,
                 dt_amkr = dt_amkr,
+                dt_out_amkr = null,
                 n_natur = natur,
                 id_vagon = id_vagon,
                 id_stat = id_station,
@@ -261,17 +263,20 @@ namespace EFRailWay.Railcars
         /// <param name="id_station_in"></param>
         /// <param name="num_train"></param>
         /// <returns></returns>
-        public int InsertVagon(int IDSostav, int id_vagon, int num_vagon, DateTime dt_amkr, int id_station_from, int position ,int? id_gruz, decimal weight_gruz,int id_station_in, int num_train, int id_cond2)
+        public int InsertVagon(int IDSostav, int id_vagon, int num_vagon, DateTime dt_uz, int id_station_from, int position ,int? id_gruz, decimal weight_gruz,int id_station_in, int num_train, int id_cond2)
         {
+            //TODO: !!ДОРАБОТАТЬ (ДОБАВИТЬ В ПРИБЫТИЕ С УЗ) - убрать id_vagon,id_gruz,weight_gruz (эти данные берутся из справочника САП входящие поставки по (dt_uz)dt_amkr и num_vagon)
             VAGON_OPERATIONS vo = new VAGON_OPERATIONS()
             {
                 id_oper = 0,
-                dt_amkr = dt_amkr,
+                dt_uz = dt_uz,
+                dt_amkr = null, // 
+                dt_out_amkr = null,
                 n_natur = null,
                 id_vagon = id_vagon,
                 id_stat = id_station_from,
-                dt_from_stat = dt_amkr,
-                dt_on_stat = dt_amkr,
+                dt_from_stat = dt_uz,
+                dt_on_stat = dt_uz,
                 id_way = null,
                 dt_from_way = null,
                 dt_on_way = null,
@@ -327,6 +332,7 @@ namespace EFRailWay.Railcars
         /// <returns></returns>
         public int UpdateVagon(DateTime dt_amkr, int num_vagon, int id_way, int id_gruz, int id_shop, decimal? wes_gr, int? id_cond)
         {
+            //TODO: !! ДОРАБОТАТЬ (ОБНОВЛЕНИЕ ВАГОНОВ ПО КИСУ - UpdateVagon) обновлять готовность по прибытию и дату зачисления на АМКР
             try
             {
                 string sql = "update  dbo.VAGON_OPERATIONS " +

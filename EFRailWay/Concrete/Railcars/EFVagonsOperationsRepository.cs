@@ -33,7 +33,9 @@ namespace EFRailWay.Concrete.Railcars
                 dbEntry = new VAGON_OPERATIONS()
                 {
                     id_oper = VAGONOPERATIONS.id_oper,
+                    dt_uz = VAGONOPERATIONS.dt_uz,
                     dt_amkr = VAGONOPERATIONS.dt_amkr,
+                    dt_out_amkr = VAGONOPERATIONS.dt_out_amkr,
                     n_natur = VAGONOPERATIONS.n_natur,
                     id_vagon = VAGONOPERATIONS.id_vagon,
                     id_stat = VAGONOPERATIONS.id_stat,
@@ -88,7 +90,9 @@ namespace EFRailWay.Concrete.Railcars
                 if (dbEntry != null)
                 {
                     dbEntry.id_oper = VAGONOPERATIONS.id_oper;
+                    dbEntry.dt_uz = VAGONOPERATIONS.dt_uz;
                     dbEntry.dt_amkr = VAGONOPERATIONS.dt_amkr;
+                    dbEntry.dt_out_amkr = VAGONOPERATIONS.dt_out_amkr;
                     dbEntry.n_natur = VAGONOPERATIONS.n_natur;
                     dbEntry.id_vagon = VAGONOPERATIONS.id_vagon;
                     dbEntry.id_stat = VAGONOPERATIONS.id_stat;

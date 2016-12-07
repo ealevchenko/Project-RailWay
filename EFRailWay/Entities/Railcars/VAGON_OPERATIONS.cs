@@ -113,6 +113,12 @@ namespace EFRailWay.Entities.Railcars
 
         public int? num_vagon { get; set; }
 
+        [Column(TypeName = "datetime")]
+        public DateTime? dt_uz { get; set; }
+
+        [Column(TypeName = "datetime")]
+        public DateTime? dt_out_amkr { get; set; }
+
         public virtual GDSTAIT GDSTAIT { get; set; }
 
         public virtual GRUZS GRUZS { get; set; }

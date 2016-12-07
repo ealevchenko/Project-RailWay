@@ -69,7 +69,8 @@ namespace TransferWagons.RailCars
             {
                 try
                 {
-                    int res = rc_vo.DeleteVagonsToInsertMT((int)sostav.ParentID); // Удалить предыдущий состав 
+                    //TODO: !! ВОЗМОЖНО (ПРИБЫТИЕ С УЗ) - доработать удаление составов по которым происходит тсп (удалять только те вагоны которых нет в новом тсп и добавлять новые - вдруг поезд приняли уже на станцию)
+                    int res = rc_vo.DeleteVagonsToInsertMT((int)sostav.ParentID); // Удалить предыдущий состав (По этому составу было новое ТСП) 
                     if (res < 0) {
                         LogRW.LogError(String.Format("[KIS_RC_Transfer.PutInArrival] :Ошибка удаления предыдущего состав ID_MT: {0}", sostav.ParentID), eventID);
                         return (int)errorTransfer.global;
@@ -118,25 +119,20 @@ namespace TransferWagons.RailCars
                 return (int)errorTransfer.no_stations;
             }
 
-                //Определим страну собственника
-                int country = 0;
-                if (wag.CountryCode > 0)
-                {
-                    country = int.Parse(wag.CountryCode.ToString().Substring(1, 2));
-                    int? id_owner_country = ref_kis.DefinitionIDOwnersContries(country);
-                }
+                ////Определим страну собственника
+                //int country = 0;
+                //if (wag.CountryCode > 0)
+                //{
+                //    country = int.Parse(wag.CountryCode.ToString().Substring(1, 2));
+                //    int? id_owner_country = ref_kis.DefinitionIDOwnersContries(country);
+                //}
                 // Определим id вагона и собственника вагона
                 int id_vagon = ref_kis.DefinitionSetIDVagon(wag.CarriageNumber, dt, wag.TrainNumber, id_sostav, null, wag.Conditions == 17 ? false : true);// если вагон имеет состояние ожидает прибытие c УЗ
                 if (id_vagon < 0)
                 {
                     return (int)errorTransfer.no_owner_country;
                 }
-                if (wag.Conditions == 17)// если вагон имеет состояние ожидает прибытие c УЗ
-                {
-                    //TODO Сделать определение цеха получателя груза (SAP)
-                    //.........
-                }
-            //Определим груз
+            //TODO: !! УБРАТЬ (ПОСТАНОВКА ВАГОНА В ПРИБЫТИЕ С УЗ) - убрать определение груза он будет братся из справочника САП вход поставки
             int? id_gruz = ref_kis.DefinitionIDGruzs(wag.IDCargo);
             if (!rc_vo.IsVagonOperationMT(id_sostav, dt, id_vagon)) // вагон не стоит
             {
@@ -295,7 +291,7 @@ namespace TransferWagons.RailCars
                     return (int)errorTransfer.no_owner_country;
                 }
                 //TODO: Сделать получение станции отправителя отдельным полем и получать из NatHist при переносе (скорректровав  ХП GetWagons)
-                //TODO: Отключил обновление стран собствеников и собственников будет происходить в синхронизации справочника Wagons
+                //TODO: Отключил обновление собственников будет происходить в синхронизации справочника Wagons
                 ////Определим страну собственника
                 //int? id_owner_country = null;
                 //if (pnh.KOD_STRAN > 0)
@@ -320,6 +316,7 @@ namespace TransferWagons.RailCars
                 //        natur, dt_amkr.ToString("dd-MM-yyyy HH:mm:ss"), num_vag, pnh.K_FRONT), eventID);
                 //    return (int)errorTransfer.no_owner;
                 //}
+                //TODO: !! ОТКЛЮЧИТЬ (ОБНОВЛЕНИЕ ВАГОНОВ ПО КИСУ) цех получатель и груз, данные будут братся из справочника вх. поставок САП по дате и номкру вагона
                 // Определим цех получатель груза
                 int? id_shop = null;
                 if (pnh.K_POL_GR != null) 
@@ -344,6 +341,7 @@ namespace TransferWagons.RailCars
                         natur, dt_amkr.ToString("dd-MM-yyyy HH:mm:ss"), num_vag, pnh.K_GR), eventID);
                     return (int)errorTransfer.no_gruz;
                 }
+                //TODO: !! ДОРАБОТАТЬ (ОБНОВЛЕНИЕ ВАГОНОВ ПО КИСУ) обновлять готовность по прибытию и дату зачисления на АМКР
                 int res = rc_vo.UpdateVagon(dt_amkr, num_vag, id_ways, (int)id_gruz, (int)id_shop, pnh.WES_GR, pnh.GODN);
                 if (res < 0)
                 {

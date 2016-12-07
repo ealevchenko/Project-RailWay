@@ -3,13 +3,33 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TransferWagons.Transfers;
 
 namespace conLibrary
 {
-    class Test_Reference_RW
+    public class Test_Reference_RW
     {
+        private References trans_ref = new References();
+
+        public Test_Reference_RW() { }
+        
+        public void Test_GeneralReferencesCargo()
+        {
+            Console.WriteLine("ГЛИНА КИСЛОТОУПОРНАЯ И ОГНЕУПОРНАЯ, НЕ ПОИМЕНОВАНН = {0}", trans_ref.DefinitionIDCargo(301010));
+            Console.WriteLine("Оксиды магния природные = {0}", trans_ref.DefinitionIDCargo(241604));
+            Console.WriteLine("Оксиды магния природные = {0}", trans_ref.DefinitionIDCargo(300));
+        }
+        public void Test_GeneralReferencesCountry()
+        {
+            //Console.WriteLine("221 = {0}", trans_ref.DefinitionIDCountrySNG(221));
+            Console.WriteLine("20 = {0}", trans_ref.DefinitionIDCountrySNG(20));
+            Console.WriteLine("21 = {0}", trans_ref.DefinitionIDCountrySNG(21));
+            Console.WriteLine("22 = {0}", trans_ref.DefinitionIDCountrySNG(22));
+        }
 
     }
+
+
     //IReferenceRailwayRepository rep_rr = new EFReferenceRailwayRepository();
     //ReferenceRailway Reference = new ReferenceRailway(rep_rr);
 

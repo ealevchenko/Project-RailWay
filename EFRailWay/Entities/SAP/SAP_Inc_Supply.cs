@@ -66,5 +66,9 @@ namespace EFRailWay.Entities.SAP
         public bool? Step1 { get; set; }
 
         public bool? Step2 { get; set; }
+
+        public int? IDCountry { get; set; }
+
+        public int? CodeCargo { get; set; }
     }
 }

@@ -19,11 +19,14 @@ namespace EFRailWay.Concrete
             : base("name=Railcars")
         {
         }
+
         // Справочники ЖД
         public virtual DbSet<Code_Cargo> Code_Cargo { get; set; }
         public virtual DbSet<Code_InternalRailroad> Code_InternalRailroad { get; set; }
         public virtual DbSet<Code_State> Code_State { get; set; }
         public virtual DbSet<Code_Station> Code_Station { get; set; }
+        public virtual DbSet<Code_Country> Code_Country { get; set; }
+
         // Справочники МеталлургТранс
         public virtual DbSet<MTList> MTList { get; set; }
         public virtual DbSet<MTSostav> MTSostav { get; set; }
@@ -53,9 +56,11 @@ namespace EFRailWay.Concrete
         public virtual DbSet<WAYS> WAYS { get; set; }
         public virtual DbSet<PARKS> PARKS { get; set; }
         public virtual DbSet<VAGON_OPERATIONS> VAGON_OPERATIONS { get; set; }
-
         //SAP
         public virtual DbSet<SAPIncSupply> SAPIncSupply { get; set; }
+        // Справочники системы Railway
+        public virtual DbSet<ReferenceCargo> ReferenceCargo { get; set; }
+        public virtual DbSet<ReferenceCountry> ReferenceCountry { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

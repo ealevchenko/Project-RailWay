@@ -1,6 +1,7 @@
 ﻿using EFRailWay.Abstract;
 using EFRailWay.Concrete;
 using EFRailWay.Entities;
+using Logs;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Core;
@@ -14,6 +15,8 @@ namespace EFRailWay.References
     
     public class ReferenceRailway
     {
+        private eventID eventID = eventID.EFRailWay_References_ReferenceRailway;
+
         public IReferenceRailwayRepository RRRrepository;
         
         public ReferenceRailway(IReferenceRailwayRepository RRRrepository)
@@ -45,6 +48,41 @@ namespace EFRailWay.References
         {
             return RRRrepository.Code_State.Where(s => s.IDState == code);
         }
+        /// <summary>
+        /// Вернуть список стран и кодов по ISO3166
+        /// </summary>
+        /// <returns></returns>
+        public IQueryable<Code_Country> GetCountry() 
+        {
+            try
+            {
+                return RRRrepository.Code_Country;
+            }
+            catch (Exception e)
+            {
+                LogRW.LogError(e, "GetCountry", eventID);
+                return null;
+            }
+        }
+        /// <summary>
+        /// Вернуть строку справочника по id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public Code_Country GetCountry(int id) 
+        {
+            return GetCountry().Where(c => c.ID == id).FirstOrDefault();
+        }
+        /// <summary>
+        /// Вернуть строку справочника по коду СНГ и стран балтии
+        /// </summary>
+        /// <param name="code_sng"></param>
+        /// <returns></returns>
+        public Code_Country GetCountryOfCodeSNG(int code_sng) 
+        {
+            return GetCountry().Where(c => c.IDState == code_sng).FirstOrDefault();
+        }
+
         #endregion
 
         #region ВНУТРЕНИЕ Ж.Д (Code_InternalRailroad)
@@ -182,13 +220,40 @@ namespace EFRailWay.References
 
         public IQueryable<Code_Cargo> GetCargos_ETSNG() 
         {
-            return RRRrepository.Code_Cargo.OrderBy(s => s.IDETSNG);
+            try
+            {
+                return RRRrepository.Code_Cargo.OrderBy(s => s.IDETSNG);
+            }
+            catch (Exception e)
+            {
+                LogRW.LogError(e, "GetCargos_ETSNG", eventID);
+                return null;
+            }
+            
         }
 
         public Code_Cargo GetCargos_ETSNG(int code)
         {
             return RRRrepository.Code_Cargo.Where(s => s.IDETSNG == code).FirstOrDefault();
         }
+        /// <summary>
+        /// Получить строку из справочника ЕТСНГ по коду ЕТСНГ (corect-false - чистый код без коррекции, corect-true - коррекция кода диапазон code0...code9)
+        /// </summary>
+        /// <param name="code"></param>
+        /// <param name="corect"></param>
+        /// <returns></returns>
+        public Code_Cargo GetCargos_ETSNG(int code, bool corect)
+        {
+            if (!corect)
+            {
+                return GetCargos_ETSNG().Where(g => g.IDETSNG == code).FirstOrDefault();
+            }
+            else
+            {
+                return GetCargos_ETSNG().Where(g => g.IDETSNG >= code * 10 & g.IDETSNG <= (code * 10) + 9).FirstOrDefault();
+            }
+        }
+
 
         public IQueryable<Code_Cargo> GetCargos_GNG() 
         {

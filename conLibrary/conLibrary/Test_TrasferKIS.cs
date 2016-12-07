@@ -35,7 +35,7 @@ namespace conLibrary
 
         public void Test_References_Owner() 
         {
-            References refer = new References();
+            TransferWagons.RailCars.References refer = new TransferWagons.RailCars.References();
             //refer.DefinitionIDOwner(53,null);
             Console.WriteLine("Новая перевозочная компания 123 = {0}", refer.DefinitionIDOwner(53, null));
             Console.WriteLine("Null = {0}", refer.DefinitionIDOwner(0, null));
@@ -51,7 +51,7 @@ namespace conLibrary
 
         public void Test_References_Vagon()
         {
-            References refer = new References();
+            TransferWagons.RailCars.References refer = new TransferWagons.RailCars.References();
             //Console.WriteLine("вагон id (917664) = {0}", refer.DefinitionIDVagon(67166710, DateTime.Now));
             ////Console.WriteLine("Новый вагон #67669887 = {0}", refer.DefinitionIDVagon(67669887, DateTime.Now));
             //Console.WriteLine("Null = {0}", refer.DefinitionIDVagon(0, DateTime.Now));
@@ -66,8 +66,8 @@ namespace conLibrary
         }
 
         public void Test_References_OwnersContries() 
-        { 
-            References refer = new References(); 
+        {
+            TransferWagons.RailCars.References refer = new TransferWagons.RailCars.References(); 
             Console.WriteLine("Украина 1= {0}", refer.DefinitionIDOwnersContries(22));
             Console.WriteLine("Null = {0}", refer.DefinitionIDOwnersContries(0));
             //int? new_oc = refer.DefinitionIDOwnersContries(100);
@@ -75,8 +75,8 @@ namespace conLibrary
         }
 
         public void Test_References_Gruzs() 
-        { 
-            References refer = new References(); 
+        {
+            TransferWagons.RailCars.References refer = new TransferWagons.RailCars.References(); 
 
 
             //Console.WriteLine("Уголь марки Ж 1= {0}", refer.DefinitionIDGruzs(285, null) );
@@ -111,8 +111,8 @@ namespace conLibrary
         }
 
         public void Test_References_SynchronizeWagons(int day) 
-        { 
-            References refer = new References();
+        {
+            TransferWagons.RailCars.References refer = new TransferWagons.RailCars.References();
             refer.SynchronizeWagons(day);
             
         }

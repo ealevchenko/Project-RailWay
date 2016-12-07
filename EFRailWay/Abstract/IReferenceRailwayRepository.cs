@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace EFRailWay.Abstract
 {
-    public interface IReferenceRailwayRepository : ICodeCargoRepository, ICodeInternalRailroadRepository, ICodeStateRepository, ICodeStationRepository
+    public interface IReferenceRailwayRepository : ICodeCargoRepository, ICodeInternalRailroadRepository, ICodeStateRepository, ICodeStationRepository, ICodeCountryRepository
     {
 
     }

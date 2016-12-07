@@ -48,13 +48,13 @@ namespace conLibrary
             #endregion
 
             #region Test_TrasferKIS
-            Test_TrasferKIS test = new Test_TrasferKIS();
+            //Test_TrasferKIS test = new Test_TrasferKIS();
             //test.Test_ArrivalKIS();
             //test.Test_References_Owner();
             //test.Test_References_Vagon();
             //test.Test_References_OwnersContries();
             //test.Test_References_Gruzs();
-            test.Test_TrasferKIS_KISTransfer();
+            //test.Test_TrasferKIS_KISTransfer();
 
             //test.Test_KIS_RC_Transfer_SetListWagon();
             //test.Test_References_SynchronizeWagons(2);
@@ -135,6 +135,13 @@ namespace conLibrary
             //test.Test_RC_ShopsOfKis(54);
             //test.Test_SUD_RC_Shops();
             #endregion
+
+            #region Test_Reference_RW
+            Test_Reference_RW test = new Test_Reference_RW();
+            //test.Test_GeneralReferencesCargo();
+            test.Test_GeneralReferencesCountry();
+            #endregion
+
             Console.WriteLine("Press any key to exit...");
             Console.ReadKey(); 
 
