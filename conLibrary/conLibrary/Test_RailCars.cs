@@ -483,11 +483,11 @@ namespace conLibrary
 
         public void Test_InsertVagon() 
         {
-            RC_VagonsOperations vo = new RC_VagonsOperations();
-            int ivag = vo.InsertVagon(-777, DateTime.Now, 238191,33, 4, 51, 0);
-            Console.WriteLine("id_oper нового вагона: {0}", ivag);
-            VAGON_OPERATIONS del = vo.DeleteVagonsOperations(ivag);
-            WL(del);
+            //RC_VagonsOperations vo = new RC_VagonsOperations();
+            //int ivag = vo.InsertVagon(-777, DateTime.Now, 238191,33, 4, 51, 0);
+            //Console.WriteLine("id_oper нового вагона: {0}", ivag);
+            //VAGON_OPERATIONS del = vo.DeleteVagonsOperations(ivag);
+            //WL(del);
         }
 
         public void WL(VAGON_OPERATIONS t) 

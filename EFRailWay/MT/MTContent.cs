@@ -281,6 +281,27 @@ namespace EFRailWay.MT
             DateTime dt_op = dt.AddDays(-1 * day);
             return GetListToNatur(natur, dt_op);
         }
+        /// <summary>
+        /// Получить строку вагона из состава по натурному листу, номеру вагона, дате захода на АМКР
+        /// </summary>
+        /// <param name="natur"></param>
+        /// <param name="num_wag"></param>
+        /// <param name="dt"></param>
+        /// <param name="day"></param>
+        /// <returns></returns>
+        public MTList GetListToNatur(int natur, int num_wag, DateTime dt, int day) 
+        {
+            DateTime dt_st = dt.AddDays(-1 * day);
+            try
+            {
+                return rep_MT.MTList.Where(l => l.NaturList == natur & l.CarriageNumber==num_wag & l.DateOperation >= dt_st & l.DateOperation <= dt).OrderByDescending(l => l.IDMTSostav).FirstOrDefault();
+            }
+            catch (Exception e)
+            {
+                LogRW.LogError(e, String.Format("GetListToNatur натурный лист: {0}, вагон: {1}, дата: {2}, интервал поиска: {3} дней.",natur,num_wag,dt, day), eventID);
+                return null;
+            }            
+        }
 
         #endregion
 

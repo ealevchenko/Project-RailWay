@@ -190,16 +190,16 @@ namespace EFRailWay.Railcars
         /// <param name="id_way"></param>
         /// <param name="id_stat_kis"></param>
         /// <returns></returns>
-        public int InsertVagon(int natur, DateTime dt_amkr, int id_vagon, int num_vagon, int id_station, int id_way, int id_stat_kis)
+        public int InsertVagon(int natur, DateTime dt_amkr, int id_vagon, int num_vagon, int? id_sostav, DateTime? dt_uz, int id_station, int id_way, int id_stat_kis)
         {
             int? position = MaxPositionWay(id_way);
             if (position!=null) 
             {position++;} 
-            else {position=0;}
+            else {position=1;}
             VAGON_OPERATIONS vo = new VAGON_OPERATIONS()
             {
                 id_oper = 0,
-                dt_uz = null,
+                dt_uz = dt_uz,
                 dt_amkr = dt_amkr,
                 dt_out_amkr = null,
                 n_natur = natur,
@@ -245,7 +245,7 @@ namespace EFRailWay.Railcars
                 id_ora_23_temp = null,
                 edit_user = null,
                 edit_dt = null,
-                IDSostav = null,
+                IDSostav = id_sostav,
                 num_vagon = num_vagon,
             };
             return SaveVagonsOperations(vo);
@@ -382,7 +382,7 @@ namespace EFRailWay.Railcars
         {
             try
             {
-                return rep_vo.db.ExecuteSqlCommand("DELETE FROM dbo.VAGON_OPERATIONS WHERE IDSostav = " + id_sostav.ToString()+" AND num_vagon = "+num_vag.ToString());
+                return rep_vo.db.ExecuteSqlCommand("DELETE FROM dbo.VAGON_OPERATIONS WHERE id_stat in (33,35) AND IDSostav = " + id_sostav.ToString() + " AND num_vagon = " + num_vag.ToString());
             }
             catch (Exception e)
             {

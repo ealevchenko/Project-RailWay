@@ -40,11 +40,12 @@ namespace conLibrary
             //Console.WriteLine("3)     {0}", s.Remove(3, 3));
             
             #region Test_MT
-            //Test_MT test = new Test_MT();
-            // test.Test_MT_Helpers_MT_ArrivalToRailWay();
+            Test_MT test = new Test_MT();
+             //test.Test_MT_Helpers_MT_ArrivalToRailWay();
             //test.Test_MT_Helpers_MT_ArrivalToRailWayAll();
             //test.Test_SUD_MTContent_MTConsignee();
             //test.Test_MTContent_MTList();
+            test.Test_MTContent_GetListToNatur();
             #endregion
 
             #region Test_TrasferKIS
@@ -137,9 +138,9 @@ namespace conLibrary
             #endregion
 
             #region Test_Reference_RW
-            Test_Reference_RW test = new Test_Reference_RW();
+            //Test_Reference_RW test = new Test_Reference_RW();
             //test.Test_GeneralReferencesCargo();
-            test.Test_GeneralReferencesCountry();
+            //test.Test_GeneralReferencesCountry();
             #endregion
 
             Console.WriteLine("Press any key to exit...");

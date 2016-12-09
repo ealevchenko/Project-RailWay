@@ -472,8 +472,9 @@ namespace MetallurgTrans.Helpers
 
                 try
                 {
-                    res_arc  = rc_transfer.PutInArrival(sostav);
-                    if (res_arc < 0) {
+                    res_arc = rc_transfer.PutInArrival(sostav);
+                    if (res_arc < 0)
+                    {
                         LogRW.LogError(String.Format("[MT.ArrivalToRailWay] :Ошибка переноса состава в прибытие системы RailCars, состав: {0}, код ошибки: {1}.", sostav.id, res_arc), this.eventID);
                     }
                 }

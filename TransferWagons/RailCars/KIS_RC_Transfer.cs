@@ -248,11 +248,18 @@ namespace TransferWagons.RailCars
             try
             {
                 mtcont.SetNaturToMTList(natur, num_vag, dt_amkr); // Поставим натурку на прибывший вагон по МТ
+                //TODO: Определим id состава
+                MTList mt_list = mtcont.GetListToNatur(natur, num_vag, dt_amkr, 2);
+                if (mt_list == null) 
+                {
+                    LogRW.LogWarning(String.Format("[SetCarToStation] : В данных МТ не найден вагон, принятый по программе КИС (натурный лист:  {1},  номер вагона: {2}, дата захода на АМКР:  {3})",natur,num_vag,dt_amkr), eventID);
+                }
                 int id_wagon = ref_kis.DefinitionSetIDVagon(num_vag, dt_amkr, -1, null, natur, false); // определить id вагона (если нет создать новый id? локоматив -1)
                 //if (!rc_vo.IsVagonOperationKIS(natur, dt_amkr, (int)id_wagon))
                 if (!rc_vo.IsVagonOperationKIS(natur, dt_amkr, (int)num_vag))
                 {
-                    int res = rc_vo.InsertVagon(natur, dt_amkr, id_wagon, num_vag, id_stations, id_ways, id_stat_kis);
+                    
+                    int res = rc_vo.InsertVagon(natur, dt_amkr, id_wagon, num_vag, (mt_list != null ? mt_list.IDMTSostav as int? : null) , (mt_list != null ? mt_list.DateOperation as DateTime? : null), id_stations, id_ways, id_stat_kis);
                     if (res < 0)
                     {
                         LogRW.LogError(String.Format("[KIS_RC_Transfer.SetCarToStation] : Ошибка переноса вагона на путь станции, натурный лист: {0}, дата: {1}, № вагона: {2}, код станции системы RailCars: {3}, код пути системы RailCars: {4}.",

@@ -49,7 +49,7 @@ namespace TransferWagons.Transfers
                 if (new_wag.CountryCode > 0)
                 {
                     int country = 0;
-                    country = int.Parse(new_wag.CountryCode.ToString().Substring(1, 2));
+                    country = int.Parse(new_wag.CountryCode.ToString().Substring(0, 2));
                     id_country = trans_ref.DefinitionIDCountrySNG(country);
                 }
                 //Определим груз по общему справочнику
