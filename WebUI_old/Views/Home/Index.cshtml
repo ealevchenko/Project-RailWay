@@ -1,0 +1,25 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<h1>Web-приложение &lt;RailWay&gt;</h1>
+<hr>
+<p>Автоматизированная система учета железнодорожного транспорта на АМКР</p>
+
+<form class="form form-horizontal">
+    <div class="form-group m-t-4xl">
+        <div class="col-xs-12">
+            <p>
+                Добро пожаловать @User.Identity.Name, <br />для входа в систему учета выберите ж.д. станцию АМКР
+            </p>
+            <select id="Station" class="form-control">
+                <option value="1">Аглофабрика</option>
+                <option value="2">Восточная-Приемоотправочная</option>
+                <option value="3">Восточная-Разгрузочная</option>
+                <option value="4">Копровая-1</option>
+                <option value="5" selected="selected">Прокатная-1</option>
+            </select>
+        </div>
+    </div>
+</form>
+
