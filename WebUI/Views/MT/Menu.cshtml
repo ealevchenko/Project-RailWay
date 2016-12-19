@@ -1,0 +1,14 @@
+﻿@model IEnumerable<string>
+@Html.ActionLink("RailWay", "Index", "Home")
+@foreach (var links in Model)
+{
+    string[] link = links.Split(';'); 
+    
+    @Html.RouteLink(link[0], new
+{
+    controller = "MT",
+    action = "Index",
+    IDStart = link[1],
+    ID = link[1]
+})
+}

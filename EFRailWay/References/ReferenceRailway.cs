@@ -44,10 +44,24 @@ namespace EFRailWay.References
         /// </summary>
         /// <param name="ID"></param>
         /// <returns></returns>
-        public IQueryable<Code_State> GetStates(int code)
+        public Code_State GetState(int code)
         {
-            return RRRrepository.Code_State.Where(s => s.IDState == code);
+            try
+            {
+                return RRRrepository.Code_State.Where(s => s.IDState == code).FirstOrDefault();
+            }
+            catch (Exception e)
+            {
+                LogRW.LogError(e, "GetStates", eventID);
+                return null;
+            }
         }
+        public string GetStateToState(int code)
+        {
+            Code_State state = GetState(code);
+            return state != null ? state.State : null;
+        }
+
         /// <summary>
         /// Вернуть список стран и кодов по ISO3166
         /// </summary>
@@ -122,9 +136,13 @@ namespace EFRailWay.References
             return RRRrepository.Code_Station.Where(s => s.IDStation == id).SingleOrDefault();
         }
 
-        public Code_Station GetStationsToCode(int code)
+        public Code_Station GetStationsOfCode(int code)
         {
             return RRRrepository.Code_Station.Where(s => s.Code == code).FirstOrDefault();
+        }
+        public Code_Station GetStationsOfCodeCS(int codecs)
+        {
+            return RRRrepository.Code_Station.Where(s => s.CodeCS == codecs).FirstOrDefault();
         }
 
         public int? GetCodeCSStations(int code)

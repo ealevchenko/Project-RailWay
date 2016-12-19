@@ -46,7 +46,7 @@ namespace EFRailWay.MT
         /// <returns></returns>
         public MTSostav Get_MTSostav(int id_mtsostav)
         {
-            return rep_MT.MTSostav.Where(s => s.IDMTSostav == id_mtsostav).SingleOrDefault();
+            return Get_MTSostav().Where(s => s.IDMTSostav == id_mtsostav).FirstOrDefault();
         }
         /// <summary>
         /// Получить список всех составов
@@ -54,7 +54,16 @@ namespace EFRailWay.MT
         /// <returns></returns>
         public IQueryable<MTSostav> Get_MTSostav()
         {
-            return rep_MT.MTSostav.OrderBy(s => s.DateTime);
+
+            try
+            {
+                return rep_MT.MTSostav.OrderBy(s => s.DateTime);
+            }
+            catch (Exception e)
+            {
+                LogRW.LogError(e, "Get_MTSostav", eventID);
+                return null;
+            }
         }
         /// <summary>
         /// Получить список составов по указаному номеру
@@ -135,7 +144,60 @@ namespace EFRailWay.MT
         {
             return rep_MT.DeleteMTSostav(IDMTSostav);
         }
+        /// <summary>
+        /// Вернуть операцию
+        /// </summary>
+        /// <param name="operation"></param>
+        /// <returns></returns>
+        public string OperationName(int operation) 
+        {
+            switch (operation) 
+            {
+                case 1: return "Прибытие";
+                case 2: return "ТСП";
+                default: return "Не определена";
+            }
+        }
 
+        /// <summary>
+        /// Получить состав через цепочку операций
+        /// </summary>
+        /// <param name="parent_id"></param>
+        /// <returns></returns>
+        public MTSostav GetMTSostavOfParentID(int parent_id)
+        {
+            return Get_MTSostav().Where(s=>s.ParentID == parent_id).FirstOrDefault();
+        }
+        /// <summary>
+        /// Получить цепочку операций для состава
+        /// </summary>
+        /// <param name="list"></param>
+        /// <param name="id_sostav"></param>
+        protected void GetOperationMTSostav(ref List<MTSostav> list, int id_sostav)
+        {
+            MTSostav sostav = GetMTSostavOfParentID(id_sostav);
+            if (sostav != null) { 
+                list.Add(sostav);
+                GetOperationMTSostav(ref list, sostav.IDMTSostav);
+            }
+
+        }
+        /// <summary>
+        /// Получить список операций для состава
+        /// </summary>
+        /// <param name="id_sostav"></param>
+        /// <returns></returns>
+        public List<MTSostav> GetOperationMTSostav(int id_sostav)
+        {
+            List<MTSostav> list = new List<MTSostav>();
+            MTSostav sostav = Get_MTSostav(id_sostav);
+            if (sostav != null)
+            {
+                list.Add(sostav);
+                GetOperationMTSostav(ref list, id_sostav);
+            }
+            return list;
+        }
         #endregion
 
         #region MTList

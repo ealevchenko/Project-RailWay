@@ -1,0 +1,21 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/mt/css")
+</head>
+<body>
+    <div id="header">
+        <div class="title">@ViewBag.Title</div>
+    </div>
+    <div id="sostav">
+        @{ Html.RenderAction("Menu", "MT"); }
+    </div>
+    <div id="content">
+        @RenderBody()
+    </div>
+</body>
+</html>

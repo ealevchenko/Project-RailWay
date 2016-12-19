@@ -1,0 +1,119 @@
+﻿@model WebUI.MT.Models.MTSostavInfo
+
+@{
+    ViewBag.Title = "Отчет 'Металлург транс'";
+    Layout = "~/Views/Shared/_MetallurgTrans.cshtml";
+}
+<div id="operation">
+    @{ Html.RenderAction("MenuOperation", "MT", new { IDStart = @Model.IDStart }); }
+</div>
+<div>
+
+    <table class="table">
+        <tr>
+            <th>Cотава:</th>
+            <td>@Model.CompositionIndex;</td>
+            <th>Операция:</th>
+            <td>@Model.OperationName;</td>
+            <th>Дата:</th>
+            <td>@Model.DateTime;</td>
+            <th>№ поезда:</th>
+            <td>@Model.TrainNumber;</td>
+            <th>Кол. вагонов:</th>
+            <td>@Model.TotalWagons;</td>
+        </tr>
+        <tr>
+            <th>Код станции отправителя:</th>
+            <td>@Model.StationFromCode;</td>
+            <th>Станция отправитель:</th>
+            <td>@Model.StationFromName;</td>
+            <th>Код станции получателя:</th>
+            <td>@Model.StationInCode;</td>
+            <th>Станция получатель:</th>
+            <td>@Model.StationInName;</td>
+            <th>Название файла:</th>
+            <td>@Model.FileName;</td>
+        </tr>
+    </table>
+</div>
+<div>
+    @*<table class="Wagons-info">*@
+    <table class="table">
+        <tr>
+            <th>Позиция</th>
+            <th>№ вагона</th>
+            <th>Страна</th>
+            <th>Вес</th>
+            <th>Код груза</th>
+            <th>Груз</th>
+            <th>Код станции назначения</th>
+            <th>Станция назначения</th>
+            <th>Грузополучатель</th>
+            <th>Натурный лист</th>
+        </tr>
+        @foreach (var item in Model.Wagons)
+    {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Position)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CarriageNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CountryName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Weight)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IDCargo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Cargo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.StationCode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.StationName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Consignee)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NaturList)
+        </td>
+    </tr>
+    }
+    </table>
+</div>
+
+
+@*<h2>Index</h2>
+
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.TotalWagons)
+            </th>
+            <th></th>
+        </tr>
+
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalWagons)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>
+        </tr>
+    }
+
+    </table>*@
