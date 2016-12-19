@@ -53,7 +53,9 @@ Test_TransferWagons/obj/*
 
 WebUI/obj/*
 WebUI/bin/*
-WebUI/*.config
+WebUI/Web.config
+WebUI/Web.Debug.config
+WebUI/Web.Release.config
 
 RWServiceArrival/.vs
 RWServiceArrival/bin/*

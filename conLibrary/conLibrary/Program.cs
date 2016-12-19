@@ -40,17 +40,17 @@ namespace conLibrary
             //Console.WriteLine("3)     {0}", s.Remove(3, 3));
             
             #region Test_MT
-            Test_MT test = new Test_MT();
+            //Test_MT test = new Test_MT();
              //test.Test_MT_Helpers_MT_ArrivalToRailWay();
             //test.Test_MT_Helpers_MT_ArrivalToRailWayAll();
             //test.Test_SUD_MTContent_MTConsignee();
             //test.Test_MTContent_MTList();
-            test.Test_MTContent_GetListToNatur();
+            //test.Test_MTContent_GetListToNatur();
             #endregion
 
             #region Test_TrasferKIS
-            //Test_TrasferKIS test = new Test_TrasferKIS();
-            //test.Test_ArrivalKIS();
+            Test_TrasferKIS test = new Test_TrasferKIS();
+            test.Test_ArrivalKIS();
             //test.Test_References_Owner();
             //test.Test_References_Vagon();
             //test.Test_References_OwnersContries();

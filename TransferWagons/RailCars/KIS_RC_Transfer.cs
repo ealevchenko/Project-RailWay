@@ -252,7 +252,7 @@ namespace TransferWagons.RailCars
                 MTList mt_list = mtcont.GetListToNatur(natur, num_vag, dt_amkr, 2);
                 if (mt_list == null) 
                 {
-                    LogRW.LogWarning(String.Format("[SetCarToStation] : В данных МТ не найден вагон, принятый по программе КИС (натурный лист:  {1},  номер вагона: {2}, дата захода на АМКР:  {3})",natur,num_vag,dt_amkr), eventID);
+                    LogRW.LogWarning(String.Format("[SetCarToStation] : В данных МТ не найден вагон, принятый по программе КИС (натурный лист:  {0},  номер вагона: {1}, дата захода на АМКР:  {2})",natur,num_vag,dt_amkr), eventID);
                 }
                 int id_wagon = ref_kis.DefinitionSetIDVagon(num_vag, dt_amkr, -1, null, natur, false); // определить id вагона (если нет создать новый id? локоматив -1)
                 //if (!rc_vo.IsVagonOperationKIS(natur, dt_amkr, (int)id_wagon))
