@@ -232,7 +232,7 @@ namespace TransferWagons.Transfers
         /// Поставить все составы прибывшие на АМКР по системе КИС (перечень составов берется из таблицы учета прибытия составов на АМКР системы RailWay)
         /// </summary>
         /// <returns></returns>
-        public int PutCarsToStations()
+        public int PutCarsToStations(int mode)
         {
             IQueryable<Oracle_ArrivalSostav> list_noClose = oas.Get_ArrivalSostavNoClose();
             if (list_noClose == null | list_noClose.Count() == 0) return 0;
@@ -241,9 +241,9 @@ namespace TransferWagons.Transfers
                 Oracle_ArrivalSostav kis_sostav = new Oracle_ArrivalSostav();
                 kis_sostav = or_as;
                 // Поставим состав на станции АМКР системы RailCars
-                int res_put = transfer_rc.PutCarsToStation(ref kis_sostav);
+                int res_put = transfer_rc.PutCarsToStation(ref kis_sostav, mode);
                 //T-ODO: ВКЛЮЧИТЬ КОД: Обновление составов на станции АМКР системы RailCars
-                int res_upd = transfer_rc.UpdateCarsToStation(ref kis_sostav); 
+                int res_upd = transfer_rc.UpdateCarsToStation(ref kis_sostav, mode); 
                 //TODO: ВЫПОЛНИТЬ КОД: Поставим состав на станции АМКР системы RailWay         
                 //.............................
 
@@ -254,8 +254,11 @@ namespace TransferWagons.Transfers
                     kis_sostav.Close = DateTime.Now;
                     int res_close = oas.SaveOracle_ArrivalSostav(kis_sostav);
 
-                    int res_del_arr = transfer_rc.DeleteInArrival(kis_sostav.NaturNum, kis_sostav.DateTime);
-                    //TODO: ВЫПОЛНИТЬ КОД: Убрать с прибытия с УЗ на станции АМКР в системе RailWay
+                    if (mode == 0) { 
+                        int res_del_arr = transfer_rc.DeleteInArrival(kis_sostav.NaturNum, kis_sostav.DateTime); 
+                        //TODO: ВЫПОЛНИТЬ КОД: Убрать с прибытия с УЗ на станции АМКР в системе RailWay
+                    }
+
                 }
             }
             return 0; // TODO: исправить возврат

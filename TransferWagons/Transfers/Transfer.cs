@@ -1,4 +1,5 @@
 ﻿using EFRailWay.Concrete.KIS;
+using EFRailWay.Entities;
 using EFRailWay.Entities.KIS;
 using EFRailWay.KIS;
 //using EFRailWay.Settings;
@@ -328,7 +329,12 @@ namespace TransferWagons.Transfers
         }
         #endregion
 
+        #region trSostav
+
+        #endregion
 
 
     }
+
+
 }

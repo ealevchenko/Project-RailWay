@@ -60,6 +60,16 @@ namespace EFRailWay.SAP
             return GetSAPIncSupply().Where(s => s.IDMTSostav == idsostav).OrderBy(s => s.Position);
         }
         /// <summary>
+        /// Вернуть строку по id сотава и номеру вагона
+        /// </summary>
+        /// <param name="idsostav"></param>
+        /// <param name="num"></param>
+        /// <returns></returns>
+        public SAPIncSupply GetSAPIncSupply(int idsostav, int num) 
+        {
+            return GetSAPIncSupply(idsostav).Where(s => s.CarriageNumber == num).FirstOrDefault();
+        }
+        /// <summary>
         /// Получить список номеров вагонов из справочника пренадлежащих составу
         /// </summary>
         /// <param name="idsostav"></param>
@@ -115,7 +125,6 @@ namespace EFRailWay.SAP
                 return -1;
             }
         }
-
         /// <summary>
         /// Добавить или править
         /// </summary>
@@ -135,7 +144,7 @@ namespace EFRailWay.SAP
             return rep_sap.DeleteSAPIncSupply(id);
         }
         /// <summary>
-        /// Удалить строку справочника по номеру состава и вагона
+        /// Удалить строку справочника по номеру состава
         /// </summary>
         /// <param name="idsostav"></param>
         /// <param name="numvag"></param>
@@ -153,7 +162,12 @@ namespace EFRailWay.SAP
                 return -1;
             }
         }
-
+        /// <summary>
+        /// Удалить строку справочника по номеру состава и вагона
+        /// </summary>
+        /// <param name="idsostav"></param>
+        /// <param name="numvag"></param>
+        /// <returns></returns>
         public int DeleteSAPIncSupply(int idsostav, int numvag) 
         {
             try 
@@ -167,6 +181,16 @@ namespace EFRailWay.SAP
                 LogRW.LogError(e, String.Format("DeleteSAPIncSupply состав: {0}, вагон: {1}.", idsostav, numvag), eventID);
                 return -1;
             }
+        }
+        /// <summary>
+        /// Вернуть количество записей по составу
+        /// </summary>
+        /// <param name="idsostav"></param>
+        /// <returns></returns>
+        public int CountSAPIncSupply(int idsostav) 
+        {
+            IQueryable<SAPIncSupply> list = GetSAPIncSupply(idsostav);
+            return list != null ? list.Count() : 0;
         }
 
     }

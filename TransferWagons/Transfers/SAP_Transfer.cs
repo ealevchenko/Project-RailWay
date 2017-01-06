@@ -19,7 +19,89 @@ namespace TransferWagons.Transfers
         { 
         
         }
+        /// <summary>
+        /// Получить строку SAPIncSupply из trWagon
+        /// </summary>
+        /// <param name="wagon"></param>
+        /// <param name="idsostav"></param>
+        /// <returns></returns>
+        public SAPIncSupply ConvertWagonToSAPSupply(trWagon wagon, int idsostav)
+        {
+            if (wagon == null) return null;
+            //Определим страну по общему справочнику
+            int id_country = 0;
+            if (wagon.CountryCode > 0)
+            {
+                int country = 0;
+                country = int.Parse(wagon.CountryCode.ToString().Substring(0, 2));
+                id_country = trans_ref.DefinitionIDCountrySNG(country);
+            }
+            //Определим груз по общему справочнику
+            int id_cargo = trans_ref.DefinitionIDCargo(wagon.IDCargo);
 
+            SAPIncSupply sap_Supply = new SAPIncSupply()
+             {
+                 ID = 0,
+                 CompositionIndex = wagon.CompositionIndex,
+                 IDMTSostav = idsostav,
+                 CarriageNumber = wagon.CarriageNumber,
+                 Position = wagon.Position,
+                 NumNakl = null,
+                 CountryCode = wagon.CountryCode,
+                 IDCountry = id_country,
+                 WeightDoc = (decimal?)wagon.Weight,
+                 DocNumReweighing = null,
+                 DocDataReweighing = null,
+                 WeightReweighing = null,
+                 DateTimeReweighing = null,
+                 PostReweighing = null,
+                 CodeCargo = wagon.IDCargo,
+                 IDCargo = id_cargo,
+                 CodeMaterial = null,
+                 NameMaterial = null,
+                 CodeStationShipment = null,
+                 NameStationShipment = null,
+                 CodeShop = null,
+                 NameShop = null,
+                 CodeNewShop = null,
+                 NameNewShop = null,
+                 PermissionUnload = null,
+                 Step1 = null,
+                 Step2 = null
+
+             };
+         return sap_Supply;
+
+        }
+        /// <summary>
+        /// Записать строку с вагоном в справочник САП
+        /// </summary>
+        /// <param name="wagon"></param>
+        /// <param name="idsostav"></param>
+        /// <returns></returns>
+        public int SetWagonToSAPSupply(trWagon wagon, int idsostav)
+        {
+            SAPIncSupply saps = ConvertWagonToSAPSupply(wagon, idsostav);
+            if (saps!=null) return sapis.SaveSAPIncSupply(saps);
+            return 0;
+        }
+        /// <summary>
+        /// Проверка наличия вагона в справочнике САП
+        /// </summary>
+        /// <param name="idsostav"></param>
+        /// <param name="vagon"></param>
+        /// <returns></returns>
+        public bool IsWagonToSAPSupply(int idsostav, int vagon) 
+        {
+            SAPIncSupply sap = sapis.GetSAPIncSupply(idsostav, vagon);
+            return sap != null ? true : false;
+        }
+
+        /// <summary>
+        /// Перенести состав в справочник САП входящие поставки
+        /// </summary>
+        /// <param name="sostav"></param>
+        /// <returns></returns>
         public int PutInSapIncomingSupply(trSostav sostav) 
         {
             if (sostav == null) return 0;
@@ -44,51 +126,53 @@ namespace TransferWagons.Transfers
             foreach (int wag in list_new_wag) 
             {
                 trWagon new_wag = GetWagons(sostav.Wagons, wag);
-                //Определим страну по общему справочнику
-                int id_country=0;
-                if (new_wag.CountryCode > 0)
-                {
-                    int country = 0;
-                    country = int.Parse(new_wag.CountryCode.ToString().Substring(0, 2));
-                    id_country = trans_ref.DefinitionIDCountrySNG(country);
-                }
-                //Определим груз по общему справочнику
-                int id_cargo = trans_ref.DefinitionIDCargo(new_wag.IDCargo); 
+                result.SetResultInsert(sapis.SaveSAPIncSupply(ConvertWagonToSAPSupply(new_wag, sostav.id)));
+                //TODO: Оттестить и убрать
+                ////Определим страну по общему справочнику
+                //int id_country=0;
+                //if (new_wag.CountryCode > 0)
+                //{
+                //    int country = 0;
+                //    country = int.Parse(new_wag.CountryCode.ToString().Substring(0, 2));
+                //    id_country = trans_ref.DefinitionIDCountrySNG(country);
+                //}
+                ////Определим груз по общему справочнику
+                //int id_cargo = trans_ref.DefinitionIDCargo(new_wag.IDCargo); 
 
-                if (new_wag != null) 
-                {
-                    SAPIncSupply sap_Supply = new SAPIncSupply() {
-                        ID = 0,
-                        CompositionIndex = new_wag.CompositionIndex,
-                        IDMTSostav = sostav.id,
-                        CarriageNumber = new_wag.CarriageNumber,
-                        Position = new_wag.Position,
-                        NumNakl = null,
-                        CountryCode = new_wag.CountryCode,
-                        IDCountry = id_country, 
-                        WeightDoc = (decimal?)new_wag.Weight,
-                        DocNumReweighing = null,
-                        DocDataReweighing = null,
-                        WeightReweighing = null,
-                        DateTimeReweighing = null,
-                        PostReweighing = null,
-                        CodeCargo = new_wag.IDCargo,
-                        IDCargo = id_cargo,
-                        CodeMaterial = null,
-                        NameMaterial = null,
-                        CodeStationShipment = null,
-                        NameStationShipment = null,
-                        CodeShop = null,
-                        NameShop = null,
-                        CodeNewShop = null,
-                        NameNewShop = null,
-                        PermissionUnload = null,
-                        Step1 = null,
-                        Step2 = null
+                //if (new_wag != null) 
+                //{
+                //    SAPIncSupply sap_Supply = new SAPIncSupply() {
+                //        ID = 0,
+                //        CompositionIndex = new_wag.CompositionIndex,
+                //        IDMTSostav = sostav.id,
+                //        CarriageNumber = new_wag.CarriageNumber,
+                //        Position = new_wag.Position,
+                //        NumNakl = null,
+                //        CountryCode = new_wag.CountryCode,
+                //        IDCountry = id_country, 
+                //        WeightDoc = (decimal?)new_wag.Weight,
+                //        DocNumReweighing = null,
+                //        DocDataReweighing = null,
+                //        WeightReweighing = null,
+                //        DateTimeReweighing = null,
+                //        PostReweighing = null,
+                //        CodeCargo = new_wag.IDCargo,
+                //        IDCargo = id_cargo,
+                //        CodeMaterial = null,
+                //        NameMaterial = null,
+                //        CodeStationShipment = null,
+                //        NameStationShipment = null,
+                //        CodeShop = null,
+                //        NameShop = null,
+                //        CodeNewShop = null,
+                //        NameNewShop = null,
+                //        PermissionUnload = null,
+                //        Step1 = null,
+                //        Step2 = null
                     
-                    };
-                    result.SetResultInsert(sapis.SaveSAPIncSupply(sap_Supply));
-                }
+                //    };
+                // result.SetResultInsert(sapis.SaveSAPIncSupply(sap_Supply));
+                //}
             }
             // если есть старый состав обновим id и исправим нумерацию вагонов
             if (sostav.ParentID != null)

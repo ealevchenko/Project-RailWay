@@ -21,9 +21,12 @@ namespace EFRailWay.Entities.SAP
 
         public int Position { get; set; }
 
-        public int? NumNakl { get; set; }
+        [StringLength(35)]
+        public string NumNakl { get; set; }
 
         public int? CountryCode { get; set; }
+
+        public int? IDCountry { get; set; }
 
         [Column(TypeName = "numeric")]
         public decimal? WeightDoc { get; set; }
@@ -39,24 +42,30 @@ namespace EFRailWay.Entities.SAP
 
         public int? PostReweighing { get; set; }
 
+        public int? CodeCargo { get; set; }
+
         public int? IDCargo { get; set; }
 
-        public int? CodeMaterial { get; set; }
+        [StringLength(18)]
+        public string CodeMaterial { get; set; }
 
         [StringLength(50)]
         public string NameMaterial { get; set; }
 
-        public int? CodeStationShipment { get; set; }
+        [StringLength(3)]
+        public string CodeStationShipment { get; set; }
 
         [StringLength(50)]
         public string NameStationShipment { get; set; }
 
-        public int? CodeShop { get; set; }
+        [StringLength(4)]
+        public string CodeShop { get; set; }
 
         [StringLength(50)]
         public string NameShop { get; set; }
 
-        public int? CodeNewShop { get; set; }
+        [StringLength(4)]
+        public string CodeNewShop { get; set; }
 
         [StringLength(50)]
         public string NameNewShop { get; set; }
@@ -66,9 +75,5 @@ namespace EFRailWay.Entities.SAP
         public bool? Step1 { get; set; }
 
         public bool? Step2 { get; set; }
-
-        public int? IDCountry { get; set; }
-
-        public int? CodeCargo { get; set; }
     }
 }

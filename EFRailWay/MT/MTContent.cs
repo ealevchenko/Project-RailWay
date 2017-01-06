@@ -198,6 +198,18 @@ namespace EFRailWay.MT
             }
             return list;
         }
+        /// <summary>
+        /// Получить список не закрытых составов.
+        /// </summary>
+        /// <param name="dt"></param>
+        /// <returns></returns>
+        public List<MTSostav> GetListOpenMTSostav(DateTime dt) 
+        { 
+            List<MTSostav> list = new List<MTSostav>();
+            IQueryable<MTSostav> list_mtsostav = Get_MTSostav().Where(s => s.DateTime >= dt & s.Close == null);
+            if (list_mtsostav != null) list = list_mtsostav.ToList();
+            return list;
+        }
         #endregion
 
         #region MTList
@@ -297,14 +309,14 @@ namespace EFRailWay.MT
         /// <param name="num"></param>
         /// <param name="dt"></param>
         /// <returns></returns>
-        public int SetNaturToMTList(int natur, int num, DateTime dt)
+        public int SetNaturToMTList(int natur, int num, DateTime dt, int day)
         {
             try
             {
                 string sql = "UPDATE RailWay.MTList "+
 	                            "SET NaturList = " + natur.ToString() +
 	                            " where NaturList is null and CarriageNumber = "+num.ToString() +
-                                " and (DateOperation >= convert(datetime,DATEADD(day,-1, '" + dt.ToString("yyyy-MM-dd HH:mm:ss") + "'),120) and DateOperation < convert(datetime,'" + dt.ToString("yyyy-MM-dd HH:mm:ss") + "',120))";
+                                " and (DateOperation >= convert(datetime,DATEADD(day,"+(day*-1).ToString()+", '" + dt.ToString("yyyy-MM-dd HH:mm:ss") + "'),120) and DateOperation < convert(datetime,'" + dt.ToString("yyyy-MM-dd HH:mm:ss") + "',120))";
                 return rep_MT.db.ExecuteSqlCommand(sql);
             }
             catch (Exception e)
@@ -363,6 +375,39 @@ namespace EFRailWay.MT
                 LogRW.LogError(e, String.Format("GetListToNatur натурный лист: {0}, вагон: {1}, дата: {2}, интервал поиска: {3} дней.",natur,num_wag,dt, day), eventID);
                 return null;
             }            
+        }
+        /// <summary>
+        /// Вернуть количество вагонов в составе
+        /// </summary>
+        /// <param name="id_mtsostav"></param>
+        /// <returns></returns>
+        public int CountMTList(int id_mtsostav) 
+        {
+            IQueryable<MTList> list = Get_MTListToSostav(id_mtsostav);
+            return list != null ? list.Count() : 0;
+        }
+        /// <summary>
+        /// Вернуть количество вагонов в составе
+        /// </summary>
+        /// <param name="id_mtsostav"></param>
+        /// <param name="Consignees"></param>
+        /// <param name="station"></param>
+        /// <returns></returns>
+        public int CountMTList(int id_mtsostav, int[] Consignees, int station) 
+        {
+            try
+            {
+                string Consignees_s = "";
+                foreach (int c in Consignees) { Consignees_s += c.ToString() + ","; }
+                string sql = "SELECT * FROM RailWay.MTList where IDMTSostav = " + id_mtsostav.ToString() + " and [Consignee] in(" + Consignees_s.Remove(Consignees_s.Length - 1) + ") and [IDStation] = "+ station.ToString();
+                var list = rep_MT.db.SqlQuery<MTList>(sql);
+                return list != null ? list.Count() : 0;
+            }
+            catch (Exception e)
+            {
+                LogRW.LogError(e, "CountMTList(2)", eventID);
+                return 0;
+            }
         }
 
         #endregion

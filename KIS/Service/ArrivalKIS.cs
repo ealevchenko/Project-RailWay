@@ -60,18 +60,17 @@ namespace KIS.Service
                 kist.DayControllingAddNatur = dayControllingAddNatur;
                 // Перенесем или обновим информацию о составах защедших на АМКР по системе КИС
                 int result_cs = kist.CopyArrivalSostavToRailway();
+                int res_pc = 0;
                 switch (this.mode) 
                 { 
                     case 0:
                         // Полное копирование из КИС
-                        int res_pc = kist.PutCarsToStations();
+                        res_pc = kist.PutCarsToStations(0);
 
                         break;
                     case 1:
                         // Обновление данных скопированных из МТ с переносом из прибытия на станцию 
-                        break;
-                    case 2:
-                        // Обновление данных скопированных из МТ с предупреждением оператора о принятии на путь станции 
+                        res_pc = kist.PutCarsToStations(1);
                         break;
                     default:
                         break;

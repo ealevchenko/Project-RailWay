@@ -10,6 +10,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using EFRailWay.Statics;
 
 namespace EFRailWay.Railcars
 {
@@ -434,6 +435,50 @@ namespace EFRailWay.Railcars
             
             
         }
+        /// <summary>
+        /// Вернуть вагон прибывающий из станций УЗ на станцию АМКР по Id состава и номера вагона
+        /// </summary>
+        /// <param name="id_mtsostav"></param>
+        /// <param name="num"></param>
+        /// <param name="idstation_uz"></param>
+        /// <param name="idstation"></param>
+        /// <returns></returns>
+        public VAGON_OPERATIONS GetVagonsOfArrivalUZ(int id_mtsostav, int num, int[] idstation_uz, int idstation)
+        {
+            try
+            {
+                string station_uz_s = idstation_uz.IntsToString(",");
+                string sql = "SELECT * FROM dbo.VAGON_OPERATIONS where [IDSostav]=" + id_mtsostav.ToString() + " and [num_vagon] = " + num.ToString() + " and [id_stat] in(" + station_uz_s + ") and [st_lock_id_stat] = " + idstation.ToString();
+                return rep_vo.db.SqlQuery<VAGON_OPERATIONS>(sql).FirstOrDefault();
+            }
+            catch (Exception e)
+            {
+                LogRW.LogError(e, "GetVagonsOfArrivalUZ(1)", eventID);
+                return null;
+            }
+        }
+        /// <summary>
+        /// Вернуть вагоны прибывающие из станций (int[] idstation_uz) по Id состава и номера вагона
+        /// </summary>
+        /// <param name="id_mtsostav"></param>
+        /// <param name="num"></param>
+        /// <param name="idstation_uz"></param>
+        /// <returns></returns>
+        public IQueryable<VAGON_OPERATIONS> GetVagonsOfArrival(int id_mtsostav, int num, int[] idstation_uz)
+        {
+            try
+            {
+                string station_uz_s = idstation_uz.IntsToString(",");
+                string sql = "SELECT * FROM dbo.VAGON_OPERATIONS where [IDSostav]=" + id_mtsostav.ToString() + " and [num_vagon] = " + num.ToString() + " and [id_stat] in(" + station_uz_s + ") and [st_lock_id_stat] >0 ";
+                return rep_vo.db.SqlQuery<VAGON_OPERATIONS>(sql).AsQueryable();
+            }
+            catch (Exception e)
+            {
+                LogRW.LogError(e, "GetVagonsOfArrivalUZ(2)", eventID);
+                return null;
+            }
+        }
+
 
     }
 }

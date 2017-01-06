@@ -1,6 +1,7 @@
 ﻿using EFRailWay.Entities;
 using EFRailWay.MT;
 using EFRailWay.References;
+using EFRailWay.SAP;
 using Logs;
 using System;
 using System.Collections.Generic;
@@ -47,7 +48,9 @@ namespace MetallurgTrans.Helpers
     {
         private eventID eventID = eventID.MetallurgTrans_Helpers_MT;
         private MTContent mtc = new MTContent();
+        private SAPIncomingSupply sapis = new SAPIncomingSupply();
         private ReferenceRailway refRW = new ReferenceRailway();
+        private SAP_Transfer sap_transfer = new SAP_Transfer();
         private string fromPath;
         public string FromPath { get { return this.fromPath; } set { this.fromPath = value; } }
         private bool delete_file = false;
@@ -434,6 +437,37 @@ namespace MetallurgTrans.Helpers
             return list_wag;
         }
         /// <summary>
+        /// Получить пакет данных trSostav
+        /// </summary>
+        /// <param name="id_sostav"></param>
+        /// <returns></returns>
+        public trSostav GetSostav(int id_sostav)
+        {
+            // Определим класс данных состав
+            MTSostav sost = mtc.Get_MTSostav(id_sostav);
+            // Определим код станции по справочникам
+            int? codecs_in = refRW.GetCodeCSStations(int.Parse(sost.CompositionIndex.Substring(9, 4)) * 10);
+            int? codecs_from = refRW.GetCodeCSStations(int.Parse(sost.CompositionIndex.Substring(0, 4)) * 10);
+            // Определим класс данных вагоны
+            List<trWagon> list_wag = new List<trWagon>();
+            list_wag = GetListWagonInArrival(mtc.Get_MTListToSostav(id_sostav), codecs_in, mtc.GetMTConsignee(tMTConsignee.AMKR));
+            trSostav sostav = new trSostav()
+            {
+                id = sost.IDMTSostav,
+                codecs_in_station = codecs_in,
+                codecs_from_station = codecs_from,
+                //FileName = sost.FileName,
+                //CompositionIndex = sost.CompositionIndex,
+                DateTime = sost.DateTime,
+                //Operation = sost.Operation,
+                //Create = sost.Create,
+                //Close = sost.Close,
+                ParentID = sost.ParentID,
+                Wagons = list_wag != null ? list_wag.ToArray() : null,
+            };
+            return sostav;
+        }
+        /// <summary>
         /// Поставить состав в прибытие системы RailCars & RailWay
         /// </summary>
         /// <param name="id_sostav"></param>
@@ -444,29 +478,30 @@ namespace MetallurgTrans.Helpers
             {
                 KIS_RC_Transfer rc_transfer = new KIS_RC_Transfer(); // Перенос в системе RailCars
                 KIS_RW_Transfer rw_transfer = new KIS_RW_Transfer(); // Перенос в системе RailWay
-                SAP_Transfer sap_transfer = new SAP_Transfer();
-                // Определим класс данных состав
-                MTSostav sost = mtc.Get_MTSostav(id_sostav);
-                // Определим код станции по справочникам
-                int? codecs_in = refRW.GetCodeCSStations(int.Parse(sost.CompositionIndex.Substring(9, 4)) * 10);
-                int? codecs_from = refRW.GetCodeCSStations(int.Parse(sost.CompositionIndex.Substring(0, 4)) * 10);
-                // Определим класс данных вагоны
-                List<trWagon> list_wag = new List<trWagon>();
-                list_wag = GetListWagonInArrival(mtc.Get_MTListToSostav(id_sostav), codecs_in, mtc.GetMTConsignee(tMTConsignee.AMKR));
-                trSostav sostav = new trSostav()
-                {
-                    id = sost.IDMTSostav,
-                    codecs_in_station = codecs_in,
-                    codecs_from_station = codecs_from,
-                    //FileName = sost.FileName,
-                    //CompositionIndex = sost.CompositionIndex,
-                    DateTime = sost.DateTime,
-                    //Operation = sost.Operation,
-                    //Create = sost.Create,
-                    //Close = sost.Close,
-                    ParentID = sost.ParentID,
-                    Wagons = list_wag != null ? list_wag.ToArray() : null,
-                };
+
+                //// Определим класс данных состав
+                //MTSostav sost = mtc.Get_MTSostav(id_sostav);
+                //// Определим код станции по справочникам
+                //int? codecs_in = refRW.GetCodeCSStations(int.Parse(sost.CompositionIndex.Substring(9, 4)) * 10);
+                //int? codecs_from = refRW.GetCodeCSStations(int.Parse(sost.CompositionIndex.Substring(0, 4)) * 10);
+                //// Определим класс данных вагоны
+                //List<trWagon> list_wag = new List<trWagon>();
+                //list_wag = GetListWagonInArrival(mtc.Get_MTListToSostav(id_sostav), codecs_in, mtc.GetMTConsignee(tMTConsignee.AMKR));
+                //trSostav sostav = new trSostav()
+                //{
+                //    id = sost.IDMTSostav,
+                //    codecs_in_station = codecs_in,
+                //    codecs_from_station = codecs_from,
+                //    //FileName = sost.FileName,
+                //    //CompositionIndex = sost.CompositionIndex,
+                //    DateTime = sost.DateTime,
+                //    //Operation = sost.Operation,
+                //    //Create = sost.Create,
+                //    //Close = sost.Close,
+                //    ParentID = sost.ParentID,
+                //    Wagons = list_wag != null ? list_wag.ToArray() : null,
+                //};
+                trSostav sostav = GetSostav(id_sostav);
                 // Поставим вагоны в систему RailCars
                 int res_arc;
 
@@ -510,6 +545,57 @@ namespace MetallurgTrans.Helpers
                 return -1;
             }
             return 0;//TODO: исправить возврат
+        }
+        /// <summary>
+        /// Получить список неперенесеных составов из МТ в САП
+        /// </summary>
+        /// <param name="dt"></param>
+        /// <returns></returns>
+        public List<trSostav> CompareMT_SAP(DateTime dt) 
+        {
+            List<trSostav> list = new List<trSostav>();
+            
+            List<MTSostav> list_sostav = mtc.GetListOpenMTSostav(dt);
+            if (list_sostav.Count > 0)
+            {
+                foreach (MTSostav sostav in list_sostav) 
+                {
+                    int? codecs_in = refRW.GetCodeCSStations(int.Parse(sostav.CompositionIndex.Substring(9, 4)) * 10);
+                    int count_mt = mtc.CountMTList(sostav.IDMTSostav, mtc.GetMTConsignee(tMTConsignee.AMKR), codecs_in!=null?  (int)codecs_in : 0);
+                    int count_sap = sapis.CountSAPIncSupply(sostav.IDMTSostav);
+                    if (count_mt != count_sap & count_mt > 0) 
+                    {
+                        list.Add(GetSostav(sostav.IDMTSostav));
+                    }
+                }
+            }
+            return list;
+        }
+        /// <summary>
+        /// Коррекция данных МТ с САП с указаного периода
+        /// </summary>
+        /// <param name="dt"></param>
+        /// <returns></returns>
+        public int CorrectionMT_SAP(DateTime dt) 
+        {
+            List<trSostav> list_sostav = CompareMT_SAP(dt);
+            int counts = 0;
+            foreach (trSostav sostav in list_sostav) 
+            {
+                try
+                {
+                    sapis.DeleteSAPIncSupplySostav(sostav.id);
+                    if (sostav.ParentID != null) sapis.DeleteSAPIncSupplySostav((int)sostav.ParentID);
+                    int rec_sap = sap_transfer.PutInSapIncomingSupply(sostav);
+                    counts++;
+                }
+                catch (Exception e)
+                {
+                    LogRW.LogError(String.Format("[MT.CorrectionMT_SAP] :Ошибка коррекции справочника SAP входящие поставки, состав: {0}. Подробно: (источник: {1}, № {2}, описание:  {3})", sostav.id, e.Source, e.HResult, e.Message), this.eventID);
+                }
+
+            }
+            return counts;
         }
     }
 }

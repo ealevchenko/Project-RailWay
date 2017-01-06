@@ -22,6 +22,7 @@ namespace Logs
         EFRailWay_RailCars_EFVagonsRepository = 2204,
         EFRailWay_RailCars_RC_Shops = 2205,
         EFRailWay_RailCars_RC_Vagons = 2206,
+        EFRailWay_RailCars_RC_Stations = 2207,
         EFRailWay_RailWay = 2300,
         EFRailWay_RailWay_EFReferenceCargoRepository = 2301,
         EFRailWay_RailWay_EFReferenceCountryRepository = 2302,
@@ -32,6 +33,9 @@ namespace Logs
         EFRailWay_References = 2600,
         EFRailWay_References_ReferenceRailway = 2601,
         EFRailWay_References_GeneralReferences = 2602,
+
+
+        
         
         EFWagons= 3000,
         EFWagons_KIS= 3100,

@@ -247,6 +247,20 @@ namespace EFWagons.KIS
             if (pv == null) return null;
             return pv.Count();
         }
+        /// <summary>
+        /// Получить информацию по вагону
+        /// </summary>
+        /// <param name="natur"></param>
+        /// <param name="station"></param>
+        /// <param name="day"></param>
+        /// <param name="month"></param>
+        /// <param name="year"></param>
+        /// <param name="num"></param>
+        /// <returns></returns>
+        public PromVagon GetVagon(int natur, int station, int day, int month, int year, int num) 
+        {
+            return GetVagon(natur, station, day, month, year).Where(p=>p.N_VAG == num).FirstOrDefault();
+        }
         #endregion
 
         #region PROM.GRUZ_SP

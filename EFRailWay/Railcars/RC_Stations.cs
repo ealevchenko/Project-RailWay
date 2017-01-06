@@ -1,6 +1,7 @@
 ﻿using EFRailWay.Abstract.Railcars;
 using EFRailWay.Concrete.Railcars;
 using EFRailWay.Entities.Railcars;
+using Logs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,7 @@ namespace EFRailWay.Railcars
 {
     public class RC_Stations
     {
+        private eventID eventID = eventID.EFRailWay_RailCars_RC_Stations;
         IStationsRepository rep_st;
 
         public RC_Stations() 
@@ -28,7 +30,15 @@ namespace EFRailWay.Railcars
         /// <returns></returns>
         public IQueryable<STATIONS> GetStations() 
         {
-            return rep_st.STATIONS;
+            try
+            {
+                return rep_st.STATIONS;
+            }
+            catch (Exception e)
+            {
+                LogRW.LogError(e, "GetStations", eventID);
+                return null;
+            }
         }
         /// <summary>
         /// Вернуть станцию по id системы КИС
@@ -63,6 +73,57 @@ namespace EFRailWay.Railcars
         public STATIONS DeleteStations(int id_stat)
         {
             return rep_st.DeleteSTATIONS(id_stat);
+        }
+        /// <summary>
+        /// Вернуть список станций УЗ
+        /// </summary>
+        /// <returns></returns>
+        public IQueryable<STATIONS> GetUZStations() 
+        {
+            return GetStations().Where(s => s.is_uz == 1);
+        }
+        /// <summary>
+        /// Вернуть список станций АМКР
+        /// </summary>
+        /// <returns></returns>
+        public IQueryable<STATIONS> GetAMKRStations() 
+        {
+            return GetStations().Where(s => s.is_uz == 0);
+        }
+        /// <summary>
+        /// Вернуть список ID станций uz
+        /// </summary>
+        /// <returns></returns>
+        public List<int> GetUZStationsToID() 
+        {
+            IQueryable<STATIONS> stations = GetUZStations();
+            return GetListStations(stations);
+        }
+        /// <summary>
+        /// Вернуть список ID станций AMKR
+        /// </summary>
+        /// <returns></returns>
+        public List<int> GetAMKRStationsToID() 
+        {
+            IQueryable<STATIONS> stations = GetAMKRStations();
+            return GetListStations(stations);
+        }
+        /// <summary>
+        /// Вернуть список ID станций
+        /// </summary>
+        /// <param name="stations"></param>
+        /// <returns></returns>
+        private List<int> GetListStations(IQueryable<STATIONS> stations) 
+        { 
+            List<int> list = new List<int>();
+            if (stations != null) 
+            {
+                foreach (STATIONS st in stations) 
+                {
+                    list.Add(st.id_stat);
+                }
+            }
+            return list;        
         }
 
     }

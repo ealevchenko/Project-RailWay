@@ -144,6 +144,7 @@
     <Compile Include="References\ReferenceRailway.cs" />
     <Compile Include="SAP\SAPIncomingSupply.cs" />
     <Compile Include="Settings\Settings.cs" />
+    <Compile Include="Statics\Convert.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.Config">

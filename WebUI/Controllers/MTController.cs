@@ -32,7 +32,8 @@ namespace WebUI.Controllers
         // GET: MT
         public ViewResult Index(int IDStart = 0, int ID = 0)
         {
-            MTSostav Sostav = this.repository.MTSostav.Where(s=>s.IDMTSostav == ID).FirstOrDefault();
+            //MTSostav Sostav = this.repository.MTSostav.Where(s=>s.IDMTSostav == ID).FirstOrDefault();
+            MTSostav Sostav = mt_cont.Get_MTSostav(ID);
             MTSostavInfo model = null;
             if (Sostav != null)
             {

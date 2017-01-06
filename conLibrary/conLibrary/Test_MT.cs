@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TransferWagons.Transfers;
 
 namespace conLibrary
 {
@@ -116,10 +117,21 @@ namespace conLibrary
         public void Test_MTContent_GetListToNatur() 
         {
             MTContent mt = new MTContent();
-            MTList lst = mt.GetListToNatur(4285, 66935172, DateTime.Parse("2016-12-09 05:30:00"), 1);
+            MTList lst = mt.GetListToNatur(4839, 67923441, DateTime.Parse("2016-01-06 13:55:00"), 15);
 
             //string sw = "60662830;65383853;67660423;74021965;65046567;56560055;24534372;50546159;57517948;55977870;55763296;55320519;63627558;65206062;67751354;67794347;64083868;66522079;65009771;66495458;67288738;65125502;65710154;66399379;65469769;62823661;65438236;55063119;53777959;60832383;56765530;56138001;53436556;52749769;56936644;56969702;52876307;53551669;60091303;55119531;55118251;61246328;59717553;57411928;60267812;52965274;55139851;52733540;53569752;66680547;65483307;60261211;56982416;54122338;61243358;60806072;62034137;59785881;";
             //Console.WriteLine("id sostav = {0}", mt.GetIDSostavToWagons(sw));
+        }
+
+        public void Test_MT_CompareMT_SAP() 
+        {
+            MT mts = new MT();
+            List<trSostav> list = mts.CompareMT_SAP(DateTime.Parse("2016-12-01 00:00:00"));
+        }
+        public void Test_MT_CorrectionMT_SAP() 
+        {
+            MT mts = new MT();
+            int count = mts.CorrectionMT_SAP(DateTime.Parse("2016-12-01 00:00:00"));
         }
 
     }
