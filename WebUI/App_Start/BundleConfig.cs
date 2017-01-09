@@ -28,6 +28,13 @@ namespace WebUI
                       "~/Content/site.css"));
             bundles.Add(new StyleBundle("~/mt/css").Include(
                       "~/Content/mt.css" ));
+            bundles.Add(new StyleBundle("~/datetime/css").Include("~/Content/daterangepicker.css"));
+            bundles.Add(new ScriptBundle("~/bundles/datetime")
+                .Include("~/Scripts/date/jquery-1.11.2.min.js"
+                , "~/Scripts/date/moment.min.js"
+                , "~/Scripts/date/jquery.daterangepicker.js"
+                , "~/Scripts/date/datetime.js"
+                ));
         }
     }
 }

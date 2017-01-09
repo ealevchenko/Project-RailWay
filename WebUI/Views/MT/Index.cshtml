@@ -2,6 +2,9 @@
 
 @{
     ViewBag.Title = "Отчет 'Металлург транс'";
+    ViewBag.date = @Model.date;    
+    ViewBag.start = @Model.dt_start;
+    ViewBag.stop = @Model.dt_stop;
     Layout = "~/Views/Shared/_MetallurgTrans.cshtml";
 }
 <div id="operation">
@@ -52,40 +55,40 @@
             <th>Натурный лист</th>
         </tr>
         @foreach (var item in Model.Wagons)
-    {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Position)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CarriageNumber)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CountryName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Weight)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IDCargo)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Cargo)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.StationCode)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.StationName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Consignee)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.NaturList)
-        </td>
-    </tr>
-    }
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Position)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CarriageNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CountryName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Weight)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IDCargo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cargo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StationCode)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StationName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Consignee)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NaturList)
+                </td>
+            </tr>
+        }
     </table>
 </div>
 

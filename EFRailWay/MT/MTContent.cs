@@ -66,6 +66,16 @@ namespace EFRailWay.MT
             }
         }
         /// <summary>
+        /// Получить перечень составов за период
+        /// </summary>
+        /// <param name="start"></param>
+        /// <param name="stop"></param>
+        /// <returns></returns>
+        public IQueryable<MTSostav> GetMTSostav(DateTime start, DateTime stop) 
+        {
+            return Get_MTSostav().Where(s => s.DateTime >= start & s.DateTime <= stop);
+        }
+        /// <summary>
         /// Получить список составов по указаному номеру
         /// </summary>
         /// <param name="CompositionIndex"></param>

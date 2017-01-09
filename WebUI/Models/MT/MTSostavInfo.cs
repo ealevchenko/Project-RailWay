@@ -9,6 +9,9 @@ namespace WebUI.MT.Models
 {
     public class MTSostavInfo
     {
+        public string date{ get; set; } 
+        public DateTime dt_start { get; set; } 
+        public DateTime dt_stop { get; set; } 
         public int IDStart { get; set; } 
         public int ID { get; set; } 
         public string CompositionIndex { get; set; }

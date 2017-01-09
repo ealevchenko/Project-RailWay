@@ -10,9 +10,15 @@
 <body>
     <div id="header">
         <div class="title">@ViewBag.Title</div>
+        @Styles.Render("~/datetime/css")
+        @Scripts.Render("~/bundles/datetime")
+        <div id="select-date">
+            Выбери деапазон : <input id="date-range1" size="60" value='@ViewBag.date'>
+        </div>
+
     </div>
     <div id="sostav">
-        @{ Html.RenderAction("Menu", "MT"); }
+        @{ Html.RenderAction("Menu", "MT", new { start = @ViewBag.start, stop = @ViewBag.stop }); }
     </div>
     <div id="content">
         @RenderBody()

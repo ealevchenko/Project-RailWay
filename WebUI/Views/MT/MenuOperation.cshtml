@@ -9,6 +9,8 @@
     action = "Index",
     IDStart = link[1],
     ID = link[2]
-})
+},
+            new { @class = link[2] == ViewBag.SelectedID ? "selected" : null }
+)
 
 }
