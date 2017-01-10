@@ -17,6 +17,7 @@ namespace WebUI.Models.MT
         public int StationCode { get; set; }
         public string StationName { get; set; }
         public int Consignee { get; set; }
+        public string ConsigneeName { get; set; }
         public int? NaturList { get; set; }
     }
 }

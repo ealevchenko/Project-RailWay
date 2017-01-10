@@ -49,7 +49,6 @@ namespace WebUI.Controllers
                 Session["dt_stop"] = value;
             }
         }
-
         private int IDStart 
         { 
             get
@@ -103,14 +102,13 @@ namespace WebUI.Controllers
                     this.dt_stop = DateTime.Parse(array_date[1].Trim() + ":59");
                 }
             }
-            if (IDStart == 0)
+            if (IDStart == 0 | !String.IsNullOrWhiteSpace(date))
             {
                 IQueryable<MTSostav> list_sostav = mt_cont.GetMTSostav(this.dt_start, this.dt_stop).Where(s => s.ParentID==null).OrderByDescending(s => s.DateTime);
-                //int c = list_sostav.Count();
                 this.IDStart = list_sostav.Count() > 0 ? list_sostav.First().IDMTSostav : 0;
             }
             else this.IDStart = IDStart;
-            if (ID == 0)
+            if (ID == 0 | !String.IsNullOrWhiteSpace(date))
             {
                 this.ID = this.IDStart;
             }
@@ -146,6 +144,7 @@ namespace WebUI.Controllers
                             StationCode = mt_wag.IDStation,
                             StationName = mt_wag.IDStation>0 ? ref_rw.GetStationsOfCodeCS(mt_wag.IDStation).Station : "?",
                             Consignee = mt_wag.Consignee,
+                            ConsigneeName = mt_cont.IsConsignee(mt_wag.Consignee, tMTConsignee.AMKR) ? tMTConsignee.AMKR.ToString(): null,
                             NaturList = mt_wag.NaturList,
                         };
                         list_wi.Add(wi);

@@ -153,3 +153,10 @@ table.Wagons-info {
         border-spacing: 2px;
         text-align: center;
     }
+
+    TR.AMKR {
+        background-color: #fcfa7e;
+    }
+    TR.Natur  {
+        background-color: #91cb6a;
+    }

@@ -54,9 +54,12 @@
             <th>Грузополучатель</th>
             <th>Натурный лист</th>
         </tr>
-        @foreach (var item in Model.Wagons)
+                @foreach (var item in Model.Wagons)
         {
-            <tr>
+                    <tr class='@if (item.NaturList == null) { @Html.DisplayFor(modelItem => item.ConsigneeName); } 
+                    else { 
+                                   @:Natur
+                    }'>
                 <td>
                     @Html.DisplayFor(modelItem => item.Position)
                 </td>

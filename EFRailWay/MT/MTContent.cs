@@ -429,7 +429,17 @@ namespace EFRailWay.MT
         /// <returns></returns>
         public IQueryable<MTConsignee> Get_MTConsignee()
         {
-            return rep_MT.MTConsignee;
+            try
+            {
+                return rep_MT.MTConsignee;
+            }
+            catch (Exception e)
+            {
+                LogRW.LogError(e, "Get_MTConsignee", eventID);
+                return null;
+            }
+            
+            
         }
         /// <summary>
         /// Получить все кода указанного грузополучателя
@@ -463,6 +473,26 @@ namespace EFRailWay.MT
         public MTConsignee DeleteMTConsignee(int Code)
         {
             return rep_MT.DeleteMTConsignee(Code);
+        }
+        /// <summary>
+        /// Получить строку грузополучателя по коду
+        /// </summary>
+        /// <param name="Code"></param>
+        /// <returns></returns>
+        public MTConsignee MTConsignee(int Code)
+        {
+            return Get_MTConsignee().Where( c=>c.Code == Code).FirstOrDefault();
+        }
+        /// <summary>
+        /// Код пренадлежит грузополучателю 
+        /// </summary>
+        /// <param name="Code"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public bool IsConsignee(int Code, tMTConsignee type) 
+        {
+            MTConsignee mtc = MTConsignee(Code);
+            return mtc != null ? mtc.Consignee == (int)type ? true : false : false;
         }
         #endregion
 
