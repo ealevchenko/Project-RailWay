@@ -478,7 +478,141 @@ namespace EFRailWay.Railcars
                 return null;
             }
         }
+        /// <summary>
+        /// Удалить записи вагонов прибывающие из станций (int[] idstation_uz) по Id состава и номера вагона
+        /// </summary>
+        /// <param name="id_mtsostav"></param>
+        /// <param name="num"></param>
+        /// <param name="idstation_uz"></param>
+        /// <returns></returns>
+        public int DeleteVagonsOfArrival(int id_mtsostav, int num, int[] idstation_uz)
+        {
+            try
+            {
+                string station_uz_s = idstation_uz.IntsToString(",");
+                string sql = "DELETE FROM dbo.VAGON_OPERATIONS where [IDSostav]=" + id_mtsostav.ToString() + " and [num_vagon] = " + num.ToString() + " and [id_stat] in(" + station_uz_s + ") and [st_lock_id_stat] >0 ";
+                return rep_vo.db.ExecuteSqlCommand(sql);
+            }
+            catch (Exception e)
+            {
+                LogRW.LogError(e, "DeleteVagonsOfArrival", eventID);
+                return -1;
+            }
+        }
+        /// <summary>
+        /// Принять вагон на станцию АМКР из станции УЗ
+        /// </summary>
+        /// <param name="vagon"></param>
+        /// <param name="natur"></param>
+        /// <param name="dt_amkr"></param>
+        /// <param name="id_stations"></param>
+        /// <param name="id_ways"></param>
+        /// <returns></returns>
+        public int TakeVagonOfUZ(VAGON_OPERATIONS vagon, int natur, DateTime dt_amkr, int id_stations, int id_ways)
+        {
+            int? position = MaxPositionWay(id_ways);
+            if (position != null)
+            { position++; }
+            else { position = 1; }
+            VAGON_OPERATIONS new_vagon = new VAGON_OPERATIONS()
+            {
+                id_oper = 0,
+                dt_uz = vagon.dt_uz,
+                dt_amkr = dt_amkr,
+                dt_out_amkr = null,
+                n_natur = natur,
+                id_vagon = vagon.id_vagon,
+                id_stat = id_stations,
+                dt_from_stat = null,
+                dt_on_stat = dt_amkr,
+                id_way = id_ways,
+                dt_from_way = null,
+                dt_on_way = dt_amkr,
+                num_vag_on_way = position,
+                is_present = 1,
+                id_locom = null,
+                id_locom2 = null,
+                id_cond2 = 15,
+                id_gruz = vagon.id_gruz,
+                id_gruz_amkr = vagon.id_gruz_amkr,
+                id_shop_gruz_for = null,
+                weight_gruz = vagon.weight_gruz,
+                id_tupik = null,
+                id_nazn_country = null,
+                id_gdstait = null,
+                id_cond = null,
+                note = null,
+                is_hist = 0,
+                id_oracle = null,
+                lock_id_way = null,
+                lock_order = null,
+                lock_side = null,
+                lock_id_locom = null,
+                st_lock_id_stat = null,
+                st_lock_order = null,
+                st_lock_train = null,
+                st_lock_side = null,
+                st_gruz_front = null,
+                st_shop = null,
+                oracle_k_st = null,
+                st_lock_locom1 = null,
+                st_lock_locom2 = null,
+                id_oper_parent = null,
+                grvu_SAP = null,
+                ngru_SAP = null,
+                id_ora_23_temp = null,
+                IDSostav = vagon.IDSostav,
+                num_vagon = vagon.num_vagon
+            };
+            int res = SaveVagonsOperations(new_vagon);
+            if (res > 0)
+            {
+                vagon.is_hist = 1;
+                vagon.st_lock_id_stat = null;
+                vagon.st_lock_order = null;
+                vagon.st_lock_train = null;
+                vagon.st_lock_side = null;
+                vagon.st_lock_locom1 = null;
+                vagon.st_lock_locom2 = null;
+                vagon.n_natur = natur;
+                SaveVagonsOperations(vagon);
+            }
+            return res;
+        }
+        /// <summary>
+        /// Принять вагон на станцию АМКР из станции УЗ
+        /// </summary>
+        /// <param name="id_mtsostav"></param>
+        /// <param name="num"></param>
+        /// <param name="idstation_uz"></param>
+        /// <param name="natur"></param>
+        /// <param name="dt_amkr"></param>
+        /// <param name="id_stations"></param>
+        /// <param name="id_ways"></param>
+        /// <returns></returns>
+        public int TakeVagonOfUZ(int id_mtsostav, int num, int[] idstation_uz, int natur, DateTime dt_amkr, int id_stations, int id_ways)
+        {
+            int res = 0;
+            VAGON_OPERATIONS vagon = GetVagonsOfArrivalUZ(id_mtsostav, num, idstation_uz, id_stations);
+            if (vagon != null)
+            {
+                res  = TakeVagonOfUZ(vagon, natur, dt_amkr, id_stations, id_ways); // Примем вагон на станцию АМКР
+                DeleteVagonsOfArrival(id_mtsostav, num, idstation_uz);             // Удалим с прибытия вагоны кроме принятого
+            }
+            return res;
+        }
 
+        public int TakeVagonOfAllUZ(int id_mtsostav, int num, int[] idstation_uz, int natur, DateTime dt_amkr, int id_stations, int id_ways)
+        {
+            int res = 0;
+            IQueryable<VAGON_OPERATIONS> vagons_uz = GetVagonsOfArrival(id_mtsostav, num, idstation_uz);
+            if (vagons_uz.Count()>0)
+            {
+                res = TakeVagonOfUZ(vagons_uz.First(), natur, dt_amkr, id_stations, id_ways); // Примем вагон на станцию АМКР
+                DeleteVagonsOfArrival(id_mtsostav, num, idstation_uz);             // Удалим с прибытия вагоны кроме принятого
+            }
+            return res;
+        }
 
     }
 }

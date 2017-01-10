@@ -249,7 +249,6 @@ namespace TransferWagons.RailCars
         /// <returns></returns>
         protected int SetCarKISToStation(int natur, int num_vag, DateTime dt_amkr, int id_stations, int id_ways, int id_stat_kis) 
         {
-            
             try
             {
                 int idsostav = natur * -1;
@@ -371,17 +370,19 @@ namespace TransferWagons.RailCars
                     // Поставить на путь станции
                     // Обновим из КИС необходимости
                     // Удалим остальные
+                    rc_vo.TakeVagonOfUZ(idsostav, num_vag, rc_st.GetUZStationsToID().ToArray(), natur, dt_amkr, id_stations, id_ways);
                 }
                 else 
                 {
                     // Проверим в наличии в прибытия из любой станции УЗ на любую станцию АМКР
                     IQueryable<VAGON_OPERATIONS> vagons_uz = rc_vo.GetVagonsOfArrival(idsostav, num_vag, rc_st.GetUZStationsToID().ToArray());
-                    if (vagons_uz != null)
+                    if (vagons_uz.Count()>0)
                     {
                         //возмем первый 
                         // Поставить на путь станции
                         // Обновим из КИС необходимости
                         // Удалим остальные
+                        rc_vo.TakeVagonOfAllUZ(idsostav, num_vag, rc_st.GetUZStationsToID().ToArray(), natur, dt_amkr, id_stations, id_ways);
                     }
                     else { 
                         // Проверим в наличии записи по данному составу и вагону на станциях АМКР
@@ -393,39 +394,23 @@ namespace TransferWagons.RailCars
                         else 
                         { 
                             //создадим по данным КИС
+                            int id_wagon = ref_kis.DefinitionSetIDVagon(num_vag, dt_amkr, -1, null, natur, false); // определить id вагона (если нет создать новый id? локоматив -1)
+                            if (!rc_vo.IsVagonOperationKIS(natur, dt_amkr, (int)num_vag))
+                            {
+
+                                int res = rc_vo.InsertVagon(natur, dt_amkr, id_wagon, num_vag, idsostav, (mt_list != null ? mt_list.DateOperation as DateTime? : null), id_stations, id_ways, id_stat_kis);
+                                if (res < 0)
+                                {
+                                    LogRW.LogError(String.Format("[KIS_RC_Transfer.SetCarKISToStation] : Ошибка переноса вагона на путь станции, натурный лист: {0}, дата: {1}, № вагона: {2}, код станции системы RailCars: {3}, код пути системы RailCars: {4}.",
+                                        natur, dt_amkr.ToString("dd-MM-yyyy HH:mm:ss"), num_vag, id_stations, id_ways), eventID);
+                                }
+                                return res;
+                            }
+                            else return 0; // Вагон уже стоит
                         }
 
                     }
                 }
-
-
-                //TODO: Продолжать здесь
-                //if (mt_list == null) 
-                //{
-                //    LogRW.LogWarning(String.Format("[SetCarMTToStation] : В данных МТ не найден вагон, принятый по программе КИС (натурный лист:  {0},  номер вагона: {1}, дата захода на АМКР:  {2})", natur, num_vag, dt_amkr), eventID);
-                //    // Создадим строку в САП (id состава) присвоем natur с отрицательным знаком
-                //    trWagon wag = new trWagon()
-                //    {
-                //        Position = 0,
-                //        CompositionIndex = "-",
-                //        CarriageNumber = num_vag,
-                //    };
-                //    sap_tr.SetWagonToSAPSupply(wag, natur * -1);
-                //}
-                //int id_wagon = ref_kis.DefinitionSetIDVagon(num_vag, dt_amkr, -1, null, natur, false); // определить id вагона (если нет создать новый id? локоматив -1)
-                ////if (!rc_vo.IsVagonOperationKIS(natur, dt_amkr, (int)id_wagon))
-                //if (!rc_vo.IsVagonOperationKIS(natur, dt_amkr, (int)num_vag))
-                //{
-
-                //    int res = rc_vo.InsertVagon(natur, dt_amkr, id_wagon, num_vag, (mt_list != null ? mt_list.IDMTSostav as int? : natur * -1), (mt_list != null ? mt_list.DateOperation as DateTime? : null), id_stations, id_ways, id_stat_kis);
-                //    if (res < 0)
-                //    {
-                //        LogRW.LogError(String.Format("[KIS_RC_Transfer.SetCarMTToStation] : Ошибка переноса вагона на путь станции, натурный лист: {0}, дата: {1}, № вагона: {2}, код станции системы RailCars: {3}, код пути системы RailCars: {4}.",
-                //            natur, dt_amkr.ToString("dd-MM-yyyy HH:mm:ss"), num_vag, id_stations, id_ways), eventID);
-                //    }
-                //    return res;
-                //}
-                //else return 0; // Вагон уже стоит
                 return 0;
             }
             catch (Exception e)

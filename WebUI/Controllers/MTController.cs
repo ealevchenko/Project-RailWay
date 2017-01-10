@@ -4,6 +4,7 @@ using EFRailWay.MT;
 using EFRailWay.References;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -42,7 +43,7 @@ namespace WebUI.Controllers
                 {
                     Session["dt_stop"] = DateTime.Now.AddDays(1).Date.AddSeconds(-1);
                 }
-                return (DateTime)Session["dt_stop"];
+                return  (DateTime)Session["dt_stop"];
             }
             set {
                 Session["dt_stop"] = value;
@@ -95,11 +96,11 @@ namespace WebUI.Controllers
                 string[] array_date = date.Split('~');
                 if (!String.IsNullOrWhiteSpace(array_date[0]))
                 {
-                    this.dt_start = DateTime.Parse(array_date[0].Trim());
+                    this.dt_start = DateTime.Parse(array_date[0].Trim()+":00");
                 }
                 if (!String.IsNullOrWhiteSpace(array_date[1]))
                 {
-                    this.dt_stop = DateTime.Parse(array_date[1].Trim());
+                    this.dt_stop = DateTime.Parse(array_date[1].Trim() + ":59");
                 }
             }
             if (IDStart == 0)
@@ -114,7 +115,7 @@ namespace WebUI.Controllers
                 this.ID = this.IDStart;
             }
             else this.ID = ID;
-            MTSostav Sostav = mt_cont.Get_MTSostav(ID);
+            MTSostav Sostav = mt_cont.Get_MTSostav(this.ID);
             MTSostavInfo model = new MTSostavInfo()
             {
                 IDStart = this.IDStart,

@@ -32,7 +32,7 @@ namespace EFRailWay.Concrete.Railcars
             {
                 dbEntry = new VAGON_OPERATIONS()
                 {
-                    id_oper = VAGONOPERATIONS.id_oper,
+                    id_oper = 0,
                     dt_uz = VAGONOPERATIONS.dt_uz,
                     dt_amkr = VAGONOPERATIONS.dt_amkr,
                     dt_out_amkr = VAGONOPERATIONS.dt_out_amkr,
@@ -80,7 +80,7 @@ namespace EFRailWay.Concrete.Railcars
                     edit_user = VAGONOPERATIONS.edit_user,
                     edit_dt = VAGONOPERATIONS.edit_dt,
                     IDSostav = VAGONOPERATIONS.IDSostav,
-                     num_vagon = VAGONOPERATIONS.num_vagon,
+                    num_vagon = VAGONOPERATIONS.num_vagon, 
                 };
                 context_edit.VAGON_OPERATIONS.Add(dbEntry);
             }
@@ -89,7 +89,7 @@ namespace EFRailWay.Concrete.Railcars
                 dbEntry = context_edit.VAGON_OPERATIONS.Find(VAGONOPERATIONS.id_oper);
                 if (dbEntry != null)
                 {
-                    dbEntry.id_oper = VAGONOPERATIONS.id_oper;
+
                     dbEntry.dt_uz = VAGONOPERATIONS.dt_uz;
                     dbEntry.dt_amkr = VAGONOPERATIONS.dt_amkr;
                     dbEntry.dt_out_amkr = VAGONOPERATIONS.dt_out_amkr;
