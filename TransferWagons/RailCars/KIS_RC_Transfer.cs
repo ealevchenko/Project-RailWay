@@ -452,7 +452,7 @@ namespace TransferWagons.RailCars
                                 int res = rc_vo.InsertVagon(natur, dt_amkr, id_wagon, num_vag, idsostav, (mt_list != null ? mt_list.DateOperation as DateTime? : null), id_stations, id_ways, id_stat_kis);
                                 if (res < 0)
                                 {
-                                    LogRW.LogError(String.Format("[KIS_RC_Transfer.SetCarKISToStation] : Ошибка переноса вагона на путь станции, натурный лист: {0}, дата: {1}, № вагона: {2}, код станции системы RailCars: {3}, код пути системы RailCars: {4}.",
+                                    LogRW.LogError(String.Format("[KIS_RC_Transfer.SetCarMTToStation] : Ошибка переноса вагона на путь станции, натурный лист: {0}, дата: {1}, № вагона: {2}, код станции системы RailCars: {3}, код пути системы RailCars: {4}.",
                                         natur, dt_amkr.ToString("dd-MM-yyyy HH:mm:ss"), num_vag, id_stations, id_ways), eventID);
                                 }
                                 return res;

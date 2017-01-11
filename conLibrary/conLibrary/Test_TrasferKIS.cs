@@ -89,6 +89,20 @@ namespace conLibrary
             
         }
 
+        public void Test_References_Shop() 
+        {
+            TransferWagons.RailCars.References refer = new TransferWagons.RailCars.References();
+
+            int? ch = refer.DefinitionIDShop(20);
+            //Console.WriteLine("Уголь марки Ж 1= {0}", refer.DefinitionIDGruzs(285, null) );
+            //Console.WriteLine("порожний  111= {0}", refer.DefinitionIDGruzs(null,9));
+            //Console.WriteLine("null= {0}", refer.DefinitionIDGruzs(null, null));
+            //Console.WriteLine("null= {0}", refer.DefinitionIDGruzs(285, 9));
+            //Console.WriteLine("Уголь каменный = {0}", refer.DefinitionIDGruzs(161005));
+            //Console.WriteLine("Уголь каменный = {0}", refer.DefinitionIDGruzs(16100));
+            Console.WriteLine("Зерно кукурузы = {0}", refer.DefinitionIDGruzs(15006));
+            
+        }
         public void Test_TrasferKIS_KISTransfer() { 
             KIS_Transfer kist = new KIS_Transfer();
 

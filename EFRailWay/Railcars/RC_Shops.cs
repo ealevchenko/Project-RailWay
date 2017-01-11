@@ -63,7 +63,7 @@ namespace EFRailWay.Railcars
         public int? GetIDShopsOfKis(int id_shop_kis) 
         {
             SHOPS shop = GetShopsOfKis(id_shop_kis);
-            if (shop != null) return shop.id_stat;
+            if (shop != null) return shop.id_shop;
             return null;
         }
         /// <summary>

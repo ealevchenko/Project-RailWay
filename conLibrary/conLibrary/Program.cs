@@ -57,7 +57,8 @@ namespace conLibrary
             //test.Test_References_Vagon();
             //test.Test_References_OwnersContries();
             //test.Test_References_Gruzs();
-            test.Test_TrasferKIS_KISTransfer();
+            test.Test_References_Shop();
+            //test.Test_TrasferKIS_KISTransfer();
 
             //test.Test_KIS_RC_Transfer_SetListWagon();
             //test.Test_References_SynchronizeWagons(2);
