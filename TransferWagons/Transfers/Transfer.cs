@@ -25,7 +25,8 @@ namespace TransferWagons.Transfers
         no_owner_country = -5,
         no_owner = -6,
         no_shop = -7,
-        no_gruz = -8
+        no_gruz = -8,
+        no_wagon_is_list = -9
     }
     /// <summary>
     /// Класс данных результат переноса массва данных
@@ -222,6 +223,21 @@ namespace TransferWagons.Transfers
             return res;
         }
         /// <summary>
+        /// Преобразовать List<PromNatHist> в список номеров вагонов типа string
+        /// </summary>
+        /// <param name="list_nh"></param>
+        /// <returns></returns>
+        protected string GetWagonsToString(List<PromNatHist> list_nh) 
+        { 
+            if (list_nh == null | list_nh.Count()==0) return null;
+            string res = null;
+            foreach (PromNatHist pv in list_nh) 
+            {
+                res += pv.N_VAG.ToString() + ";";
+            }
+            return res;
+        }
+        /// <summary>
         /// Преобразовать List<int> в список номеров вагонов типа string
         /// </summary>
         /// <param name="list"></param>
@@ -266,6 +282,7 @@ namespace TransferWagons.Transfers
 
         protected void DeleteExistWagon(ref List<int> list_new, ref List<int> list_old)
         {
+            if (list_new == null & list_old == null) return;
             int index = list_new.Count() - 1;
             while (index >= 0)
             {

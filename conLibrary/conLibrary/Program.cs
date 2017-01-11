@@ -40,24 +40,24 @@ namespace conLibrary
             //Console.WriteLine("3)     {0}", s.Remove(3, 3));
             
             #region Test_MT
-            Test_MT test = new Test_MT();
+            //Test_MT test = new Test_MT();
              //test.Test_MT_Helpers_MT_ArrivalToRailWay();
             //test.Test_MT_Helpers_MT_ArrivalToRailWayAll();
             //test.Test_SUD_MTContent_MTConsignee();
             //test.Test_MTContent_MTList();
-            test.Test_MTContent_GetListToNatur();
+            //test.Test_MTContent_GetListToNatur();
             //test.Test_MT_CompareMT_SAP();
             //test.Test_MT_CorrectionMT_SAP();
             #endregion
 
             #region Test_TrasferKIS
-            //Test_TrasferKIS test = new Test_TrasferKIS();
+            Test_TrasferKIS test = new Test_TrasferKIS();
             //test.Test_ArrivalKIS();
             //test.Test_References_Owner();
             //test.Test_References_Vagon();
             //test.Test_References_OwnersContries();
             //test.Test_References_Gruzs();
-            //test.Test_TrasferKIS_KISTransfer();
+            test.Test_TrasferKIS_KISTransfer();
 
             //test.Test_KIS_RC_Transfer_SetListWagon();
             //test.Test_References_SynchronizeWagons(2);

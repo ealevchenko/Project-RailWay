@@ -177,13 +177,17 @@ namespace TransferWagons.RailCars
         /// Получить или обновить общий список вагонов, список не поставленных и не обнавленных вагонов
         /// </summary>
         /// <param name="orc_sostav"></param>
-        public int SetListWagon(ref Oracle_ArrivalSostav orc_sostav, List<PromVagon> list_pv) 
+        public int SetListWagon(ref Oracle_ArrivalSostav orc_sostav, List<PromVagon> list_pv, List<PromNatHist> list_nh) 
         {
+            if (list_pv.Count() == 0 & list_nh.Count() == 0) return 0; // Списков вагонов нет
             try
             {
+                
                 //Создать и список вагонов заново и поставить их на путь ( or_as.CountWagons, or_as.ListWagons )
                 List<int> old_wagons = GetWagonsToListInt(orc_sostav.ListWagons);
-                orc_sostav.ListWagons = GetWagonsToString(list_pv);
+                if (list_pv.Count()>0) 
+                    {orc_sostav.ListWagons = GetWagonsToString(list_pv); } 
+                        else { orc_sostav.ListWagons = GetWagonsToString(list_nh);}
                 List<int> new_wagons = GetWagonsToListInt(orc_sostav.ListWagons);
 
                 List<int> wagons_no_set = GetWagonsToListInt(orc_sostav.ListNoSetWagons);
@@ -226,7 +230,10 @@ namespace TransferWagons.RailCars
                     { orc_sostav.ListNoUpdateWagons += wag.ToString() + ";"; }
                 }
 
-                orc_sostav.CountWagons = list_pv.Count();
+                if (list_pv.Count()>0) 
+                    { orc_sostav.CountWagons = list_pv.Count(); } 
+                        else { orc_sostav.CountWagons = list_nh.Count(); }
+                
                 // Сохранить и вернуть результат
                 return oas.SaveOracle_ArrivalSostav(orc_sostav);
             }
@@ -252,7 +259,29 @@ namespace TransferWagons.RailCars
             try
             {
                 int idsostav = natur * -1;
+                // Получим информацию для заполнения вагона с учетом отсутствия данных в PromVagon
                 PromVagon pv = pc.GetVagon(natur, id_stat_kis, dt_amkr.Day, dt_amkr.Month, dt_amkr.Year, num_vag);
+                PromNatHist pnh = pc.GetNatHist(natur, id_stat_kis, dt_amkr.Day, dt_amkr.Month, dt_amkr.Year, num_vag);
+                if (pv == null & pnh == null) return (int)errorTransfer.no_wagon_is_list;   // Ошибка нет вагонов в списке
+                if (pv == null) 
+                {
+                    pv = new PromVagon()
+                    {
+                        N_VAG = pnh.N_VAG,
+                        NPP = pnh.NPP,
+                        GODN = pnh.GODN,
+                        K_ST = pnh.K_ST,
+                        N_NATUR = pnh.N_NATUR,
+                        D_PR_DD = pnh.D_PR_DD,
+                        D_PR_MM = pnh.D_PR_MM,
+                        D_PR_YY = pnh.D_PR_YY,
+                        T_PR_HH = pnh.T_PR_HH,
+                        T_PR_MI = pnh.T_PR_MI,
+                        KOD_STRAN = pnh.KOD_STRAN,
+                        WES_GR = pnh.WES_GR,
+                        K_GR = pnh.K_GR
+                    };
+                }
                 MTList mt_list = mtcont.GetListToNatur(natur, num_vag, dt_amkr, 15);
                 if (mt_list != null)
                 {
@@ -326,7 +355,29 @@ namespace TransferWagons.RailCars
             try
             {
                 int idsostav = natur * -1;
+                // Получим информацию для заполнения вагона с учетом отсутствия данных в PromVagon
                 PromVagon pv = pc.GetVagon(natur, id_stat_kis, dt_amkr.Day, dt_amkr.Month, dt_amkr.Year, num_vag);
+                PromNatHist pnh = pc.GetNatHist(natur, id_stat_kis, dt_amkr.Day, dt_amkr.Month, dt_amkr.Year, num_vag);
+                if (pv == null & pnh == null) return (int)errorTransfer.no_wagon_is_list;   // Ошибка нет вагонов в списке
+                if (pv == null)
+                {
+                    pv = new PromVagon()
+                    {
+                        N_VAG = pnh.N_VAG,
+                        NPP = pnh.NPP,
+                        GODN = pnh.GODN,
+                        K_ST = pnh.K_ST,
+                        N_NATUR = pnh.N_NATUR,
+                        D_PR_DD = pnh.D_PR_DD,
+                        D_PR_MM = pnh.D_PR_MM,
+                        D_PR_YY = pnh.D_PR_YY,
+                        T_PR_HH = pnh.T_PR_HH,
+                        T_PR_MI = pnh.T_PR_MI,
+                        KOD_STRAN = pnh.KOD_STRAN,
+                        WES_GR = pnh.WES_GR,
+                        K_GR = pnh.K_GR
+                    };
+                }
                 MTList mt_list = mtcont.GetListToNatur(natur, num_vag, dt_amkr, 15);
                 if (mt_list != null)
                 {
@@ -647,7 +698,8 @@ namespace TransferWagons.RailCars
             
             // Формирование общего списка вагонов и постановка их на путь станции прибытия
             List<PromVagon> list_pv = pc.GetVagon(orc_sostav.NaturNum, orc_sostav.IDOrcStation, orc_sostav.Day, orc_sostav.Month, orc_sostav.Year, orc_sostav.Napr == 2 ? true : false).ToList();
-            int res_set_list = SetListWagon(ref orc_sostav, list_pv);
+            List<PromNatHist> list_nh = pc.GetNatHist(orc_sostav.NaturNum, orc_sostav.IDOrcStation, orc_sostav.Day, orc_sostav.Month, orc_sostav.Year, orc_sostav.Napr == 2 ? true : false).ToList();
+            int res_set_list = SetListWagon(ref orc_sostav, list_pv, list_nh);
             if (res_set_list >= 0)
             {
                 return SetCarsToStation(ref orc_sostav, (int)id_stations, (int)id_ways, mode);

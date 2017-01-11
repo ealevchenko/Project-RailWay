@@ -93,19 +93,20 @@ namespace conLibrary
             KIS_Transfer kist = new KIS_Transfer();
 
             kist.DayControllingAddNatur = 2;
-            //kist.PutCarsToStations();
-                //kist.UpdateSostavs();
+            kist.PutCarsToStations(0);
+            //kist.UpdateSostavs();
                 Console.WriteLine("Обновлено {0}", kist.CopyArrivalSostavToRailway());
         }
 
         public void Test_KIS_RC_Transfer_SetListWagon() {
 
 
-            Oracle_ArrivalSostav oras = oas.Get_ArrivalSostav(542);
+            Oracle_ArrivalSostav oras = oas.Get_ArrivalSostav(1364);
             List<PromVagon> list_pv = pc.GetVagon(oras.NaturNum, oras.IDOrcStation, oras.Day, oras.Month, oras.Year, oras.Napr == 2 ? true : false).ToList();
+            List<PromNatHist> list_nh = pc.GetNatHist(oras.NaturNum, oras.IDOrcStation, oras.Day, oras.Month, oras.Year, oras.Napr == 2 ? true : false).ToList();
 
             KIS_RC_Transfer kisrs = new KIS_RC_Transfer();
-            int res = kisrs.SetListWagon(ref oras, list_pv);
+            int res = kisrs.SetListWagon(ref oras, list_pv, list_nh);
 
             Console.WriteLine("Обновлено {0}", res);
         }
