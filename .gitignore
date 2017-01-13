@@ -51,13 +51,6 @@ Test_EFRailWay/obj/*
 Test_TransferWagons/bin/*
 Test_TransferWagons/obj/*
 
-WebUI/obj/*
-WebUI/bin/*
-WebUI/Web.config
-WebUI/Web.Debug.config
-WebUI/Web.Release.config
-
-WebUI_old/*
 
 RWServiceArrival/.vs
 RWServiceArrival/bin/*
