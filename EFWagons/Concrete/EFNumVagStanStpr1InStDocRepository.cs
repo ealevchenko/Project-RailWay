@@ -8,13 +8,12 @@ using System.Threading.Tasks;
 
 namespace EFWagons.Concrete
 {
-
-    public class EFNumVagStanRepository : EFRepository, INumVagStanRepository
+    public class EFNumVagStanStpr1InStDocRepository : EFRepository, INumVagStanStpr1InStDocRepository
     {
         //private EFDbORCContext context = new EFDbORCContext();
-        public IQueryable<NumVagStan> NumVagStan
+        public IQueryable<NumVagStanStpr1InStDoc> NumVagStanStpr1InStDoc
         {
-            get { return context.NumVagStan; }
+            get { return context.NumVagStanStpr1InStDoc; }
         }
     }
 }

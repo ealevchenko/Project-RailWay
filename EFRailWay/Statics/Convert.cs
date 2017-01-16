@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EFRailWay.KIS;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,6 +22,17 @@ namespace EFRailWay.Statics
                 list += i.ToString() + sep;
             }
             return list.Remove(list.Length - 1);
+        }
+
+        public static string ConvertWhere (this String source, List<OracleRules> list, string name_field_on, string name_field_from, string log_oper)
+        {
+            if (String.IsNullOrWhiteSpace(name_field_on) | String.IsNullOrWhiteSpace(name_field_from) | String.IsNullOrWhiteSpace(log_oper) | list==null) return null; 
+            string Where = "";
+            foreach(OracleRules or in list)
+            {
+              Where+=" ("+name_field_on+"="+or.IDOn.ToString()+ " AND "+name_field_from+" IN("+or.IDFrom.IntsToString(",")+")) "+log_oper;
+            }
+            return Where.Remove(Where.Length - log_oper.Length);
         }
 
     }

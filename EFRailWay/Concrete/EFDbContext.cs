@@ -39,6 +39,8 @@ namespace EFRailWay.Concrete
         public virtual DbSet<LogErrors> LogErrors { get; set; }
         // Временные данные пока работаем с КИС
         public virtual DbSet<Oracle_ArrivalSostav> Oracle_ArrivalSostav { get; set; }
+        public virtual DbSet<Oracle_RulesCopy> Oracle_RulesCopy { get; set; }
+        public virtual DbSet<Oracle_InputSostav> Oracle_InputSostav { get; set; }
 
         // Данные старой системы Railcars
         public virtual DbSet<GDSTAIT> GDSTAIT { get; set; }

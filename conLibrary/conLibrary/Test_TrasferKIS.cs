@@ -5,6 +5,7 @@ using EFRailWay.KIS;
 using EFRailWay.MT;
 using EFRailWay.Railcars;
 using EFRailWay.References;
+using EFRailWay.Statics;
 using EFWagons.Entities;
 using EFWagons.KIS;
 using KIS.Service;
@@ -24,6 +25,7 @@ namespace conLibrary
     {
         ArrivalSostav oas = new ArrivalSostav();
         PromContent pc = new PromContent();
+        RulesCopy rc = new RulesCopy();
         
         public Test_TrasferKIS() { }
 
@@ -299,6 +301,17 @@ namespace conLibrary
                 return -1;
             }
             return 0;//TODO: исправить возврат
+        }
+
+        public void Test_KIS_RulesCopy_GetRulesCopyToOracleRules()
+        {
+            List<OracleRules> list = rc.GetRulesCopyToOracleRules(typeOracleRules.Input);
+            List<OracleRules> list1 = rc.GetRulesCopyToOracleRulesOfKis(typeOracleRules.Input);
+            string wh1 = "";
+            wh1 = wh1.ConvertWhere(list, "k_stan", "st_in_st ", "OR");
+            string wh2 = "";
+            wh2 = wh2.ConvertWhere(list1, "a.k_stan", "st_in_st ", "OR");
+
         }
 
         #endregion

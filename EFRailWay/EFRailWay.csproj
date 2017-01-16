@@ -63,6 +63,8 @@
     <Compile Include="Abstract\ICodeStateRepository.cs" />
     <Compile Include="Abstract\ICodeStationRepository.cs" />
     <Compile Include="Abstract\IReferenceRailwayRepository.cs" />
+    <Compile Include="Abstract\KIS\IOracleInputSostavRepository.cs" />
+    <Compile Include="Abstract\KIS\IOracleRulesCopyRepository.cs" />
     <Compile Include="Abstract\KIS\IOracleArrivalSostavRepository.cs" />
     <Compile Include="Abstract\Railcars\IOwnersContriesRepository.cs" />
     <Compile Include="Abstract\Railcars\IGruzsRepository.cs" />
@@ -88,6 +90,8 @@
     <Compile Include="Concrete\EFCodeStationRepository.cs" />
     <Compile Include="Concrete\EFDbContext.cs" />
     <Compile Include="Concrete\EFReferenceRailwayRepository.cs" />
+    <Compile Include="Concrete\KIS\EFOracleInputSostavRepository.cs" />
+    <Compile Include="Concrete\KIS\EFOracleRulesCopyRepository.cs" />
     <Compile Include="Concrete\KIS\EFOracleArrivalSostavRepository.cs" />
     <Compile Include="Concrete\Railcars\EFShopsRepository.cs" />
     <Compile Include="Concrete\Railcars\EFOwnersContriesRepository.cs" />
@@ -102,6 +106,7 @@
     <Compile Include="Entities\Code_InternalRailroad.cs" />
     <Compile Include="Entities\Code_State.cs" />
     <Compile Include="Entities\Code_Station.cs" />
+    <Compile Include="Entities\KIS\Oracle_RulesCopy.cs" />
     <Compile Include="Entities\MTList.cs" />
     <Compile Include="Entities\MTSostav.cs" />
     <Compile Include="Entities\appSettings.cs" />
@@ -130,6 +135,8 @@
     <Compile Include="Entities\Code_Country.cs" />
     <Compile Include="Entities\ReferenceCargo.cs" />
     <Compile Include="Entities\ReferenceCountry.cs" />
+    <Compile Include="KIS\RulesCopy.cs" />
+    <Compile Include="Entities\KIS\Oracle_InputSostav.cs" />
     <Compile Include="MT\MTContent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Railcars\RC_Shops.cs" />

@@ -50,6 +50,15 @@ namespace EFRailWay.Railcars
             return GetStations().Where(s => s.id_ora == id_station_kis).FirstOrDefault();
         }
         /// <summary>
+        /// Вернуть станцию по id системы Railcars
+        /// </summary>
+        /// <param name="id_station"></param>
+        /// <returns></returns>
+        public STATIONS GetStations(int id_station) 
+        {
+            return GetStations().Where(s => s.id_stat == id_station).FirstOrDefault();
+        }
+        /// <summary>
         /// Вернуть ID станции системы Railcars
         /// </summary>
         /// <param name="id_station_kis"></param>
@@ -60,7 +69,17 @@ namespace EFRailWay.Railcars
             if (st != null) return st.id_stat;
             return null;
         }
-
+        /// <summary>
+        /// Вернуть ID станции системы КИС
+        /// </summary>
+        /// <param name="id_station"></param>
+        /// <returns></returns>
+        public int? GetIDStationsKis(int id_station) 
+        {
+            STATIONS st = GetStations(id_station);
+            if (st != null) return st.id_ora;
+            return null;
+        }
         public int SaveStations(STATIONS stations)
         {
             return rep_st.SaveSTATIONS(stations);

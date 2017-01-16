@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace EFWagons.Abstarct
 {
-    public interface INumVagStanRepository : IDBRepository
+    public interface INumVagStanStpr1InStDocRepository: IDBRepository
     {
-        IQueryable<NumVagStan> NumVagStan { get; }
+        IQueryable<NumVagStanStpr1InStDoc> NumVagStanStpr1InStDoc { get; }
     }
 }

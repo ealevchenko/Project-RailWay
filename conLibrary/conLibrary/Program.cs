@@ -51,13 +51,13 @@ namespace conLibrary
             #endregion
 
             #region Test_TrasferKIS
-            Test_TrasferKIS test = new Test_TrasferKIS();
+            //Test_TrasferKIS test = new Test_TrasferKIS();
             //test.Test_ArrivalKIS();
             //test.Test_References_Owner();
             //test.Test_References_Vagon();
             //test.Test_References_OwnersContries();
             //test.Test_References_Gruzs();
-            test.Test_References_Shop();
+            //test.Test_References_Shop();
             //test.Test_TrasferKIS_KISTransfer();
 
             //test.Test_KIS_RC_Transfer_SetListWagon();
@@ -65,10 +65,11 @@ namespace conLibrary
             //test.Test_KIS_RC_Transfer_ClearArrivingWagons();
             //test.Test_KIS_RC_Transfer_DeleteInArrival();
             //test.Test_SAP_IncomingSupply();
+            //test.Test_KIS_RulesCopy_GetRulesCopyToOracleRules();
             #endregion
 
             #region Test_Wagons
-            //Test_Wagons test = new Test_Wagons();
+            Test_Wagons test = new Test_Wagons();
             //test.Test_KometaContent_KometaVagonSob();
             //test.Test_KometaContent_KometaVagonSob(67666503);
             //test.Test_KometaContent_KometaVagonSob(67666503,DateTime.Now);
@@ -96,6 +97,9 @@ namespace conLibrary
             //test.Test_PromContent_GetCex(148);
              //test.Test_VagonsContent_GetSTPR1GR();
             //test.Test_VagonsContent_GetSTPR1GR(26);
+            //test.Test_VagonsContent_GetSTPR1InStDoc();
+            //test.Test_VagonsContent_GetSTPR1InStDocOfAmkr();
+            test.Test_VagonsContent_GetSTPR1InStDocOfAmkrWhere();
             #endregion
 
             #region Test_RailCars

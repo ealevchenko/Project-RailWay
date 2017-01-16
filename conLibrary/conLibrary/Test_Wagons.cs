@@ -1,4 +1,6 @@
-﻿using EFWagons.Entities;
+﻿using EFRailWay.KIS;
+using EFRailWay.Statics;
+using EFWagons.Entities;
 using EFWagons.KIS;
 using System;
 using System.Collections.Generic;
@@ -172,7 +174,39 @@ namespace conLibrary
                     t.K_PODR,t.NAME_P,t.ABREV_P);        
         }
 
+        public void Test_VagonsContent_GetSTPR1InStDoc()
+        {
+            foreach (NumVagStanStpr1InStDoc t in vc.GetSTPR1InStDoc())
+            {
+                WL(t);
+            }
+        }
 
+        public void Test_VagonsContent_GetSTPR1InStDocOfAmkr()
+        {
+            foreach (NumVagStanStpr1InStDoc t in vc.GetSTPR1InStDocOfAmkr())
+            {
+                WL(t);
+            }
+        }
+
+        public void Test_VagonsContent_GetSTPR1InStDocOfAmkrWhere()
+        {
+            RulesCopy rc = new RulesCopy();
+            List<OracleRules> list = rc.GetRulesCopyToOracleRulesOfKis(typeOracleRules.Input);
+            string wh = "";
+            DateTime dt = DateTime.Now.AddDays(-2);
+            foreach (NumVagStanStpr1InStDoc t in vc.GetSTPR1InStDocOfAmkr(wh.ConvertWhere(list, "a.k_stan", "st_in_st ", "OR")).Where(v=>v.DATE_IN_ST>dt))
+            {
+                WL(t);
+            }
+        }
+        public void WL(NumVagStanStpr1InStDoc t) 
+        {
+            if (t == null) { Console.WriteLine(" = Null"); return; }
+            Console.WriteLine("ID_DOC: {0},\t DATE_IN_ST: {1},\t ST_IN_ST: {2},\t N_PUT_IN_ST: {3},\t NAPR_IN_ST: {4},\t FIO_IN_ST: {5},\t CEX: {6},\t N_POST: {7},\t K_STAN: {8},\t OLD_N_NATUR: {8}",
+                    t.ID_DOC,t.DATE_IN_ST,t.ST_IN_ST,t.N_PUT_IN_ST,t.NAPR_IN_ST,t.FIO_IN_ST,t.CEX,t.N_POST,t.K_STAN, t.OLD_N_NATUR);        
+        }
 
 
 

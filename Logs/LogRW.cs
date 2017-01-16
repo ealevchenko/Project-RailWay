@@ -13,8 +13,14 @@ namespace Logs
         EFISA95 = 1000,
         
         EFRailWay= 2000,
+
         EFRailWay_KIS = 2100,
         EFRailWay_KIS_EFOracleArrivalSostavRepository = 2101,
+        EFRailWay_KIS_EFOracleRulesCopyRepository = 2102,
+        EFRailWay_KIS_EFOracleInputSostavRepository = 2103,
+        EFRailWay_KIS_RulesCopy = 2104,
+        EFRailWay_KIS_ArrivalSostav = 2105,
+
         EFRailWay_RailCars = 2200,
         EFRailWay_RailCars_RC_VagonsOperations = 2201,
         EFRailWay_RailCars_EFVagonsOperationsRepository = 2202,
@@ -23,13 +29,17 @@ namespace Logs
         EFRailWay_RailCars_RC_Shops = 2205,
         EFRailWay_RailCars_RC_Vagons = 2206,
         EFRailWay_RailCars_RC_Stations = 2207,
+
         EFRailWay_RailWay = 2300,
         EFRailWay_RailWay_EFReferenceCargoRepository = 2301,
         EFRailWay_RailWay_EFReferenceCountryRepository = 2302,
+
         EFRailWay_MT = 2400,
         EFRailWay_MT_MTContent = 2401,
+
         EFRailWay_SAP = 2500,
         EFRailWay_SAP_EFSAPIncSupplyRepository = 2501,
+
         EFRailWay_References = 2600,
         EFRailWay_References_ReferenceRailway = 2601,
         EFRailWay_References_GeneralReferences = 2602,
@@ -41,6 +51,7 @@ namespace Logs
         EFWagons_KIS= 3100,
         EFWagons_KIS_PromContent = 3101,
         EFWagons_KIS_KometaContent = 3102,
+        EFWagons_KIS_VagonsContent = 3103,
         
         KIS= 4000,
         KIS_Service=4100,

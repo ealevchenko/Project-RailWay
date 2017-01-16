@@ -1,6 +1,7 @@
 ﻿using EFRailWay.Abstract.KIS;
 using EFRailWay.Concrete.KIS;
 using EFRailWay.Entities.KIS;
+using Logs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,8 @@ namespace EFRailWay.KIS
 {
     public class ArrivalSostav
     {
+        private eventID eventID = eventID.EFRailWay_KIS_ArrivalSostav;
+
         IOracleArrivalSostavRepository rep_as;
 
         public ArrivalSostav() 
@@ -28,7 +31,15 @@ namespace EFRailWay.KIS
         /// <returns></returns>
         public IQueryable<Oracle_ArrivalSostav> Get_ArrivalSostav() 
         {
-            return rep_as.Oracle_ArrivalSostav;
+            try
+            {
+                return rep_as.Oracle_ArrivalSostav;
+            }
+            catch (Exception e)
+            {
+                LogRW.LogError(e, "Get_ArrivalSostav", eventID);
+                return null;
+            }
         }
         /// <summary>
         /// Получить строку состава по id
