@@ -47,7 +47,7 @@ namespace EFWagons.Concrete
         public DbSet<NumVagStpr1Gr> NumVagStpr1Gr { get; set; } // груз на станции прибытия?
         public DbSet<KometaVagonSob> KometaVagonSob { get; set; } // аренда вагонов
         public DbSet<KometaSobstvForNakl> KometaSobstvForNakl { get; set; } // собственник по накладным       
-        public DbSet<NumVagStanStpr1InStDoc> NumVagStanStpr1InStDoc { get; set; } // Вагоны по внутреним станциям по прибытию  
-
+        public DbSet<NumVagStanStpr1InStDoc> NumVagStanStpr1InStDoc { get; set; } // Составы по внутреним станциям по прибытию  
+        public DbSet<NumVagStanStpr1InStVag> NumVagStanStpr1InStVag { get; set; } // Вагоны по внутреним станциям по прибытию 
     }
 }

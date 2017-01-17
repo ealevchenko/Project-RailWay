@@ -135,6 +135,7 @@
     <Compile Include="Entities\Code_Country.cs" />
     <Compile Include="Entities\ReferenceCargo.cs" />
     <Compile Include="Entities\ReferenceCountry.cs" />
+    <Compile Include="KIS\InputSostav.cs" />
     <Compile Include="KIS\RulesCopy.cs" />
     <Compile Include="Entities\KIS\Oracle_InputSostav.cs" />
     <Compile Include="MT\MTContent.cs" />

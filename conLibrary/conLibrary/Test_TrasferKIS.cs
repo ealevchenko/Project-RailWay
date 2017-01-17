@@ -105,13 +105,14 @@ namespace conLibrary
             Console.WriteLine("Зерно кукурузы = {0}", refer.DefinitionIDGruzs(15006));
             
         }
+
         public void Test_TrasferKIS_KISTransfer() { 
             KIS_Transfer kist = new KIS_Transfer();
 
-            kist.DayControllingAddNatur = 2;
+            //kist.DayControllingAddNatur = 2;
             kist.PutCarsToStations(0);
             //kist.UpdateSostavs();
-                Console.WriteLine("Обновлено {0}", kist.CopyArrivalSostavToRailway());
+                Console.WriteLine("Обновлено {0}", kist.CopyArrivalSostavToRailway(2));
         }
 
         public void Test_KIS_RC_Transfer_SetListWagon() {
@@ -312,6 +313,11 @@ namespace conLibrary
             string wh2 = "";
             wh2 = wh2.ConvertWhere(list1, "a.k_stan", "st_in_st ", "OR");
 
+        }
+
+        public void Test_KIS_Transfer_CopyInputSostavToRailway() { 
+            KIS_Transfer kist = new KIS_Transfer();
+            Console.WriteLine("Обновлено {0}", kist.CopyInputSostavToRailway(1));
         }
 
         #endregion

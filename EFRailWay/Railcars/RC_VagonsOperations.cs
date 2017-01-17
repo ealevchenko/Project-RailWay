@@ -414,6 +414,25 @@ namespace EFRailWay.Railcars
             
         }
         /// <summary>
+        /// Удалить вагоны пренадлежащие документу прибытия на станцию
+        /// </summary>
+        /// <param name="doc"></param>
+        /// <returns></returns>
+        public int DeleteVagonsToDocInput(int doc)
+        {
+            try
+            {
+                return rep_vo.db.ExecuteSqlCommand("DELETE FROM dbo.VAGON_OPERATIONS WHERE id_ora_23_temp=" + doc.ToString());
+            }
+            catch (Exception e)
+            {
+                LogRW.LogError(e, "DeleteVagonsToDocInput", eventID);
+                return -1;
+            }
+            
+            
+        }
+        /// <summary>
         /// Очистить данные из прибытия по указанной станции до указанного времени
         /// </summary>
         /// <param name="id_station"></param>

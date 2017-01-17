@@ -58,7 +58,7 @@ namespace EFRailWay.KIS
         /// <returns></returns>
         public IQueryable<Oracle_ArrivalSostav> Get_ArrivalSostav(DateTime start, DateTime stop) 
         {
-            return rep_as.Oracle_ArrivalSostav.Where(o => o.DateTime >= start & o.DateTime <= stop);
+            return Get_ArrivalSostav().Where(o => o.DateTime >= start & o.DateTime <= stop);
         }
         /// <summary>
         /// Выбрать не закрытые перенесеные составы
@@ -66,7 +66,7 @@ namespace EFRailWay.KIS
         /// <returns></returns>
         public IQueryable<Oracle_ArrivalSostav> Get_ArrivalSostavNoClose()
         {
-            return rep_as.Oracle_ArrivalSostav.Where(o => o.Close == null).OrderBy(o => o.DateTime);
+            return Get_ArrivalSostav().Where(o => o.Close == null).OrderBy(o => o.DateTime);
         }
         /// <summary>
         /// Вернуть последнее время по которому перенесли состав

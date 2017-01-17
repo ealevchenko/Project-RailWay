@@ -57,9 +57,9 @@ namespace KIS.Service
             try
             {
                 
-                kist.DayControllingAddNatur = dayControllingAddNatur;
+                //kist.DayControllingAddNatur = dayControllingAddNatur;
                 // Перенесем или обновим информацию о составах защедших на АМКР по системе КИС
-                int result_cs = kist.CopyArrivalSostavToRailway();
+                int result_cs = kist.CopyArrivalSostavToRailway(this.dayControllingAddNatur);
                 int res_pc = 0;
                 switch (this.mode) 
                 { 

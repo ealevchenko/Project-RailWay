@@ -20,6 +20,7 @@ namespace Logs
         EFRailWay_KIS_EFOracleInputSostavRepository = 2103,
         EFRailWay_KIS_RulesCopy = 2104,
         EFRailWay_KIS_ArrivalSostav = 2105,
+        EFRailWay_KIS_InputSostav = 2106,
 
         EFRailWay_RailCars = 2200,
         EFRailWay_RailCars_RC_VagonsOperations = 2201,

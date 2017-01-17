@@ -79,17 +79,16 @@ namespace KIS.Service
             LogRW.LogInformation(String.Format("Сервис копирования по внутреним станциям системамы КИС в систему RailWay :{0} - запущен", this.className), this.eventID);
             try
             {
-                
+                //TODO: перенести необходимые переменные
                 if (activeCopyInput) 
-                { 
-                
+                {
+                    // Перенесем или обновим информацию о составах защедших на АМКР по системе КИС
+                    int result_ci = kist.CopyInputSostavToRailway(this.dayControllingCopyInput_ins);
                 }
-               
                 if (activeCopyOutput) 
                 { 
                 
                 }
-
                 if (activeDelete) 
                 {
                     int res_del = kist.ClearArrivingWagons(dayControllingDelete);

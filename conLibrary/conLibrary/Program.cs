@@ -51,7 +51,7 @@ namespace conLibrary
             #endregion
 
             #region Test_TrasferKIS
-            //Test_TrasferKIS test = new Test_TrasferKIS();
+            Test_TrasferKIS test = new Test_TrasferKIS();
             //test.Test_ArrivalKIS();
             //test.Test_References_Owner();
             //test.Test_References_Vagon();
@@ -66,10 +66,11 @@ namespace conLibrary
             //test.Test_KIS_RC_Transfer_DeleteInArrival();
             //test.Test_SAP_IncomingSupply();
             //test.Test_KIS_RulesCopy_GetRulesCopyToOracleRules();
+            test.Test_KIS_Transfer_CopyInputSostavToRailway();
             #endregion
 
             #region Test_Wagons
-            Test_Wagons test = new Test_Wagons();
+            //Test_Wagons test = new Test_Wagons();
             //test.Test_KometaContent_KometaVagonSob();
             //test.Test_KometaContent_KometaVagonSob(67666503);
             //test.Test_KometaContent_KometaVagonSob(67666503,DateTime.Now);
@@ -99,7 +100,9 @@ namespace conLibrary
             //test.Test_VagonsContent_GetSTPR1GR(26);
             //test.Test_VagonsContent_GetSTPR1InStDoc();
             //test.Test_VagonsContent_GetSTPR1InStDocOfAmkr();
-            test.Test_VagonsContent_GetSTPR1InStDocOfAmkrWhere();
+            //test.Test_VagonsContent_GetSTPR1InStDocOfAmkrWhere();
+            //test.Test_VagonsContent_GetSTPR1InStVag();
+            //test.Test_VagonsContent_GetCountSTPR1InStVag();
             #endregion
 
             #region Test_RailCars

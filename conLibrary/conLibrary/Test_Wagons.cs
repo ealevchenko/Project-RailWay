@@ -204,11 +204,28 @@ namespace conLibrary
         public void WL(NumVagStanStpr1InStDoc t) 
         {
             if (t == null) { Console.WriteLine(" = Null"); return; }
-            Console.WriteLine("ID_DOC: {0},\t DATE_IN_ST: {1},\t ST_IN_ST: {2},\t N_PUT_IN_ST: {3},\t NAPR_IN_ST: {4},\t FIO_IN_ST: {5},\t CEX: {6},\t N_POST: {7},\t K_STAN: {8},\t OLD_N_NATUR: {8}",
+            Console.WriteLine("ID_DOC: {0},\t DATE_IN_ST: {1},\t ST_IN_ST: {2},\t N_PUT_IN_ST: {3},\t NAPR_IN_ST: {4},\t FIO_IN_ST: {5},\t CEX: {6},\t N_POST: {7},\t K_STAN: {8},\t OLD_N_NATUR: {9}",
                     t.ID_DOC,t.DATE_IN_ST,t.ST_IN_ST,t.N_PUT_IN_ST,t.NAPR_IN_ST,t.FIO_IN_ST,t.CEX,t.N_POST,t.K_STAN, t.OLD_N_NATUR);        
         }
 
-
+        public void Test_VagonsContent_GetSTPR1InStVag()
+        {
+            foreach (NumVagStanStpr1InStVag t in vc.GetSTPR1InStVag())
+            {
+                WL(t);
+            }
+        }
+        public void Test_VagonsContent_GetCountSTPR1InStVag()
+        {
+            Console.WriteLine("57 =  {0}",vc.GetCountSTPR1InStVag(227028));
+            Console.WriteLine("0 =  {0}",vc.GetCountSTPR1InStVag(0));
+        }
+        public void WL(NumVagStanStpr1InStVag t) 
+        {
+            if (t == null) { Console.WriteLine(" = Null"); return; }
+            Console.WriteLine("ID_DOC: {0},\t N_IN_ST: {1},\t N_VAG: {2},\t STRAN_SOBSTV: {3},\t GODN_IN_ST: {4},\t GR_IN_ST: {5},\t SOBSTV: {6},\t REM_IN_ST: {7},\t ID_VAG: {8},\t ST_NAZN_OUT_ST: {9},\t STRAN_OUT_ST: {10},\t SOBSTV_OLD: {11}",
+                    t.ID_DOC,t.N_IN_ST,t.N_VAG,t.STRAN_SOBSTV,t.GODN_IN_ST,t.GR_IN_ST,t.SOBSTV,t.REM_IN_ST,t.ID_VAG, t.ST_NAZN_OUT_ST, t.STRAN_OUT_ST, t.SOBSTV_OLD);        
+        }
 
         //**************************** Тест Wagons ****************************************************************************
         
