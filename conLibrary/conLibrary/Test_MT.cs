@@ -19,7 +19,7 @@ namespace conLibrary
         public void Test_MT_Helpers_MT_ArrivalToRailWay()
         {
             MT mts = new MT();
-
+int v1 = mts.ArrivalToRailWay(6391);  
             //int v1 = mts.ArrivalToRailWay(5012);  
             //int v2 = mts.ArrivalToRailWay(5021);             
             //int v3 = mts.ArrivalToRailWay(5027);  
@@ -133,6 +133,7 @@ namespace conLibrary
             MT mts = new MT();
             int count = mts.CorrectionMT_SAP(DateTime.Parse("2016-12-01 00:00:00"));
         }
+
 
     }
     ////**************** ТЕСТ MT ***********************************************************

@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EFWagons.KIS
+namespace EFWagons.Statics
 {
 
     
@@ -72,7 +72,7 @@ namespace EFWagons.KIS
         /// <returns></returns>
         public IQueryable<PromSostav> GetInputPromSostav(DateTime start, DateTime stop)
         {
-            return Filters.FilterArrayOfPromSostav(GetInputPromSostav().ToArray(), Filters.IsGreaterOrequalToLessOrEqual, start, stop).AsQueryable();
+            return GetInputPromSostav().ToArray().FilterArrayOfFilterFromTo(Filters.IsGreaterOrequalToLessOrEqual, start, stop).AsQueryable();
         }
         /// <summary>
         /// Вернуть составы прибывшие на станцию промышленую за указанный период с сортировкой true - по убывания false - по возростанию
@@ -166,7 +166,6 @@ namespace EFWagons.KIS
         {
             return GetNatHist(natur, station, day, month, year, null).Where(h=>h.N_VAG==wag).FirstOrDefault();
         }
-
         /// <summary>
         /// Получить количество вагонов по натурному листу станции и дате поступления
         /// </summary>
@@ -182,6 +181,55 @@ namespace EFWagons.KIS
             if (pnh == null) return null;
             return pnh.Count();
         }
+        /// <summary>
+        /// Получить список вагонов по номеру вагона
+        /// </summary>
+        /// <param name="num_vag"></param>
+        /// <returns></returns>
+        public IQueryable<PromNatHist> GetNatHistOfVagon(int num_vag) 
+        {
+            return GetNatHist().Where(n => n.N_VAG == num_vag);
+        }
+        /// <summary>
+        /// Получить список вагонов по номеру вагона и датой прибытия меньше указаной даты
+        /// </summary>
+        /// <param name="num_vag"></param>
+        /// <param name="start"></param>
+        /// <returns></returns>
+        public IQueryable<PromNatHist> GetNatHistOfVagonLess(int num_vag, DateTime start)
+        {
+            return GetNatHistOfVagon(num_vag).ToArray().FilterArrayOfFilterFrom(Filters.IsLessOrEqual, start).AsQueryable();
+        }
+        /// <summary>
+        /// Получить список вагонов по номеру вагона и датой прибытия меньше указаной даты с сортировкой
+        /// </summary>
+        /// <param name="num_vag"></param>
+        /// <param name="start"></param>
+        /// <param name="sort"></param>
+        /// <returns></returns>
+        public IQueryable<PromNatHist> GetNatHistOfVagonLess(int num_vag, DateTime start, bool sort)
+        {
+            if (sort)
+            {
+                return GetNatHistOfVagonLess(num_vag, start)
+                    .OrderByDescending(p => p.D_PR_YY)
+                    .ThenByDescending(p => p.D_PR_MM)
+                    .ThenByDescending(p => p.D_PR_DD)
+                    .ThenByDescending(p => p.T_PR_HH)
+                    .ThenByDescending(p => p.T_PR_MI);
+            }
+            else
+            {
+                return GetNatHistOfVagonLess(num_vag, start)
+                    .OrderBy(p => p.D_PR_YY)
+                    .ThenBy(p => p.D_PR_MM)
+                    .ThenBy(p => p.D_PR_DD)
+                    .ThenBy(p => p.T_PR_HH)
+                    .ThenBy(p => p.T_PR_MI);
+            }
+
+        }
+
         #endregion
 
         #region PROM.Vagon

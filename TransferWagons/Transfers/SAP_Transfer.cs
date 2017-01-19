@@ -192,5 +192,19 @@ namespace TransferWagons.Transfers
             result.counts, result.deletes, result.inserts, result.updates, result.errors), eventID);
             return result.ResultInsert;
         }
+
+        /// <summary>
+        /// Получить IDSostav по умолчанию (если в таблицах MT нет данного состава тогда ему присваивается id по умолчанию (отрицательное)
+        /// </summary>
+        /// <returns></returns>
+        public int GetDefaultIDSostav()
+        {
+            SAPIncSupply sap_s = sapis.GetSAPIncSupply().Where(s => s.IDMTSostav < 0).OrderBy(s => s.IDMTSostav).FirstOrDefault();
+            if (sap_s != null)
+            {
+                return sap_s.IDMTSostav - 1;
+            } return -1;
+        }
+
     }
 }

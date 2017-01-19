@@ -21,7 +21,7 @@ using EFRailWay.Entities;
 using EFISA95.Backup;
 using EFRailWay.Settings;
 using EFRailWay.MT;
-using EFWagons.KIS;
+using EFWagons.Statics;
 using KIS.Service;
 using EFRailWay.Entities.Railcars;
 
@@ -66,7 +66,12 @@ namespace conLibrary
             //test.Test_KIS_RC_Transfer_DeleteInArrival();
             //test.Test_SAP_IncomingSupply();
             //test.Test_KIS_RulesCopy_GetRulesCopyToOracleRules();
-            test.Test_KIS_Transfer_CopyInputSostavToRailway();
+            //test.Test_KIS_Transfer_CopyInputSostavToRailway();
+            //test.Test_KIS_Transfer_PutInputSostavToStation();
+            //test.Test_KIS_RC_Transfer_PutInputSostavToStation();
+            //test.Test_KIS_RC_Transfer_PutCarsToStation_UpdateCarsToStation();
+
+            test.Test_SAPIncomingSupply_GetDefaultIDSostav();
             #endregion
 
             #region Test_Wagons
@@ -103,6 +108,7 @@ namespace conLibrary
             //test.Test_VagonsContent_GetSTPR1InStDocOfAmkrWhere();
             //test.Test_VagonsContent_GetSTPR1InStVag();
             //test.Test_VagonsContent_GetCountSTPR1InStVag();
+            //test.Test_PromContent_TestFilter();
             #endregion
 
             #region Test_RailCars

@@ -2,6 +2,7 @@
 using EFRailWay.Entities;
 using EFRailWay.Entities.KIS;
 using EFRailWay.KIS;
+using TransferWagons.Railcars;
 //using EFRailWay.Settings;
 using EFWagons.Entities;
 //using Errors;
@@ -26,7 +27,8 @@ namespace TransferWagons.Transfers
         no_owner = -6,
         no_shop = -7,
         no_gruz = -8,
-        no_wagon_is_list = -9
+        no_wagon_is_list = -9,
+        no_wagon_is_nathist = -10
     }
     /// <summary>
     /// Класс данных результат переноса массва данных
@@ -119,15 +121,21 @@ namespace TransferWagons.Transfers
         public int? ParentID { get; set; }
         public trWagon[] Wagons { get; set; }
     }
-   
+
+    //public class kisWagon 
+    //{
+    //    public int? id_wagon { get; set; }
+    //    public int? id_owner_country { get; set; }   
+    //    public int? id_owner { get; set; }      
+    //    public int? id_shop { get; set; }
+    //    public int? id_gruz { get; set; }
+    //}
+
     public class Transfer
     {
-     
-        //protected string className = "TransferWagons";
-        //protected string classDescription = "Система переноса данных из КИС";
-        //protected bool error_settings = false;
-        //private int eventID = (int)eventID.TransferWagons;//6
+
         private eventID eventID = eventID.TransferWagons_Transfers_Transfer;
+        ReferencesKIS ref_kis = new ReferencesKIS();
 
         public Transfer() 
         {
@@ -350,8 +358,27 @@ namespace TransferWagons.Transfers
 
         #endregion
 
+        //#region kisWagon
+        //public kisWagon GetKisWagon(PromNatHist pnh)
+        //{
+        //    kisWagon kwag = new kisWagon();
+        //    // Определим цех
+        //    if (pnh.K_POL_GR != null)
+        //    {
+        //        kwag.id_shop = ref_kis.DefinitionIDShop((int)pnh.K_POL_GR);
+        //    } 
+        //    // определяем название груза           
+        //    if (pnh.K_GR != null)
+        //    {
+        //        kwag.id_gruz = ref_kis.DefinitionIDGruzs((int)pnh.K_GR, null);
+        //    }
+        //    kwag.id_wagon = ref_kis.DefinitionSetIDVagon(pnh.N_VAG, DateTime.Parse(pnh.D_PR_DD.ToString() + "-" + pnh.D_PR_MM.ToString() + "-" + pnh.D_PR_YY.ToString() + " " + pnh.T_PR_HH.ToString() + ":" + pnh.T_PR_MI.ToString() + ":00", CultureInfo.CreateSpecificCulture("ru-RU")), -1, null, pnh.N_NATUR, false); 
+        //    return kwag;
+        //}
+        //#endregion
 
     }
+
 
 
 }

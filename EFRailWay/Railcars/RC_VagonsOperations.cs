@@ -107,6 +107,25 @@ namespace EFRailWay.Railcars
             return GetVagonsOperationsToMTSostav(id_sostav, dt_amkr).Where(o => o.id_vagon == id_vagon).FirstOrDefault();
         }
         /// <summary>
+        /// Вернуть операции над вагонами по указаному номеру документа (копирование по прибытию)
+        /// </summary>
+        /// <param name="doc"></param>
+        /// <returns></returns>
+        public IQueryable<VAGON_OPERATIONS> GetVagonsOperationsToDocInputSostav(int doc) 
+        {
+            return GetVagonsOperations().Where(o => o.id_ora_23_temp == doc);
+        }
+        /// <summary>
+        /// Вернуть операции над вагонами по указаному номеру документа и вагона (копирование по прибытию)
+        /// </summary>
+        /// <param name="doc"></param>
+        /// <param name="num_vag"></param>
+        /// <returns></returns>
+        public VAGON_OPERATIONS GetVagonsOperationsToDocInputSostav(int doc, int num_vag) 
+        {
+            return GetVagonsOperationsToDocInputSostav(doc).Where(o => o.num_vagon == num_vag).OrderByDescending(o => o.id_oper).FirstOrDefault();
+        }
+        /// <summary>
         /// Операция над вагоном с указаным натуральным листом и датой захода существует?
         /// </summary>
         /// <param name="natur"></param>
@@ -321,6 +340,65 @@ namespace EFRailWay.Railcars
             };
             return SaveVagonsOperations(vo);
         }
+
+        public int InsertInputVagon(int IDSostav, int doc, int natur, int id_vagon, int num_vagon, DateTime dt_uz, DateTime dt_amkr, DateTime dt_imp, int id_station_from, int position, int? id_gruz, string note,  int id_station_in, int num_train, int? id_cond)
+        {
+        //(id_vagon,  id_stat,            dt_from_stat,   id_gruz,    id_cond,            note,                   is_present, is_hist,    id_ora_23_temp,     st_lock_id_stat,        st_lock_order,          st_lock_train,  dt_amkr,                dt_on_stat,             dt_on_way,          num_vagon)
+        //(@id_vagon, @id_sender_station, @DateTime,      @id_gruz,   @cursetwag_godn,    @cursetwag_rem_in_st,   0,          0,          @DocNum,            @id_receiver_station,   @cursetwag_n_in_st,     -1,             @cursetwag_dt_amkr,     @cursetwag_dt_amkr,     @cursetwag_dt_amkr, @cursetwag_n_vag)
+            
+            //TODO: !!ДОРАБОТАТЬ (ДОБАВИТЬ В ПРИБЫТИЕ С УЗ) - убрать id_vagon,id_gruz,weight_gruz (эти данные берутся из справочника САП входящие поставки по (dt_uz)dt_amkr и num_vagon)
+            VAGON_OPERATIONS vo = new VAGON_OPERATIONS()
+            {
+                id_oper = 0,
+                dt_uz = dt_uz,
+                dt_amkr = dt_amkr, // 
+                dt_out_amkr = null,
+                n_natur = natur,
+                id_vagon = id_vagon,
+                id_stat = id_station_from,
+                dt_from_stat = dt_imp,
+                dt_on_stat = null,
+                id_way = null,
+                dt_from_way = dt_imp,
+                dt_on_way = null,
+                num_vag_on_way = position,
+                is_present = 0,
+                id_locom = null,
+                id_locom2 = null,
+                id_cond2 = null, //id_cond2, // 15
+                id_gruz = id_gruz,
+                id_gruz_amkr = null,
+                id_shop_gruz_for = null,
+                weight_gruz = null,
+                id_tupik = null,
+                id_nazn_country = null,
+                id_gdstait = null,
+                id_cond = id_cond,
+                note = note,
+                is_hist = 0,
+                id_oracle = null,
+                lock_id_way = null,
+                lock_order = null,
+                lock_side = null,
+                lock_id_locom = null,
+                st_lock_id_stat = id_station_in,
+                st_lock_order = position,
+                st_lock_train = num_train,
+                st_lock_side = null,
+                st_gruz_front = null,
+                st_shop = null,
+                oracle_k_st = null,
+                st_lock_locom1 = null,
+                st_lock_locom2 = null,
+                id_oper_parent = null,
+                grvu_SAP = null,
+                ngru_SAP = null,
+                id_ora_23_temp = doc,
+                IDSostav = IDSostav,
+                num_vagon = num_vagon,
+            };
+            return SaveVagonsOperations(vo);
+        }
         /// <summary>
         /// Поставить вагон на станцию
         /// </summary>
@@ -353,7 +431,6 @@ namespace EFRailWay.Railcars
                 return -1;
             }                    
         }
-
         /// <summary>
         /// Удалить вагоны пренадлежащие составу перенесеному по данным металлург транс 
         /// </summary>

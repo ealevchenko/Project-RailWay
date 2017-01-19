@@ -3,7 +3,7 @@ using EFRailWay.Entities.Railcars;
 using EFRailWay.Railcars;
 using EFRailWay.References;
 using EFWagons.Entities;
-using EFWagons.KIS;
+using EFWagons.Statics;
 using Logs;
 using System;
 using System.Collections.Generic;
@@ -11,11 +11,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TransferWagons.RailCars
+namespace TransferWagons.Railcars
 {
-    public class References
+    public class ReferencesKIS
     {
-        private eventID eventID = eventID.TransferWagons_RailCars_References;
+        private eventID eventID = eventID.TransferWagons_KIS_ReferencesKIS;
 
         RC_Stations rs_stat = new RC_Stations();
         RC_Ways rs_ways = new RC_Ways();
@@ -29,7 +29,7 @@ namespace TransferWagons.RailCars
         PromContent pc = new PromContent();
         ReferenceRailway refRailway = new ReferenceRailway();
 
-        public References()
+        public ReferencesKIS()
         {
 
         }

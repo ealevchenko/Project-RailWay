@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EFWagons.KIS
+namespace EFWagons.Statics
 {
     public class KometaContent
     {

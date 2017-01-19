@@ -75,10 +75,12 @@ namespace Logs
         TransferWagons_Transfers_KIS_Transfer = 6103,
         TransferWagons_Transfers_References = 6104,
         TransferWagons_RailCars= 6300,
-        TransferWagons_RailCars_References = 6301,
         TransferWagons_RailWay= 6400,
         TransferWagons_SAP = 6500,
         TransferWagons_SAP_References = 6501,
+        TransferWagons_KIS = 6600,
+        TransferWagons_KIS_ReferencesKIS = 6601,
+
     }
 
     public class LogRW

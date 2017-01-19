@@ -4,7 +4,7 @@ using EFRailWay.KIS;
 using EFRailWay.MT;
 using EFRailWay.Statics;
 using EFWagons.Entities;
-using EFWagons.KIS;
+using EFWagons.Statics;
 using Logs;
 using System;
 using System.Collections.Generic;
@@ -12,7 +12,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TransferWagons.RailCars;
+using TransferWagons.Railcars;
 using TransferWagons.RailWay;
 
 namespace TransferWagons.Transfers
@@ -289,7 +289,11 @@ namespace TransferWagons.Transfers
                 index--;
             }
         }
-
+        /// <summary>
+        /// удалить строку состава отсутсвующего после переноса
+        /// </summary>
+        /// <param name="list"></param>
+        /// <returns></returns>
         protected int DeleteInputSostav(List<Oracle_InputSostav> list)
         {
             if (list == null | list.Count == 0) return 0;
@@ -498,27 +502,37 @@ namespace TransferWagons.Transfers
 
             return normals;
         }
-
+        /// <summary>
+        /// Поставить все составы из прибытия системы КИС (перечень составов берется из таблицы учета прибытия из внутренихстанций системы КИС)
+        /// </summary>
+        /// <returns></returns>
         public int PutInputSostavToStation() 
         {
             IQueryable<Oracle_InputSostav> list_noClose = ois.GetInputSostavNoClose();
             if (list_noClose == null | list_noClose.Count() == 0) return 0;
-            foreach (Oracle_InputSostav or_is in list_noClose)
+            foreach (Oracle_InputSostav or_is in list_noClose.ToList()) 
+                //TODO: .ToList() добавлен чтобы небыло ошибок
+                //Дело в том, что функция Where(Function()...) возвращает результат типа Linq.IQueryable(), который создает транзакцию, 
+                // которая в свою очередь остается открытой на все время исполнения запроса — на весь цикл перебора. А вызов метода db.SaveChanges() 
+                // спытается открыть новую транзакцию, при открытой предыдущей и это вызывает исключение. Чтобы «завершить» открытую транзакцию необходимо привести результат 
+                // к «конечному» типу, например Array или List(Of ...). Для этого необходимо изменить код: 
             {
                 Oracle_InputSostav kis_inp_sostav = new Oracle_InputSostav();
                 kis_inp_sostav = or_is;
-                // Поставим состав на станции АМКР системы RailCars
-                int res_put = transfer_rc.PutInputSostavToStation(ref kis_inp_sostav);
-                //TODO: ВЫПОЛНИТЬ КОД: Поставим состав на станции АМКР системы RailWay 
-      
-                //.............................
-
                 //Закрыть состав
                 if (kis_inp_sostav.CountWagons != null & kis_inp_sostav.CountSetWagons != null & kis_inp_sostav.CountWagons == kis_inp_sostav.CountSetWagons)
                 {
                     kis_inp_sostav.Close = DateTime.Now;
                     int res_close = ois.SaveOracle_InputSostav(kis_inp_sostav);
                 }
+
+                // Поставим состав на станции АМКР системы RailCars
+                int res_put = transfer_rc.PutInputSostavToStation(ref kis_inp_sostav);
+                //TODO: ВЫПОЛНИТЬ КОД: Поставим состав на станции АМКР системы RailWay 
+      
+                //.............................
+
+
             }
             
             return 0; // TODO: исправить возврат        

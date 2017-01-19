@@ -12,7 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using TransferWagons;
-using TransferWagons.RailCars;
+using TransferWagons.Railcars;
 using TransferWagons.RailWay;
 using TransferWagons.Transfers;
 
@@ -406,6 +406,7 @@ namespace MetallurgTrans.Helpers
                         if (id_stat_receiving == 467004)
                         {
                             //bOk = true;
+                            //TODO: ОТКЛЮЧИЛ по КривойРог главный фильтр показывать и ставить на пу
                             if (wag.IDStation != id_stat_receiving | !IsConsignee(wag.Consignee, code_consignee))
                                 return null; // есть вагон недошедший до станции назанчения или с кодом грузополучателя не АМКР 
                             list_wag.Add(new trWagon()

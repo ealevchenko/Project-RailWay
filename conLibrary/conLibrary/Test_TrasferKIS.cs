@@ -5,9 +5,10 @@ using EFRailWay.KIS;
 using EFRailWay.MT;
 using EFRailWay.Railcars;
 using EFRailWay.References;
+using EFRailWay.SAP;
 using EFRailWay.Statics;
 using EFWagons.Entities;
-using EFWagons.KIS;
+using EFWagons.Statics;
 using KIS.Service;
 using MetallurgTrans.Helpers;
 using System;
@@ -15,7 +16,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TransferWagons.RailCars;
+using TransferWagons.Railcars;
 using TransferWagons.RailWay;
 using TransferWagons.Transfers;
 
@@ -24,6 +25,7 @@ namespace conLibrary
     public class Test_TrasferKIS
     {
         ArrivalSostav oas = new ArrivalSostav();
+        InputSostav ois = new InputSostav();
         PromContent pc = new PromContent();
         RulesCopy rc = new RulesCopy();
         
@@ -37,7 +39,7 @@ namespace conLibrary
 
         public void Test_References_Owner() 
         {
-            TransferWagons.RailCars.References refer = new TransferWagons.RailCars.References();
+            TransferWagons.Railcars.ReferencesKIS refer = new TransferWagons.Railcars.ReferencesKIS();
             //refer.DefinitionIDOwner(53,null);
             Console.WriteLine("Новая перевозочная компания 123 = {0}", refer.DefinitionIDOwner(53, null));
             Console.WriteLine("Null = {0}", refer.DefinitionIDOwner(0, null));
@@ -53,7 +55,7 @@ namespace conLibrary
 
         public void Test_References_Vagon()
         {
-            TransferWagons.RailCars.References refer = new TransferWagons.RailCars.References();
+            TransferWagons.Railcars.ReferencesKIS refer = new TransferWagons.Railcars.ReferencesKIS();
             //Console.WriteLine("вагон id (917664) = {0}", refer.DefinitionIDVagon(67166710, DateTime.Now));
             ////Console.WriteLine("Новый вагон #67669887 = {0}", refer.DefinitionIDVagon(67669887, DateTime.Now));
             //Console.WriteLine("Null = {0}", refer.DefinitionIDVagon(0, DateTime.Now));
@@ -69,7 +71,7 @@ namespace conLibrary
 
         public void Test_References_OwnersContries() 
         {
-            TransferWagons.RailCars.References refer = new TransferWagons.RailCars.References(); 
+            TransferWagons.Railcars.ReferencesKIS refer = new TransferWagons.Railcars.ReferencesKIS(); 
             Console.WriteLine("Украина 1= {0}", refer.DefinitionIDOwnersContries(22));
             Console.WriteLine("Null = {0}", refer.DefinitionIDOwnersContries(0));
             //int? new_oc = refer.DefinitionIDOwnersContries(100);
@@ -78,7 +80,7 @@ namespace conLibrary
 
         public void Test_References_Gruzs() 
         {
-            TransferWagons.RailCars.References refer = new TransferWagons.RailCars.References(); 
+            TransferWagons.Railcars.ReferencesKIS refer = new TransferWagons.Railcars.ReferencesKIS(); 
 
 
             //Console.WriteLine("Уголь марки Ж 1= {0}", refer.DefinitionIDGruzs(285, null) );
@@ -93,7 +95,7 @@ namespace conLibrary
 
         public void Test_References_Shop() 
         {
-            TransferWagons.RailCars.References refer = new TransferWagons.RailCars.References();
+            TransferWagons.Railcars.ReferencesKIS refer = new TransferWagons.Railcars.ReferencesKIS();
 
             int? ch = refer.DefinitionIDShop(20);
             //Console.WriteLine("Уголь марки Ж 1= {0}", refer.DefinitionIDGruzs(285, null) );
@@ -130,7 +132,7 @@ namespace conLibrary
 
         public void Test_References_SynchronizeWagons(int day) 
         {
-            TransferWagons.RailCars.References refer = new TransferWagons.RailCars.References();
+            TransferWagons.Railcars.ReferencesKIS refer = new TransferWagons.Railcars.ReferencesKIS();
             refer.SynchronizeWagons(day);
             
         }
@@ -304,6 +306,17 @@ namespace conLibrary
             return 0;//TODO: исправить возврат
         }
 
+
+
+        public void Test_SAPIncomingSupply_GetDefaultIDSostav()
+        {
+            SAP_Transfer mt = new SAP_Transfer();
+            Console.WriteLine("natur {0}", mt.GetDefaultIDSostav());
+        }
+        
+
+        #endregion  
+   
         public void Test_KIS_RulesCopy_GetRulesCopyToOracleRules()
         {
             List<OracleRules> list = rc.GetRulesCopyToOracleRules(typeOracleRules.Input);
@@ -314,13 +327,42 @@ namespace conLibrary
             wh2 = wh2.ConvertWhere(list1, "a.k_stan", "st_in_st ", "OR");
 
         }
-
+   
         public void Test_KIS_Transfer_CopyInputSostavToRailway() { 
             KIS_Transfer kist = new KIS_Transfer();
-            Console.WriteLine("Обновлено {0}", kist.CopyInputSostavToRailway(1));
+            Console.WriteLine("Обновлено {0}", kist.CopyInputSostavToRailway(1));  
         }
 
-        #endregion
+        public void Test_KIS_Transfer_PutInputSostavToStation()
+        { 
+            KIS_Transfer kist = new KIS_Transfer();
+            Console.WriteLine("Обновлено {0}", kist.PutInputSostavToStation());  
+        }      
+
+        public void Test_KIS_RC_Transfer_PutInputSostavToStation() {
+
+
+            Oracle_InputSostav oris = ois.GetInputSostav(27);
+
+            KIS_RC_Transfer kisrs = new KIS_RC_Transfer();
+            int res = kisrs.PutInputSostavToStation(ref oris);
+
+            Console.WriteLine("Обновлено {0}", res);
+        }
+
+        public void Test_KIS_RC_Transfer_PutCarsToStation_UpdateCarsToStation()
+        {
+
+            KIS_RC_Transfer transfer_rc = new KIS_RC_Transfer();
+            Oracle_ArrivalSostav oras = oas.Get_ArrivalSostav(4172);
+            //52928280
+            int res_put = transfer_rc.PutCarsToStation(ref oras, 1);
+            //TODO: ВКЛЮЧИТЬ КОД: Обновление составов на станции АМКР системы RailCars
+            int res_upd = transfer_rc.UpdateCarsToStation(ref oras, 1);
+
+            Console.WriteLine("Обновлено {0},{1}", res_put, res_upd);
+        }
+
     }
 
 }

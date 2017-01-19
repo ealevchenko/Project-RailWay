@@ -91,7 +91,7 @@
     <Compile Include="Entities\PromNatHist.cs" />
     <Compile Include="Entities\PromSostav.cs" />
     <Compile Include="Entities\KometaStrana.cs" />
-    <Compile Include="KIS\Filters.cs" />
+    <Compile Include="Statics\Filters.cs" />
     <Compile Include="KIS\KometaContent.cs" />
     <Compile Include="KIS\PromContent.cs" />
     <Compile Include="KIS\VagonsContent.cs" />

@@ -84,6 +84,7 @@ namespace KIS.Service
                 {
                     // Перенесем или обновим информацию о составах защедших на АМКР по системе КИС
                     int result_ci = kist.CopyInputSostavToRailway(this.dayControllingCopyInput_ins);
+                    int result_pi = kist.PutInputSostavToStation();
                 }
                 if (activeCopyOutput) 
                 { 

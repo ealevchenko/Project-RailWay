@@ -168,7 +168,6 @@ namespace EFRailWay.MT
                 default: return "Не определена";
             }
         }
-
         /// <summary>
         /// Получить состав через цепочку операций
         /// </summary>

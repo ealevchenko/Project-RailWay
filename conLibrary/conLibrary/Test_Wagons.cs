@@ -1,7 +1,7 @@
 ﻿using EFRailWay.KIS;
 using EFRailWay.Statics;
 using EFWagons.Entities;
-using EFWagons.KIS;
+using EFWagons.Statics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -225,6 +225,14 @@ namespace conLibrary
             if (t == null) { Console.WriteLine(" = Null"); return; }
             Console.WriteLine("ID_DOC: {0},\t N_IN_ST: {1},\t N_VAG: {2},\t STRAN_SOBSTV: {3},\t GODN_IN_ST: {4},\t GR_IN_ST: {5},\t SOBSTV: {6},\t REM_IN_ST: {7},\t ID_VAG: {8},\t ST_NAZN_OUT_ST: {9},\t STRAN_OUT_ST: {10},\t SOBSTV_OLD: {11}",
                     t.ID_DOC,t.N_IN_ST,t.N_VAG,t.STRAN_SOBSTV,t.GODN_IN_ST,t.GR_IN_ST,t.SOBSTV,t.REM_IN_ST,t.ID_VAG, t.ST_NAZN_OUT_ST, t.STRAN_OUT_ST, t.SOBSTV_OLD);        
+        }
+
+        public void Test_PromContent_TestFilter()
+        {
+            
+            List<PromSostav> list = promsostav.GetInputPromSostav(DateTime.Now.AddDays(-1), DateTime.Now).ToList();
+            List<PromNatHist> list_pnh = promsostav.GetNatHistOfVagonLess(60226420, DateTime.Parse("2017-01-18 05:00:00"), true).ToList();
+
         }
 
         //**************************** Тест Wagons ****************************************************************************
