@@ -123,6 +123,13 @@ int v1 = mts.ArrivalToRailWay(6391);
             //Console.WriteLine("id sostav = {0}", mt.GetIDSostavToWagons(sw));
         }
 
+        public void Test_MTContent_GetOperationMTSostavDestinct() 
+        {
+            MTContent mt = new MTContent();
+            List<MTSostav> list = mt.GetOperationMTSostavDestinct(6574);
+            
+       }
+
         public void Test_MT_CompareMT_SAP() 
         {
             MT mts = new MT();

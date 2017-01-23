@@ -189,7 +189,6 @@ namespace EFRailWay.MT
                 list.Add(sostav);
                 GetOperationMTSostav(ref list, sostav.IDMTSostav);
             }
-
         }
         /// <summary>
         /// Получить список операций для состава
@@ -207,6 +206,41 @@ namespace EFRailWay.MT
             }
             return list;
         }
+        /// <summary>
+        /// Получить список операций для состава от последней к первой
+        /// </summary>
+        /// <param name="list"></param>
+        /// <param name="id_sostav"></param>
+        protected void GetOperationMTSostavDestinct(ref List<MTSostav> list, int id_sostav)
+        {
+            MTSostav sostav = Get_MTSostav(id_sostav);
+            if (sostav != null) { 
+                list.Add(sostav);
+                if (sostav.ParentID != null) {
+                    GetOperationMTSostavDestinct(ref list, (int)sostav.ParentID);
+                }
+            }
+        }
+        /// <summary>
+        /// Получить список операций для состава от последней к первой
+        /// </summary>
+        /// <param name="id_sostav"></param>
+        /// <returns></returns>
+        public List<MTSostav> GetOperationMTSostavDestinct(int id_sostav)
+        {
+            List<MTSostav> list = new List<MTSostav>();
+            MTSostav sostav = Get_MTSostav(id_sostav);
+            if (sostav != null)
+            {
+                list.Add(sostav);
+                if (sostav.ParentID != null)
+                {
+                    GetOperationMTSostavDestinct(ref list, (int)sostav.ParentID);
+                }
+            }
+            return list;
+        }
+
         /// <summary>
         /// Получить список не закрытых составов.
         /// </summary>

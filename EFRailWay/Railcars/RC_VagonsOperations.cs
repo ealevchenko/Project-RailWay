@@ -283,23 +283,23 @@ namespace EFRailWay.Railcars
         /// <param name="id_station_in"></param>
         /// <param name="num_train"></param>
         /// <returns></returns>
-        public int InsertVagon(int IDSostav, int id_vagon, int num_vagon, DateTime dt_uz, int id_station_from, int position ,int? id_gruz, decimal weight_gruz,int id_station_in, int num_train, int id_cond2)
+        public int InsertVagon(int IDSostav, int id_vagon, int num_vagon, DateTime dt_uz_on, DateTime dt_uz_from, int id_station_from, int position ,int? id_gruz, decimal weight_gruz,int id_station_in, int num_train, int id_cond2)
         {
             //TODO: !!ДОРАБОТАТЬ (ДОБАВИТЬ В ПРИБЫТИЕ С УЗ) - убрать id_vagon,id_gruz,weight_gruz (эти данные берутся из справочника САП входящие поставки по (dt_uz)dt_amkr и num_vagon)
             VAGON_OPERATIONS vo = new VAGON_OPERATIONS()
             {
                 id_oper = 0,
-                dt_uz = dt_uz,
+                dt_uz = dt_uz_from,
                 dt_amkr = null, // 
                 dt_out_amkr = null,
                 n_natur = null,
                 id_vagon = id_vagon,
                 id_stat = id_station_from,
-                dt_from_stat = dt_uz,
-                dt_on_stat = dt_uz,
+                dt_from_stat = dt_uz_from,
+                dt_on_stat = dt_uz_on,
                 id_way = null,
-                dt_from_way = null,
-                dt_on_way = null,
+                dt_from_way = dt_uz_from,
+                dt_on_way = dt_uz_on,
                 num_vag_on_way = position,
                 is_present = 0,
                 id_locom = null,

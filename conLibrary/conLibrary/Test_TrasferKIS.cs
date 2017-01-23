@@ -89,7 +89,8 @@ namespace conLibrary
             //Console.WriteLine("null= {0}", refer.DefinitionIDGruzs(285, 9));
             //Console.WriteLine("Уголь каменный = {0}", refer.DefinitionIDGruzs(161005));
             //Console.WriteLine("Уголь каменный = {0}", refer.DefinitionIDGruzs(16100));
-            Console.WriteLine("Зерно кукурузы = {0}", refer.DefinitionIDGruzs(15006));
+
+            Console.WriteLine("Зерно кукурузы = {0}", refer.DefinitionIDGruzs(null,589));
             
         }
 
@@ -267,7 +268,7 @@ namespace conLibrary
                     codecs_from_station = codecs_from,
                     //FileName = sost.FileName,
                     //CompositionIndex = sost.CompositionIndex,
-                    DateTime = sost.DateTime,
+                    DateTime_from = sost.DateTime,
                     //Operation = sost.Operation,
                     //Create = sost.Create,
                     //Close = sost.Close,
@@ -354,7 +355,7 @@ namespace conLibrary
         {
 
             KIS_RC_Transfer transfer_rc = new KIS_RC_Transfer();
-            Oracle_ArrivalSostav oras = oas.Get_ArrivalSostav(4172);
+            Oracle_ArrivalSostav oras = oas.Get_ArrivalSostav(4185);
             //52928280
             int res_put = transfer_rc.PutCarsToStation(ref oras, 1);
             //TODO: ВКЛЮЧИТЬ КОД: Обновление составов на станции АМКР системы RailCars

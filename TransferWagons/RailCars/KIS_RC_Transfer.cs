@@ -18,8 +18,7 @@ using TransferWagons.Transfers;
 
 namespace TransferWagons.Railcars
 {
-    
-    
+
     public class KIS_RC_Transfer : Transfer
     {
         ReferencesKIS ref_kis = new ReferencesKIS();
@@ -193,7 +192,8 @@ namespace TransferWagons.Railcars
             {
                 try
                 {
-                    if (result.SetResultInsert(ArrivalWagon(wag, sostav.id, sostav.DateTime, sostav.codecs_in_station))) {
+                    if (result.SetResultInsert(ArrivalWagon(wag, sostav.id, sostav.DateTime_on, sostav.DateTime_from, sostav.codecs_in_station)))
+                    {
                         LogRW.LogError(String.Format("[KIS_RC_Transfer.PutInArrival] : Ошибка переноса вагона в прибытие, состав ID_MT: {0}, № вагона: {1}, код ошибки: {2}", sostav.id, wag.CarriageNumber, result.result), eventID);
                     }
                 }
@@ -216,7 +216,7 @@ namespace TransferWagons.Railcars
         /// <param name="dt"></param>
         /// <param name="codecs_station"></param>
         /// <returns></returns>
-        public int ArrivalWagon(trWagon wag, int id_sostav, DateTime dt, int? codecs_station)
+        public int ArrivalWagon(trWagon wag, int id_sostav, DateTime dt_on,DateTime dt_from, int? codecs_station)
         {
             //ResultTransfer result = new ResultTransfer();
             if (codecs_station == null)
@@ -232,14 +232,14 @@ namespace TransferWagons.Railcars
                 //    int? id_owner_country = ref_kis.DefinitionIDOwnersContries(country);
                 //}
                 // Определим id вагона и собственника вагона
-                int id_vagon = ref_kis.DefinitionSetIDVagon(wag.CarriageNumber, dt, wag.TrainNumber, id_sostav, null, wag.Conditions == 17 ? false : true);// если вагон имеет состояние ожидает прибытие c УЗ
+            int id_vagon = ref_kis.DefinitionSetIDVagon(wag.CarriageNumber, dt_from, wag.TrainNumber, id_sostav, null, wag.Conditions == 17 ? false : true);// если вагон имеет состояние ожидает прибытие c УЗ
                 if (id_vagon < 0)
                 {
                     return (int)errorTransfer.no_owner_country;
                 }
             //TODO: !! УБРАТЬ (ПОСТАНОВКА ВАГОНА В ПРИБЫТИЕ С УЗ) - убрать определение груза он будет братся из справочника САП вход поставки
             int? id_gruz = ref_kis.DefinitionIDGruzs(wag.IDCargo);
-            if (!rc_vo.IsVagonOperationMT(id_sostav, dt, id_vagon)) // вагон не стоит
+            if (!rc_vo.IsVagonOperationMT(id_sostav, dt_from, id_vagon)) // вагон не стоит
             {
                 // Поставим вагон
                 try
@@ -248,8 +248,8 @@ namespace TransferWagons.Railcars
                     int res2 = 0;
                     if (codecs_station == 467004) // Кривой Рог Гл.
                     {
-                        res1 = rc_vo.InsertVagon(id_sostav, id_vagon, wag.CarriageNumber, dt, 33, wag.Position, id_gruz, (decimal)wag.Weight, 13, wag.TrainNumber, wag.Conditions);
-                        res2 = rc_vo.InsertVagon(id_sostav, id_vagon, wag.CarriageNumber, dt, 33, wag.Position, id_gruz, (decimal)wag.Weight, 4, wag.TrainNumber, wag.Conditions);
+                        res1 = rc_vo.InsertVagon(id_sostav, id_vagon, wag.CarriageNumber,dt_on, dt_from, 33, wag.Position, id_gruz, (decimal)wag.Weight, 13, wag.TrainNumber, wag.Conditions);
+                        res2 = rc_vo.InsertVagon(id_sostav, id_vagon, wag.CarriageNumber, dt_on, dt_from, 33, wag.Position, id_gruz, (decimal)wag.Weight, 4, wag.TrainNumber, wag.Conditions);
                         if (res1 < 0) return res1;
                         if (res2 < 0) return res2;
                         return res1;
@@ -257,7 +257,7 @@ namespace TransferWagons.Railcars
                     if (codecs_station == 467201) // Кривой Рог черв.
                     {
 
-                        res1 = rc_vo.InsertVagon(id_sostav, id_vagon, wag.CarriageNumber, dt, 35, wag.Position, id_gruz, (decimal)wag.Weight, 20, wag.TrainNumber, wag.Conditions);
+                        res1 = rc_vo.InsertVagon(id_sostav, id_vagon, wag.CarriageNumber, dt_on, dt_from, 35, wag.Position, id_gruz, (decimal)wag.Weight, 20, wag.TrainNumber, wag.Conditions);
                         return res1;
                     }
                     return (int)errorTransfer.no_stations; ;
@@ -865,7 +865,7 @@ namespace TransferWagons.Railcars
                 }
                 CheckingWagonToSAPSupply(idsostav, pnh);// Проверим есть строка в справочнеке САП поставки
                 // определяем название груза
-                int? id_gruz = ref_kis.DefinitionIDGruzs(vag_is.GR_IN_ST, null);
+                int? id_gruz = ref_kis.DefinitionIDGruzs(null, vag_is.GR_IN_ST);
                 if (id_gruz == null)
                 {
                     LogRW.LogError(String.Format("[KIS_RC_Transfer.SetCarInputSostavToStation] : Ошибка определения типа груза (STPR1_IN_ST_VAG.GR_IN_ST) номер документа: {0}, дата: {1}, № вагона: {2}, код груза: {3}.",

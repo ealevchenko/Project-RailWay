@@ -114,7 +114,8 @@ namespace TransferWagons.Transfers
         public int? codecs_from_station { get; set; } // Станция отравитель состава
         //public string FileName { get; set; }
         //public string CompositionIndex { get; set; }
-        public DateTime DateTime { get; set; }
+        public DateTime DateTime_on { get; set; }        
+        public DateTime DateTime_from { get; set; }
         //public int Operation { get; set; }
         //public DateTime Create { get; set; }
         //public DateTime? Close { get; set; }

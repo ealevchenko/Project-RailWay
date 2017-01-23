@@ -40,7 +40,7 @@ namespace conLibrary
             //Console.WriteLine("3)     {0}", s.Remove(3, 3));
             
             #region Test_MT
-            //Test_MT test = new Test_MT();
+            Test_MT test = new Test_MT();
              //test.Test_MT_Helpers_MT_ArrivalToRailWay();
             //test.Test_MT_Helpers_MT_ArrivalToRailWayAll();
             //test.Test_SUD_MTContent_MTConsignee();
@@ -48,10 +48,11 @@ namespace conLibrary
             //test.Test_MTContent_GetListToNatur();
             //test.Test_MT_CompareMT_SAP();
             //test.Test_MT_CorrectionMT_SAP();
+            test.Test_MTContent_GetOperationMTSostavDestinct();
             #endregion
 
             #region Test_TrasferKIS
-            Test_TrasferKIS test = new Test_TrasferKIS();
+            //Test_TrasferKIS test = new Test_TrasferKIS();
             //test.Test_ArrivalKIS();
             //test.Test_References_Owner();
             //test.Test_References_Vagon();
@@ -71,7 +72,7 @@ namespace conLibrary
             //test.Test_KIS_RC_Transfer_PutInputSostavToStation();
             //test.Test_KIS_RC_Transfer_PutCarsToStation_UpdateCarsToStation();
 
-            test.Test_SAPIncomingSupply_GetDefaultIDSostav();
+            //test.Test_SAPIncomingSupply_GetDefaultIDSostav();
             #endregion
 
             #region Test_Wagons

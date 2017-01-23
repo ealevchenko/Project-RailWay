@@ -452,6 +452,7 @@ namespace MetallurgTrans.Helpers
             // Определим класс данных вагоны
             List<trWagon> list_wag = new List<trWagon>();
             list_wag = GetListWagonInArrival(mtc.Get_MTListToSostav(id_sostav), codecs_in, mtc.GetMTConsignee(tMTConsignee.AMKR));
+            List<MTSostav> list_mt = mtc.GetOperationMTSostavDestinct(sost.IDMTSostav);
             trSostav sostav = new trSostav()
             {
                 id = sost.IDMTSostav,
@@ -459,7 +460,8 @@ namespace MetallurgTrans.Helpers
                 codecs_from_station = codecs_from,
                 //FileName = sost.FileName,
                 //CompositionIndex = sost.CompositionIndex,
-                DateTime = sost.DateTime,
+                DateTime_on = list_mt.Count>0 ? list_mt.Last().DateTime : sost.DateTime,
+                DateTime_from = sost.DateTime,
                 //Operation = sost.Operation,
                 //Create = sost.Create,
                 //Close = sost.Close,
