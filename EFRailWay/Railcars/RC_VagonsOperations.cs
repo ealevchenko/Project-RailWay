@@ -283,7 +283,7 @@ namespace EFRailWay.Railcars
         /// <param name="id_station_in"></param>
         /// <param name="num_train"></param>
         /// <returns></returns>
-        public int InsertVagon(int IDSostav, int id_vagon, int num_vagon, DateTime dt_uz_on, DateTime dt_uz_from, int id_station_from, int position ,int? id_gruz, decimal weight_gruz,int id_station_in, int num_train, int id_cond2)
+        public int InsertVagon(int IDSostav, int id_vagon, int num_vagon, DateTime dt_uz_on, DateTime dt_uz_from, int id_station_from, int position ,int? id_gruz, decimal weight_gruz,int id_station_in, int num_train, int id_cond2, int way_from)
         {
             //TODO: !!ДОРАБОТАТЬ (ДОБАВИТЬ В ПРИБЫТИЕ С УЗ) - убрать id_vagon,id_gruz,weight_gruz (эти данные берутся из справочника САП входящие поставки по (dt_uz)dt_amkr и num_vagon)
             VAGON_OPERATIONS vo = new VAGON_OPERATIONS()
@@ -297,7 +297,7 @@ namespace EFRailWay.Railcars
                 id_stat = id_station_from,
                 dt_from_stat = dt_uz_from,
                 dt_on_stat = dt_uz_on,
-                id_way = null,
+                id_way = way_from,
                 dt_from_way = dt_uz_from,
                 dt_on_way = dt_uz_on,
                 num_vag_on_way = position,
@@ -570,10 +570,30 @@ namespace EFRailWay.Railcars
             }
             catch (Exception e)
             {
-                LogRW.LogError(e, "GetVagonsOfArrivalUZ(2)", eventID);
+                LogRW.LogError(e, "GetVagonsOfArrival(1)", eventID);
                 return null;
             }
         }
+        /// <summary>
+        /// Получить все вагоны находящиеся на станциях УЗ
+        /// </summary>
+        /// <param name="idstation_uz"></param>
+        /// <returns></returns>
+        public IQueryable<VAGON_OPERATIONS> GetVagonsOfArrival(int[] idstation_uz)
+        {
+            try
+            {
+                string station_uz_s = idstation_uz.IntsToString(",");
+                string sql = "SELECT * FROM dbo.VAGON_OPERATIONS where [id_stat] in(" + station_uz_s + ")";
+                return rep_vo.db.SqlQuery<VAGON_OPERATIONS>(sql).AsQueryable();
+            }
+            catch (Exception e)
+            {
+                LogRW.LogError(e, "GetVagonsOfArrival(2)", eventID);
+                return null;
+            }
+        }
+
         /// <summary>
         /// Удалить записи вагонов прибывающие из станций (int[] idstation_uz) по Id состава и номера вагона
         /// </summary>

@@ -343,7 +343,7 @@ namespace conLibrary
         public void Test_KIS_RC_Transfer_PutInputSostavToStation() {
 
 
-            Oracle_InputSostav oris = ois.GetInputSostav(27);
+            Oracle_InputSostav oris = ois.GetInputSostav(86);
 
             KIS_RC_Transfer kisrs = new KIS_RC_Transfer();
             int res = kisrs.PutInputSostavToStation(ref oris);
@@ -362,6 +362,14 @@ namespace conLibrary
             int res_upd = transfer_rc.UpdateCarsToStation(ref oras, 1);
 
             Console.WriteLine("Обновлено {0},{1}", res_put, res_upd);
+        }
+
+        public void Test_KIS_RC_Transfer_CorrectionArrivalSostav() 
+        {
+
+            KIS_RC_Transfer transfer_rc = new KIS_RC_Transfer();
+            int res = transfer_rc.CorrectionArrivalSostav();
+            Console.WriteLine("Обновлено {0}", res);
         }
 
     }

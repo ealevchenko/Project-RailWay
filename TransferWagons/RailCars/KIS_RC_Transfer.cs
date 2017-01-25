@@ -28,6 +28,7 @@ namespace TransferWagons.Railcars
         //SAPIncomingSupply sap_is = new SAPIncomingSupply();
         RC_VagonsOperations rc_vo = new RC_VagonsOperations();
         RC_Stations rc_st = new RC_Stations();
+        RC_Ways rc_ws = new RC_Ways();
         ArrivalSostav oas = new ArrivalSostav();
         InputSostav ois = new InputSostav();
         MTContent mtcont = new MTContent();
@@ -39,6 +40,30 @@ namespace TransferWagons.Railcars
 
         }
 
+        #region Удаление опреаций с вагонами
+        /// <summary>
+        /// Убрать вагоны из прибытия УЗ по данным МТ, принятые по КИС
+        /// </summary>
+        /// <param name="natur_list"></param>
+        /// <param name="dt_amkr"></param>
+        /// <returns></returns>
+        public int DeleteInArrival(int natur_list, DateTime dt_amkr) 
+        {
+            List<MTList> list = mtcont.GetListToNatur(natur_list, dt_amkr, 2).ToList();
+            if (list.Count() == 0) return 0;
+            ResultTransfers result = new ResultTransfers(list.Count(), null, null, 0, 0, 0);
+            foreach (MTList mt in list) 
+            {
+                if (result.SetResultDelete(rc_vo.DeleteVagonsToInsertMT(mt.IDMTSostav, mt.CarriageNumber))) 
+                {
+                    // Ошибка
+                }
+            }
+            if (result.errors > 0) { LogRW.LogError(String.Format("[KIS_RC_Transfer.DeleteInArrival] :Ошибка удаления вагонов из прибытия с УЗ после переноса по данным КИС, натурный лист: {0}, дата: {1}, количество ошибок: {2}",
+                natur_list,dt_amkr,result.errors)
+                , eventID); }
+            return result.ResultDelete;
+        }
         /// <summary>
         /// Удалить вагоны защедшие с указаному натурному листу и дате
         /// </summary>
@@ -70,6 +95,35 @@ namespace TransferWagons.Railcars
             }
             return res;
         }
+
+        /// <summary>
+        /// Коррекция строк операций с вагонами по составам в прибытии из станций УЗ
+        /// </summary>
+        /// <returns></returns>
+        public int CorrectionArrivalSostav() 
+        {
+            int result = 0;
+            List<int> list_uz = rc_st.GetUZStationsToID();
+            List<VAGON_OPERATIONS> list_vag = rc_vo.GetVagonsOfArrival(list_uz.ToArray()).Where(o=>o.id_way == null).OrderByDescending(o=>o.dt_uz).ToList();
+            foreach (VAGON_OPERATIONS wag in list_vag) 
+            {
+                if (wag.id_way == null) { wag.id_way = rc_ws.GetIDWaysToStations((int)wag.id_stat,"1");}
+                if (wag.IDSostav != null) {
+                    List<MTSostav> list_mt = mtcont.GetOperationMTSostavDestinct((int)wag.IDSostav);
+                    if (list_mt.Count > 0)
+                    {
+                        wag.dt_on_stat = wag.dt_on_way = list_mt.Last().DateTime;
+                        wag.dt_from_stat = wag.dt_from_way = list_mt.First().DateTime;
+                    }
+                    int res = rc_vo.SaveVagonsOperations(wag);
+                    if (res > 0) result++;
+                }
+            }
+            return result;
+        }
+        #endregion
+
+        #region Справочник САП входящие поставки
         /// <summary>
         /// Проверка наличия вагона в справочнеке входящие поставки, если нет создать
         /// </summary>
@@ -154,6 +208,7 @@ namespace TransferWagons.Railcars
             }
             return true;
         }
+        #endregion
 
         #region Общие методы
 
@@ -239,6 +294,8 @@ namespace TransferWagons.Railcars
                 }
             //TODO: !! УБРАТЬ (ПОСТАНОВКА ВАГОНА В ПРИБЫТИЕ С УЗ) - убрать определение груза он будет братся из справочника САП вход поставки
             int? id_gruz = ref_kis.DefinitionIDGruzs(wag.IDCargo);
+            int id_way_33 = 998; // Путь УЗ с которого прийдет состав
+            int id_way_35 = 1002;// Путь УЗ с которого прийдет состав
             if (!rc_vo.IsVagonOperationMT(id_sostav, dt_from, id_vagon)) // вагон не стоит
             {
                 // Поставим вагон
@@ -248,8 +305,8 @@ namespace TransferWagons.Railcars
                     int res2 = 0;
                     if (codecs_station == 467004) // Кривой Рог Гл.
                     {
-                        res1 = rc_vo.InsertVagon(id_sostav, id_vagon, wag.CarriageNumber,dt_on, dt_from, 33, wag.Position, id_gruz, (decimal)wag.Weight, 13, wag.TrainNumber, wag.Conditions);
-                        res2 = rc_vo.InsertVagon(id_sostav, id_vagon, wag.CarriageNumber, dt_on, dt_from, 33, wag.Position, id_gruz, (decimal)wag.Weight, 4, wag.TrainNumber, wag.Conditions);
+                        res1 = rc_vo.InsertVagon(id_sostav, id_vagon, wag.CarriageNumber, dt_on, dt_from, 33, wag.Position, id_gruz, (decimal)wag.Weight, 13, wag.TrainNumber, wag.Conditions, id_way_33);
+                        res2 = rc_vo.InsertVagon(id_sostav, id_vagon, wag.CarriageNumber, dt_on, dt_from, 33, wag.Position, id_gruz, (decimal)wag.Weight, 4, wag.TrainNumber, wag.Conditions, id_way_33);
                         if (res1 < 0) return res1;
                         if (res2 < 0) return res2;
                         return res1;
@@ -257,7 +314,7 @@ namespace TransferWagons.Railcars
                     if (codecs_station == 467201) // Кривой Рог черв.
                     {
 
-                        res1 = rc_vo.InsertVagon(id_sostav, id_vagon, wag.CarriageNumber, dt_on, dt_from, 35, wag.Position, id_gruz, (decimal)wag.Weight, 20, wag.TrainNumber, wag.Conditions);
+                        res1 = rc_vo.InsertVagon(id_sostav, id_vagon, wag.CarriageNumber, dt_on, dt_from, 35, wag.Position, id_gruz, (decimal)wag.Weight, 20, wag.TrainNumber, wag.Conditions, id_way_35);
                         return res1;
                     }
                     return (int)errorTransfer.no_stations; ;
@@ -951,7 +1008,8 @@ namespace TransferWagons.Railcars
                 { 
                     if (result.SetResultInsert(SetCarInputSostavToStation(orc_sostav.DocNum, orc_sostav.DateTime, vag_is, id_stations_from, id_stations_on)))
                     {
-                        // Ошибка
+                       LogRW.LogWarning(String.Format("[KIS_RC_Transfer.SetInputSostavToStation] : Ошибка переноса вагона (копирование по прибытию из внутрених станций), № документа: {0}, дата: {1} вагон: {2} код ошибки: {3}",
+                    orc_sostav.DocNum, orc_sostav.DateTime, vag_is.N_VAG, ((errorTransfer)result.result).ToString()), eventID);
                     }                    
                 }
                 orc_sostav.CountSetWagons = result.ResultInsert;
@@ -1042,32 +1100,6 @@ namespace TransferWagons.Railcars
         {
             //TODO: ВЫПОЛНИТЬ код очистки из ожидания если надо
             return 0;
-        }
-        #endregion
-
-        #region Убрать вагоны из прибытия или перенести на станцию
-        /// <summary>
-        /// Убрать вагоны из прибытия УЗ по данным МТ, принятые по КИС
-        /// </summary>
-        /// <param name="natur_list"></param>
-        /// <param name="dt_amkr"></param>
-        /// <returns></returns>
-        public int DeleteInArrival(int natur_list, DateTime dt_amkr) 
-        {
-            List<MTList> list = mtcont.GetListToNatur(natur_list, dt_amkr, 2).ToList();
-            if (list.Count() == 0) return 0;
-            ResultTransfers result = new ResultTransfers(list.Count(), null, null, 0, 0, 0);
-            foreach (MTList mt in list) 
-            {
-                if (result.SetResultDelete(rc_vo.DeleteVagonsToInsertMT(mt.IDMTSostav, mt.CarriageNumber))) 
-                {
-                    // Ошибка
-                }
-            }
-            if (result.errors > 0) { LogRW.LogError(String.Format("[KIS_RC_Transfer.DeleteInArrival] :Ошибка удаления вагонов из прибытия с УЗ после переноса по данным КИС, натурный лист: {0}, дата: {1}, количество ошибок: {2}",
-                natur_list,dt_amkr,result.errors)
-                , eventID); }
-            return result.ResultDelete;
         }
         #endregion
 
