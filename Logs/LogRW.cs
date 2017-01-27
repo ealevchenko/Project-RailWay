@@ -22,15 +22,6 @@ namespace Logs
         EFRailWay_KIS_ArrivalSostav = 2105,
         EFRailWay_KIS_InputSostav = 2106,
 
-        EFRailWay_RailCars = 2200,
-        EFRailWay_RailCars_RC_VagonsOperations = 2201,
-        EFRailWay_RailCars_EFVagonsOperationsRepository = 2202,
-        EFRailWay_RailCars_EFShopsRepository = 2203,
-        EFRailWay_RailCars_EFVagonsRepository = 2204,
-        EFRailWay_RailCars_RC_Shops = 2205,
-        EFRailWay_RailCars_RC_Vagons = 2206,
-        EFRailWay_RailCars_RC_Stations = 2207,
-
         EFRailWay_RailWay = 2300,
         EFRailWay_RailWay_EFReferenceCargoRepository = 2301,
         EFRailWay_RailWay_EFReferenceCountryRepository = 2302,
@@ -80,6 +71,20 @@ namespace Logs
         TransferWagons_SAP_References = 6501,
         TransferWagons_KIS = 6600,
         TransferWagons_KIS_ReferencesKIS = 6601,
+
+        EFRailCars = 7000,
+        EFRailCars_Helpers =7100,
+        EFRailCars_Helpers_Maneuvers =7101,
+
+        EFRailCars_RailCars = 7200,
+        EFRailCars_RailCars_RC_VagonsOperations = 7201,
+        EFRailCars_RailCars_RC_Shops = 7202,
+        EFRailCars_RailCars_RC_Vagons = 7203,
+        EFRailCars_RailCars_RC_Stations = 7204,
+        EFRailCars_RailCars_RC_Ways = 7205, 
+        EFRailCars_RailCars_EFVagonsOperationsRepository = 7210,
+        EFRailCars_RailCars_EFShopsRepository = 7211,
+        EFRailCars_RailCars_EFVagonsRepository = 7212,
 
     }
 

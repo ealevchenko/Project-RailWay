@@ -1,0 +1,14 @@
+D:\Мои документы\Visual Studio 2013\Projects\Мои проекты\Project RailWay\EFRailCars\bin\Debug\EFRailCars.dll.config
+D:\Мои документы\Visual Studio 2013\Projects\Мои проекты\Project RailWay\EFRailCars\bin\Debug\EFRailCars.dll
+D:\Мои документы\Visual Studio 2013\Projects\Мои проекты\Project RailWay\EFRailCars\bin\Debug\EFRailCars.pdb
+D:\Мои документы\Visual Studio 2013\Projects\Мои проекты\Project RailWay\EFRailCars\bin\Debug\EntityFramework.dll
+D:\Мои документы\Visual Studio 2013\Projects\Мои проекты\Project RailWay\EFRailCars\bin\Debug\EntityFramework.SqlServer.dll
+D:\Мои документы\Visual Studio 2013\Projects\Мои проекты\Project RailWay\EFRailCars\bin\Debug\Logs.dll
+D:\Мои документы\Visual Studio 2013\Projects\Мои проекты\Project RailWay\EFRailCars\bin\Debug\Logs.pdb
+D:\Мои документы\Visual Studio 2013\Projects\Мои проекты\Project RailWay\EFRailCars\bin\Debug\EntityFramework.xml
+D:\Мои документы\Visual Studio 2013\Projects\Мои проекты\Project RailWay\EFRailCars\bin\Debug\EntityFramework.SqlServer.xml
+D:\Мои документы\Visual Studio 2013\Projects\Мои проекты\Project RailWay\EFRailCars\bin\Debug\ru\EntityFramework.resources.dll
+D:\Мои документы\Visual Studio 2013\Projects\Мои проекты\Project RailWay\EFRailCars\bin\Debug\ru\EntityFramework.SqlServer.resources.dll
+D:\Мои документы\Visual Studio 2013\Projects\Мои проекты\Project RailWay\EFRailCars\obj\Debug\EFRailCars.csprojResolveAssemblyReference.cache
+D:\Мои документы\Visual Studio 2013\Projects\Мои проекты\Project RailWay\EFRailCars\obj\Debug\EFRailCars.dll
+D:\Мои документы\Visual Studio 2013\Projects\Мои проекты\Project RailWay\EFRailCars\obj\Debug\EFRailCars.pdb

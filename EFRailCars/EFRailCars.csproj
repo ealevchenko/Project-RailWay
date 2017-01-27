@@ -1,0 +1,115 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{50DE3D96-54B1-4B7D-A24F-6BCB42A3A1D8}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>EFRailCars</RootNamespace>
+    <AssemblyName>EFRailCars</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Abstract\IDBRepository.cs" />
+    <Compile Include="Abstract\IGruzsRepository.cs" />
+    <Compile Include="Abstract\IOwnersContriesRepository.cs" />
+    <Compile Include="Abstract\IOwnersRepository.cs" />
+    <Compile Include="Abstract\IShopsRepository.cs" />
+    <Compile Include="Abstract\IStationsRepository.cs" />
+    <Compile Include="Abstract\IVagonsOperationsRepository.cs" />
+    <Compile Include="Abstract\IVagonsRepository.cs" />
+    <Compile Include="Abstract\IWaysRepository.cs" />
+    <Compile Include="Concrete\EFDbContext.cs" />
+    <Compile Include="Concrete\EFGruzsRepository.cs" />
+    <Compile Include="Concrete\EFOwnersContriesRepository.cs" />
+    <Compile Include="Concrete\EFOwnersRepository.cs" />
+    <Compile Include="Concrete\EFRepository.cs" />
+    <Compile Include="Concrete\EFShopsRepository.cs" />
+    <Compile Include="Concrete\EFStationsRepository.cs" />
+    <Compile Include="Concrete\EFVagonsOperationsRepository.cs" />
+    <Compile Include="Concrete\EFVagonsRepository.cs" />
+    <Compile Include="Concrete\EFWaysRepository.cs" />
+    <Compile Include="Entities\GDSTAIT.cs" />
+    <Compile Include="Entities\GRUZS.cs" />
+    <Compile Include="Entities\GRUZ_FRONTS.cs" />
+    <Compile Include="Entities\NAZN_COUNTRIES.cs" />
+    <Compile Include="Entities\OWNERS.cs" />
+    <Compile Include="Entities\OWNERS_COUNTRIES.cs" />
+    <Compile Include="Entities\PARKS.cs" />
+    <Compile Include="Entities\SHOPS.cs" />
+    <Compile Include="Entities\STATIONS.cs" />
+    <Compile Include="Entities\TUPIKI.cs" />
+    <Compile Include="Entities\VAGONS.cs" />
+    <Compile Include="Entities\VAGON_OPERATIONS.cs" />
+    <Compile Include="Entities\VAG_CONDITIONS.cs" />
+    <Compile Include="Entities\VAG_CONDITIONS2.cs" />
+    <Compile Include="Entities\WAYS.cs" />
+    <Compile Include="Helpers\Maneuvers.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Railcars\RC_Gruzs.cs" />
+    <Compile Include="Railcars\RC_Owners.cs" />
+    <Compile Include="Railcars\RC_OwnersContries.cs" />
+    <Compile Include="Railcars\RC_Shops.cs" />
+    <Compile Include="Railcars\RC_Stations.cs" />
+    <Compile Include="Railcars\RC_Vagons.cs" />
+    <Compile Include="Railcars\RC_VagonsOperations.cs" />
+    <Compile Include="Railcars\RC_Ways.cs" />
+    <Compile Include="Statics\Convert.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Logs\Logs.csproj">
+      <Project>{fe05cb4c-d508-41c6-b247-1875ee5b92e9}</Project>
+      <Name>Logs</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

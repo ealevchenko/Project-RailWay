@@ -23,7 +23,6 @@ using EFRailWay.Settings;
 using EFRailWay.MT;
 using EFWagons.Statics;
 using KIS.Service;
-using EFRailWay.Entities.Railcars;
 
 namespace conLibrary
 {
@@ -153,6 +152,7 @@ namespace conLibrary
             //test.Test_RC_Shops(85);
             //test.Test_RC_ShopsOfKis(54);
             //test.Test_SUD_RC_Shops();
+            //test.Test_Maneuvers_ManeuverCars(); // Тест маневр вагонов на станции
             #endregion
 
             #region Test_Reference_RW

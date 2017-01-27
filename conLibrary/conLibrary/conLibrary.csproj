@@ -85,6 +85,10 @@
       <Project>{96bcbdce-a4e2-4afd-9176-9c8ab25c0211}</Project>
       <Name>EFISA95</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\EFRailCars\EFRailCars.csproj">
+      <Project>{50de3d96-54b1-4b7d-a24f-6bcb42a3a1d8}</Project>
+      <Name>EFRailCars</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\EFRailWay\EFRailWay.csproj">
       <Project>{0824a22b-c33f-48b2-840f-86b2ea252a42}</Project>
       <Name>EFRailWay</Name>

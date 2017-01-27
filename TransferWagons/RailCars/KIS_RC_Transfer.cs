@@ -1,13 +1,11 @@
-﻿using EFRailWay.Entities;
+﻿using EFRailCars.Entities;
+using EFRailCars.Railcars;
+using EFRailWay.Entities;
 using EFRailWay.Entities.KIS;
-using EFRailWay.Entities.Railcars;
 using EFRailWay.KIS;
 using EFRailWay.MT;
-using EFRailWay.Railcars;
-//using EFRailWay.SAP;
 using EFWagons.Entities;
 using EFWagons.Statics;
-//using Errors;
 using Logs;
 using System;
 using System.Collections.Generic;
@@ -145,7 +143,7 @@ namespace TransferWagons.Railcars
                 // Создадим строку в САП (id состава)
                 trWagon wag = new trWagon()
                 {
-                    Position = pnh != null ? pnh.NPP : 0,
+                    Position = pnh != null ? (int)pnh.NPP : 0,
                     CarriageNumber = pnh.N_VAG,
                     CountryCode = pnh != null ? pnh.KOD_STRAN != null ? ((int)pnh.KOD_STRAN * 10) + 1 : 0 : 0,
                     Weight = pnh != null ? pnh.WES_GR != null ? (float)pnh.WES_GR : 0 : 0,
@@ -427,7 +425,7 @@ namespace TransferWagons.Railcars
                     pv = new PromVagon()
                     {
                         N_VAG = pnh.N_VAG,
-                        NPP = pnh.NPP,
+                        NPP = pnh != null ? (int)pnh.NPP : 0,
                         GODN = pnh.GODN,
                         K_ST = pnh.K_ST,
                         N_NATUR = pnh.N_NATUR,
@@ -525,7 +523,7 @@ namespace TransferWagons.Railcars
                     pv = new PromVagon()
                     {
                         N_VAG = pnh.N_VAG,
-                        NPP = pnh.NPP,
+                        NPP = pnh != null ? (int)pnh.NPP : 0,
                         GODN = pnh.GODN,
                         K_ST = pnh.K_ST,
                         N_NATUR = pnh.N_NATUR,

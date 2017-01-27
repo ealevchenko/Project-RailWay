@@ -14,7 +14,7 @@ namespace EFWagons.Entities
     {
         [Key, Column(Order = 2)]
         public  int N_VAG { get; set; }
-        public  int NPP { get; set; }
+        public  int? NPP { get; set; }
         public  int? GODN { get; set; }
         public  int K_ST { get; set; }
         [Key, Column(Order = 1)]

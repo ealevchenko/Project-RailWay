@@ -1,5 +1,7 @@
-﻿using EFRailWay.Entities.Railcars;
-using EFRailWay.Railcars;
+﻿
+using EFRailCars.Entities;
+using EFRailCars.Helpers;
+using EFRailCars.Railcars;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -490,6 +492,8 @@ namespace conLibrary
             //WL(del);
         }
 
+
+
         public void WL(VAGON_OPERATIONS t) 
         { 
                 Console.WriteLine("id_oper: {0}",t.id_oper);
@@ -775,6 +779,17 @@ namespace conLibrary
                         t.id_shop, t.name, t.name_full, t.id_stat, t.id_ora);
             }
             else { Console.WriteLine("= NULL"); }
+        }
+        #endregion
+
+        #region Maneuvers
+        /// <summary>
+        /// Тест маневр вагонов на станции
+        /// </summary>
+        public void Test_Maneuvers_ManeuverCars() 
+        {
+            Maneuvers ma = new Maneuvers();
+            int res = ma.ManeuverCars(300, Side.Even);
         }
         #endregion
     }

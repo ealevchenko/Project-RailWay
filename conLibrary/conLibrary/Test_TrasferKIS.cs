@@ -1,9 +1,9 @@
-﻿using EFRailWay.Entities;
+﻿using EFRailCars.Entities;
+using EFRailCars.Railcars;
+using EFRailWay.Entities;
 using EFRailWay.Entities.KIS;
-using EFRailWay.Entities.Railcars;
 using EFRailWay.KIS;
 using EFRailWay.MT;
-using EFRailWay.Railcars;
 using EFRailWay.References;
 using EFRailWay.SAP;
 using EFRailWay.Statics;
@@ -343,7 +343,7 @@ namespace conLibrary
         public void Test_KIS_RC_Transfer_PutInputSostavToStation() {
 
 
-            Oracle_InputSostav oris = ois.GetInputSostav(86);
+            Oracle_InputSostav oris = ois.GetInputSostav(113);
 
             KIS_RC_Transfer kisrs = new KIS_RC_Transfer();
             int res = kisrs.PutInputSostavToStation(ref oris);

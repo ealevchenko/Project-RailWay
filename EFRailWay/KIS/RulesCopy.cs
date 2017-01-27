@@ -1,7 +1,7 @@
-﻿using EFRailWay.Abstract.KIS;
+﻿using EFRailCars.Railcars;
+using EFRailWay.Abstract.KIS;
 using EFRailWay.Concrete.KIS;
 using EFRailWay.Entities.KIS;
-using EFRailWay.Railcars;
 using Logs;
 using System;
 using System.Collections.Generic;
