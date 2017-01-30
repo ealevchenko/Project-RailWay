@@ -16,14 +16,14 @@ EFISA95/bin/*
 EFISA95/obj/*
 EFISA95/app.config
 
+EFRailCars/bin/*
+EFRailCars/obj/*
+EFRailCars/app.config
+
 EFRailWay/bin/*
 EFRailWay/obj/*
 EFRailWay/app.config
 EFRailWay/sql/*.sql
-
-EFRailCars/bin/*
-EFRailCars/obj/*
-EFRailCars/app.config
 
 EFWagons/bin/*
 EFWagons/obj/*
