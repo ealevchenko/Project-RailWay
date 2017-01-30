@@ -27,6 +27,8 @@ namespace EFRailCars.Helpers
         private RC_Ways rc_ws = new RC_Ways();
 
         public Maneuvers() { }
+
+        #region Выполнение маневра (с учетом правил, заложен механизм без учета правил)
         /// <summary>
         /// смищение(выравнивание) вагонов на пути с начальным номером
         /// </summary>
@@ -39,7 +41,7 @@ namespace EFRailCars.Helpers
                 int result = 0;
                 //IQueryable<VAGON_OPERATIONS> list = rc_vo.GetWagonsOfWay(way).Where(o => o.lock_id_way == null).OrderBy(o => o.num_vag_on_way);
                 List<VAGON_OPERATIONS> list = new List<VAGON_OPERATIONS>();
-                  list = rc_vo.GetWagonsOfWay(way).Where(o => o.lock_id_way == null).OrderBy(o => o.num_vag_on_way).ToList();
+                list = rc_vo.GetWagonsOfWay(way).Where(o => o.lock_id_way == null).OrderBy(o => o.num_vag_on_way).ToList();
 
                 foreach (VAGON_OPERATIONS wag in list)
                 {
@@ -186,10 +188,12 @@ namespace EFRailCars.Helpers
             {
                 var group_site = list.GroupBy(o => o.lock_side);
 
-                foreach (var group_wag in group_site.ToList()) 
+                foreach (var group_wag in group_site.ToList())
                 {
                     List<VAGON_OPERATIONS> list_wag = new List<VAGON_OPERATIONS>();
-                      list_wag  = group_wag.Key == (int)side_station ? list.OrderByDescending(o => o.lock_order).ToList() : list.OrderBy(o => o.lock_order).ToList();
+                    list_wag = list.OrderByDescending(o => o.lock_order).ToList();
+                    //TODO: Включить если ненадо учитывать правило следования вагонов
+                    //list_wag = group_wag.Key == (int)side_station ? list.OrderByDescending(o => o.lock_order).ToList() : list.OrderBy(o => o.lock_order).ToList();
                     foreach (VAGON_OPERATIONS wag in list_wag)
                     {
                         int res = ManeuverCar(wag, side_station);
@@ -213,13 +217,16 @@ namespace EFRailCars.Helpers
         {
             int result = 0;
             // Получить вагоны и отгрупировать их по путям отправки
-            var group_list = rc_vo.GetWagonsOfWay(way).Where(o => o.lock_id_way != null).GroupBy(o => o.lock_id_way);
+            List<IGrouping<int?, VAGON_OPERATIONS>> group_list = new List<IGrouping<int?, VAGON_OPERATIONS>>();
+            group_list = rc_vo.GetWagonsOfWay(way).Where(o => o.lock_id_way != null).GroupBy(o => o.lock_id_way).ToList();
+
+            //var group_list = rc_vo.GetWagonsOfWay(way).Where(o => o.lock_id_way != null).GroupBy(o => o.lock_id_way).ToList();
             try
             {
-                foreach (var group_wag in group_list.ToList())
+                foreach (IGrouping<int?, VAGON_OPERATIONS> group_wag in group_list)
                 {
                     List<VAGON_OPERATIONS> list_wag = new List<VAGON_OPERATIONS>();
-                      list_wag = group_wag.OrderBy(o => o.lock_order).ToList();
+                    list_wag = group_wag.OrderBy(o => o.lock_order).ToList();
                     int res = ManeuverCars(list_wag, side_station);
                     if (res > 0) result += res;
                 }
@@ -233,5 +240,88 @@ namespace EFRailCars.Helpers
                 return (int)errorManeuvers.global;
             }
         }
+        #endregion
+
+        #region Действия над строками вагонов
+        /// <summary>
+        /// Установить вагон с признаком для маневра
+        /// </summary>
+        /// <param name="wag"></param>
+        /// <param name="lock_id_way"></param>
+        /// <param name="lock_order"></param>
+        /// <param name="lock_side"></param>
+        /// <param name="lock_id_locom"></param>
+        /// <param name="dt_from_way"></param>
+        /// <returns></returns>
+        public int AddCancelManeuverCar(int id_oper, int? lock_id_way, int? lock_order, int? lock_side, int? lock_id_locom, DateTime? dt_from_way)
+        {
+            VAGON_OPERATIONS wag = rc_vo.GetVagonsOperations(id_oper);
+            return AddCancelManeuverCar(wag, lock_id_way, lock_order, lock_side, lock_id_locom, dt_from_way);
+        }
+        /// <summary>
+        /// Установить вагон с признаком для маневра
+        /// </summary>
+        /// <param name="wag"></param>
+        /// <param name="lock_id_way"></param>
+        /// <param name="lock_order"></param>
+        /// <param name="lock_side"></param>
+        /// <param name="lock_id_locom"></param>
+        /// <param name="dt_from_way"></param>
+        /// <returns></returns>
+        public int AddCancelManeuverCar(VAGON_OPERATIONS wag, int? lock_id_way, int? lock_order, int? lock_side, int? lock_id_locom, DateTime? dt_from_way)
+        {
+            if (wag == null) return (int)errorManeuvers.no_string_wagon_operations;
+            wag.lock_id_way = lock_id_way;
+            wag.lock_order = lock_order;
+            wag.lock_side = lock_side;
+            wag.lock_id_locom = lock_id_locom;
+            wag.dt_from_way = dt_from_way;
+            return rc_vo.SaveVagonsOperations(wag);
+        }
+        /// <summary>
+        /// Отменить маневры
+        /// </summary>
+        /// <param name="way"></param>
+        /// <returns></returns>
+        public int CancelManeuverCars(int way) 
+        {
+            int result = 0;
+            List<VAGON_OPERATIONS> list = rc_vo.GetWagonsOfWay(way).Where(o => o.lock_id_way != null).ToList();
+            foreach (VAGON_OPERATIONS wag in list) 
+            {
+                int res = AddCancelManeuverCar(wag, null, null, null, null, null);
+                if (res > 0) result++;
+            }
+            return result;
+        }
+        /// <summary>
+        /// Отменить маневр
+        /// </summary>
+        /// <param name="id_oper"></param>
+        /// <returns></returns>
+        public int CancelManeuverCar(int id_oper)
+        {
+            int res = AddCancelManeuverCar(id_oper, null, null, null, null, null);
+            return res;
+        }
+        /// <summary>
+        /// Отменить маневры по всей станции
+        /// </summary>
+        /// <param name="id_stat"></param>
+        /// <returns></returns>
+        public int CancelManeuverCarsOfSatation(int id_stat) 
+        {
+            int result = 0;
+            List<VAGON_OPERATIONS> list = rc_vo.GetWagonsOfStation(id_stat).Where(o => o.lock_id_way != null).ToList();
+            foreach (VAGON_OPERATIONS wag in list) 
+            {
+                int res = AddCancelManeuverCar(wag, null, null, null, null, null);
+                if (res > 0) result++;
+            }
+            return result;
+        }
+
+        #endregion
+
     }
 }

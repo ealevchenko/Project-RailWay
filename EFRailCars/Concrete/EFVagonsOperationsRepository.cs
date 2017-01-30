@@ -82,11 +82,11 @@ namespace EFRailCars.Concrete
                     IDSostav = VAGONOPERATIONS.IDSostav,
                     num_vagon = VAGONOPERATIONS.num_vagon, 
                 };
-                context_edit.VAGON_OPERATIONS.Add(dbEntry);
+                context.VAGON_OPERATIONS.Add(dbEntry);
             }
             else
             {
-                dbEntry = context_edit.VAGON_OPERATIONS.Find(VAGONOPERATIONS.id_oper);
+                dbEntry = context.VAGON_OPERATIONS.Find(VAGONOPERATIONS.id_oper);
                 if (dbEntry != null)
                 {
 
@@ -142,7 +142,7 @@ namespace EFRailCars.Concrete
             }
             try
             {
-                context_edit.SaveChanges();
+                context.SaveChanges();
             }
             catch (Exception e)
             {
@@ -158,13 +158,13 @@ namespace EFRailCars.Concrete
         /// <returns></returns>
         public VAGON_OPERATIONS DeleteVAGONOPERATIONS(int id_oper)
         {
-            VAGON_OPERATIONS dbEntry = context_edit.VAGON_OPERATIONS.Find(id_oper);
+            VAGON_OPERATIONS dbEntry = context.VAGON_OPERATIONS.Find(id_oper);
             if (dbEntry != null)
             {
-                context_edit.VAGON_OPERATIONS.Remove(dbEntry);
+                context.VAGON_OPERATIONS.Remove(dbEntry);
                 try
                 {
-                    context_edit.SaveChanges();
+                    context.SaveChanges();
                 }
                 catch (Exception e)
                 {

@@ -741,5 +741,14 @@ namespace EFRailCars.Railcars
         {
             return GetVagonsOperations().Where(o => o.id_way == way & o.is_present==1);
         }
+        /// <summary>
+        /// Получить вагоны на указаной станции
+        /// </summary>
+        /// <param name="id_stat"></param>
+        /// <returns></returns>
+        public IQueryable<VAGON_OPERATIONS> GetWagonsOfStation(int id_stat) 
+        {
+            return GetVagonsOperations().Where(o => o.id_stat == id_stat & o.is_present == 1);
+        }
     }
 }
