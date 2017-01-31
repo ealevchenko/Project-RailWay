@@ -483,6 +483,12 @@ namespace conLibrary
             Console.WriteLine("Удалено : {0}", vo.DeleteVagonsToNaturList(nat, dt_amkr));
         }
 
+        public void Test_RC_VagonsOperations_UpdateVagon() 
+        {
+            RC_VagonsOperations vo = new RC_VagonsOperations();
+            int res = vo.UpdateVagon(6822, 24589244, new int[] { 1, 4 }, DateTime.Now, 1, 7777);
+        }
+
         public void Test_InsertVagon() 
         {
             //RC_VagonsOperations vo = new RC_VagonsOperations();
@@ -491,8 +497,6 @@ namespace conLibrary
             //VAGON_OPERATIONS del = vo.DeleteVagonsOperations(ivag);
             //WL(del);
         }
-
-
 
         public void WL(VAGON_OPERATIONS t) 
         { 

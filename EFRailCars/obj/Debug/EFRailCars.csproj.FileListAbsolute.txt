@@ -11,3 +11,4 @@ D:\Мои документы\Visual Studio 2013\Projects\Мои проекты\P
 D:\Мои документы\Visual Studio 2013\Projects\Мои проекты\Project RailWay\EFRailCars\bin\Debug\ru\EntityFramework.SqlServer.resources.dll
 D:\Мои документы\Visual Studio 2013\Projects\Мои проекты\Project RailWay\EFRailCars\obj\Debug\EFRailCars.dll
 D:\Мои документы\Visual Studio 2013\Projects\Мои проекты\Project RailWay\EFRailCars\obj\Debug\EFRailCars.pdb
+D:\Мои документы\Visual Studio 2013\Projects\Мои проекты\Project RailWay\EFRailCars\obj\Debug\EFRailCars.csprojResolveAssemblyReference.cache
