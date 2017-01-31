@@ -1,4 +1,8 @@
 
+EFRailCars/bin/*
+EFRailCars/obj/*
+EFRailCars/app.config
+
 packages/*
 
 TestResults/*
@@ -15,10 +19,6 @@ conLibrary/conLibrary/app.config
 EFISA95/bin/*
 EFISA95/obj/*
 EFISA95/app.config
-
-EFRailCars/bin/*
-EFRailCars/obj/*
-EFRailCars/app.config
 
 EFRailWay/bin/*
 EFRailWay/obj/*
@@ -37,12 +37,6 @@ Logs/obj/*
 
 MetallurgTrans/bin/*
 MetallurgTrans/obj/*
-
-RailWay/bin/*
-RailWay/obj/*
-
-RailCars/bin/*
-RailCars/obj/*
 
 
 TransferWagons/bin/*
