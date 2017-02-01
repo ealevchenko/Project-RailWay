@@ -355,13 +355,13 @@ namespace conLibrary
         {
 
             KIS_RC_Transfer transfer_rc = new KIS_RC_Transfer();
-            Oracle_ArrivalSostav oras = oas.Get_ArrivalSostav(4185);
+            Oracle_ArrivalSostav oras = oas.Get_ArrivalSostav(4347);
             //52928280
-            int res_put = transfer_rc.PutCarsToStation(ref oras, 1);
+            //int res_put = transfer_rc.PutCarsToStation(ref oras, 1);
             //TODO: ВКЛЮЧИТЬ КОД: Обновление составов на станции АМКР системы RailCars
             int res_upd = transfer_rc.UpdateCarsToStation(ref oras, 1);
 
-            Console.WriteLine("Обновлено {0},{1}", res_put, res_upd);
+            //Console.WriteLine("Обновлено {0},{1}", res_put, res_upd);
         }
 
         public void Test_KIS_RC_Transfer_CorrectionArrivalSostav() 

@@ -426,27 +426,59 @@ namespace EFRailCars.Railcars
         /// <param name="id_way"></param>
         /// <param name="id_stat_kis"></param>
         /// <returns></returns>
-        public int UpdateVagon(DateTime dt_amkr, int num_vagon, int id_way, int id_gruz, int id_shop, decimal? wes_gr, int? id_cond)
+        //TODO: Переделал обновление
+        //public int UpdateVagon(DateTime dt_amkr, int num_vagon, int id_way, int id_gruz, int id_shop, decimal? wes_gr, int? id_cond)
+        //{
+        //    //TODO: !! ДОРАБОТАТЬ (ОБНОВЛЕНИЕ ВАГОНОВ ПО КИСУ - UpdateVagon) обновлять готовность по прибытию и дату зачисления на АМКР
+        //    try
+        //    {
+        //        string sql = "update  dbo.VAGON_OPERATIONS " +
+        //                        "set id_gruz = " + id_gruz.ToString() + ", id_gruz_amkr = " + id_gruz.ToString() + ", id_shop_gruz_for = " + id_shop.ToString() + ", weight_gruz = " + (wes_gr != null ? ((decimal)wes_gr).ToString("F", CultureInfo.CreateSpecificCulture("en-US")) : "null") +
+        //                        ", id_cond = " + (id_cond !=null ? id_cond.ToString(): "null ") +
+        //                        ", id_cond2 = 15 " +
+        //                        " where id_way= " + id_way.ToString() +
+        //                        " and num_vagon= " + num_vagon.ToString() +
+        //                        " and Convert(char(19),dt_amkr) ='" + dt_amkr.ToString("yyyy-MM-dd HH:mm:ss") + "'" +
+        //                        " and is_present = 1 " +
+        //                        " and is_hist = 0 ";
+        //        return rep_vo.db.ExecuteSqlCommand(sql);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        LogRW.LogError(e, "UpdateVagon(1)", eventID);
+        //        return -1;
+        //    }                    
+        //}
+        /// <summary>
+        /// Обновить информацию по вагону поставленному на путь или принятому вручную.
+        /// </summary>
+        /// <param name="dt_amkr"></param>
+        /// <param name="num_vagon"></param>
+        /// <param name="natur"></param>
+        /// <param name="idstation_amkr"></param>
+        /// <param name="id_gruz"></param>
+        /// <param name="id_shop"></param>
+        /// <param name="id_cond"></param>
+        /// <returns></returns>
+        public int UpdateVagon(DateTime dt_amkr, int num_vagon, int natur, int[] idstation_amkr, int id_gruz, int id_shop, int? id_cond) 
         {
-            //TODO: !! ДОРАБОТАТЬ (ОБНОВЛЕНИЕ ВАГОНОВ ПО КИСУ - UpdateVagon) обновлять готовность по прибытию и дату зачисления на АМКР
             try
             {
+                string idstation_amkr_s = idstation_amkr.IntsToString(",");
                 string sql = "update  dbo.VAGON_OPERATIONS " +
-                                "set id_gruz = " + id_gruz.ToString() + ", id_gruz_amkr = " + id_gruz.ToString() + ", id_shop_gruz_for = " + id_shop.ToString() + ", weight_gruz = " + (wes_gr != null ? ((decimal)wes_gr).ToString("F", CultureInfo.CreateSpecificCulture("en-US")) : "null") +
-                                ", id_cond = " + (id_cond !=null ? id_cond.ToString(): "null ") +
-                                ", id_cond2 = 15 " +
-                                " where id_way= " + id_way.ToString() +
+                                "set id_gruz = " + id_gruz.ToString() + ", id_gruz_amkr = " + id_gruz.ToString() + ", id_shop_gruz_for = " + id_shop.ToString() +
+                                ", id_cond = " + (id_cond != null ? id_cond.ToString() : "null ") +
+                                " where n_natur= " + natur.ToString() +
                                 " and num_vagon= " + num_vagon.ToString() +
-                                " and Convert(char(19),dt_amkr) ='" + dt_amkr.ToString("yyyy-MM-dd HH:mm:ss") + "'" +
-                                " and is_present = 1 " +
-                                " and is_hist = 0 ";
+                                " and convert(smalldatetime,dt_amkr,120) ='" + dt_amkr.ToString("yyyy-MM-dd HH:mm:ss") + "'" +
+                                " and id_stat in(" + idstation_amkr_s + ")";
                 return rep_vo.db.ExecuteSqlCommand(sql);
             }
             catch (Exception e)
             {
                 LogRW.LogError(e, "UpdateVagon(1)", eventID);
                 return -1;
-            }                    
+            }   
         }
         /// <summary>
         /// Обновить информацию по вагону принятому в ручну на станции

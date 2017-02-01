@@ -616,8 +616,8 @@ namespace TransferWagons.Railcars
                         natur, dt_amkr.ToString("dd-MM-yyyy HH:mm:ss"), num_vag, pnh.K_GR), eventID);
                     return (int)errorTransfer.no_gruz;
                 }
-                //TODO: !! ДОРАБОТАТЬ (ОБНОВЛЕНИЕ ВАГОНОВ ПО КИСУ) обновлять готовность по прибытию и дату зачисления на АМКР
-                int res = rc_vo.UpdateVagon(dt_amkr, num_vag, id_ways, (int)id_gruz, (int)id_shop, pnh.WES_GR, pnh.GODN);
+                //Обновим все строки операций по вагону за указанную дату захода и номер натурки
+                int res = rc_vo.UpdateVagon(dt_amkr, num_vag, natur,rc_st.GetAMKRStationsToID().ToArray(), (int)id_gruz, (int)id_shop, pnh.GODN);
                 if (res < 0)
                 {
                     LogRW.LogError(String.Format("[KIS_RC_Transfer.UpdCarToStation] : Ошибка обновления информации ранее принятого на путь вагона, натурный лист: {0}, дата: {1}, № вагона: {2}, код станции системы RailCars: {3}, код пути системы RailCars: {4}.",

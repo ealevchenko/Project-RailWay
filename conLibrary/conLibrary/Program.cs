@@ -51,7 +51,7 @@ namespace conLibrary
             #endregion
 
             #region Test_TrasferKIS
-            //Test_TrasferKIS test = new Test_TrasferKIS();
+            Test_TrasferKIS test = new Test_TrasferKIS();
             //test.Test_ArrivalKIS();
             //test.Test_References_Owner();
             //test.Test_References_Vagon();
@@ -69,7 +69,7 @@ namespace conLibrary
             //test.Test_KIS_Transfer_CopyInputSostavToRailway();
             //test.Test_KIS_Transfer_PutInputSostavToStation();
             //test.Test_KIS_RC_Transfer_PutInputSostavToStation(); // тест поставить строку (копирование внутрених станций) на путь
-            //test.Test_KIS_RC_Transfer_PutCarsToStation_UpdateCarsToStation();
+            test.Test_KIS_RC_Transfer_PutCarsToStation_UpdateCarsToStation();
 
             //test.Test_SAPIncomingSupply_GetDefaultIDSostav();
             //test.Test_KIS_RC_Transfer_CorrectionArrivalSostav();
@@ -113,7 +113,7 @@ namespace conLibrary
             #endregion
 
             #region Test_RailCars
-            Test_RailCars test = new Test_RailCars();
+            //Test_RailCars test = new Test_RailCars();
             //test.Test_RC_Vagons();
             //test.Test_RC_Vagons(53075479);
             //test.Test_SUD_RC_Vagons();
@@ -153,7 +153,7 @@ namespace conLibrary
             //test.Test_RC_ShopsOfKis(54);
             //test.Test_SUD_RC_Shops();
             //test.Test_Maneuvers_ManeuverCars(); // Тест маневр вагонов на станции
-            test.Test_RC_VagonsOperations_UpdateVagon(); // тест обновления вагона после ручного принятия вагона на станцию АМКР
+            //test.Test_RC_VagonsOperations_UpdateVagon(); // тест обновления вагона после ручного принятия вагона на станцию АМКР
             #endregion
 
             #region Test_Reference_RW
