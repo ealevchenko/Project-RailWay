@@ -144,6 +144,25 @@ namespace EFRailCars.Railcars
             }
             return list;        
         }
-
+        /// <summary>
+        /// Станция пренадлежит УЗ
+        /// </summary>
+        /// <param name="id_stat"></param>
+        /// <returns></returns>
+        public bool IsUZ(int id_stat) 
+        { 
+            STATIONS stat = GetStations(id_stat);
+            return (stat != null & stat.is_uz == 1) ? true : false;
+        }
+        /// <summary>
+        /// Станция пренадлежит АМКР
+        /// </summary>
+        /// <param name="id_stat"></param>
+        /// <returns></returns>
+        public bool IsAMKR(int id_stat) 
+        { 
+            STATIONS stat = GetStations(id_stat);
+            return (stat != null & stat.is_uz == 0) ? true : false;
+        }
     }
 }

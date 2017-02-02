@@ -56,18 +56,15 @@ namespace KIS.Service
             LogRW.LogInformation(String.Format("Сервис переноса данных из КИС в БД RailWay :{0} - запущен, режим копирования: {1}", this.className, this.mode), this.eventID);
             try
             {
-                
-                //kist.DayControllingAddNatur = dayControllingAddNatur;
                 // Перенесем или обновим информацию о составах защедших на АМКР по системе КИС
                 int result_cs = kist.CopyArrivalSostavToRailway(this.dayControllingAddNatur);
                 int res_pc = 0;
                 switch (this.mode) 
                 { 
-                    case 0:
-                        // Полное копирование из КИС
-                        res_pc = kist.PutCarsToStations(0);
-
-                        break;
+                    //case 0:
+                    //    // Полное копирование из КИС
+                    //    res_pc = kist.PutCarsToStations(0);
+                    //    break;
                     case 1:
                         // Обновление данных скопированных из МТ с переносом из прибытия на станцию 
                         res_pc = kist.PutCarsToStations(1);

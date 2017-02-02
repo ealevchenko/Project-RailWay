@@ -172,7 +172,7 @@ namespace TransferWagons.Transfers
 
         #region Таблица переноса составов из КИС [Oracle_InputSostav]
         /// <summary>
-        /// Получить список составов за указаный перилод согласно правила копирования
+        /// Получить список составов за указаный период согласно правила копирования
         /// </summary>
         /// <param name="start"></param>
         /// <param name="stop"></param>

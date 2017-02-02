@@ -361,7 +361,7 @@ namespace EFRailCars.Railcars
         /// <param name="num_train"></param>
         /// <param name="id_cond"></param>
         /// <returns></returns>
-        public int InsertInputVagon(int IDSostav, int doc, int natur, int id_vagon, int num_vagon, DateTime dt_uz, DateTime dt_amkr, DateTime dt_imp, int id_station_from, int position, int? id_gruz, string note,  int id_station_in, int num_train, int? id_cond)
+        public int InsertInputVagon(int IDSostav, int doc, int natur, int id_vagon, int num_vagon, DateTime dt_uz, DateTime dt_amkr, DateTime dt_imp, int id_station_from, int position, int? id_gruz, string note, int id_station_in, int num_train, int? id_cond, int? id_oper_parent)
         {
             //TODO: !!ДОРАБОТАТЬ (ДОБАВИТЬ В ПРИБЫТИЕ С УЗ) - убрать id_vagon,id_gruz,weight_gruz (эти данные берутся из справочника САП входящие поставки по (dt_uz)dt_amkr и num_vagon)
             VAGON_OPERATIONS vo = new VAGON_OPERATIONS()
@@ -375,7 +375,7 @@ namespace EFRailCars.Railcars
                 id_stat = id_station_from,
                 dt_from_stat = dt_imp,
                 dt_on_stat = null,
-                id_way = null,
+                id_way = null, //TODO: добавить путь
                 dt_from_way = dt_imp,
                 dt_on_way = null,
                 num_vag_on_way = position,
@@ -407,7 +407,7 @@ namespace EFRailCars.Railcars
                 oracle_k_st = null,
                 st_lock_locom1 = null,
                 st_lock_locom2 = null,
-                id_oper_parent = null,
+                id_oper_parent = id_oper_parent,
                 grvu_SAP = null,
                 ngru_SAP = null,
                 id_ora_23_temp = doc,
@@ -837,6 +837,42 @@ namespace EFRailCars.Railcars
         public IQueryable<VAGON_OPERATIONS> GetWagonsOfStation(int id_stat) 
         {
             return GetVagonsOperations().Where(o => o.id_stat == id_stat & o.is_present == 1);
+        }
+        /// <summary>
+        /// смищение(выравнивание) вагонов на пути с начальным номером
+        /// </summary>
+        /// <param name="way"></param>
+        /// <param name="start_num"></param>
+        public int OffSetCars(int way, int start_num)
+        {
+            try
+            {
+                int result = 0;
+                List<VAGON_OPERATIONS> list = new List<VAGON_OPERATIONS>();
+                list = GetWagonsOfWay(way).Where(o => o.lock_id_way == null).OrderBy(o => o.num_vag_on_way).ToList();
+
+                foreach (VAGON_OPERATIONS wag in list)
+                {
+                    if (wag.num_vag_on_way != start_num)
+                    {
+                        wag.num_vag_on_way = start_num;
+                        int res = SaveVagonsOperations(wag);
+                        if (res > 0) result++;
+                        if (res < 0)
+                        {
+                            LogRW.LogError(String.Format("[OffSetCars]: Ошибка выравнивания позиции вагона №{0}, id_oper {1}", wag.num_vagon, wag.id_oper), eventID);
+                        }
+                    }
+                    start_num++;
+                }
+                return result;
+            }
+            catch (Exception e)
+            {
+                LogRW.LogError(String.Format("[Maneuvers.OffSetCars]: Ошибка, источник: {0}, № {1}, описание:  {2}", e.Source, e.HResult, e.Message), this.eventID);
+                return -1;
+            }
+
         }
     }
 }

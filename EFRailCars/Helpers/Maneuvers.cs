@@ -29,43 +29,7 @@ namespace EFRailCars.Helpers
         public Maneuvers() { }
 
         #region Выполнение маневра (с учетом правил, заложен механизм без учета правил)
-        /// <summary>
-        /// смищение(выравнивание) вагонов на пути с начальным номером
-        /// </summary>
-        /// <param name="way"></param>
-        /// <param name="start_num"></param>
-        public int OffSetCars(int way, int start_num)
-        {
-            try
-            {
-                int result = 0;
-                //IQueryable<VAGON_OPERATIONS> list = rc_vo.GetWagonsOfWay(way).Where(o => o.lock_id_way == null).OrderBy(o => o.num_vag_on_way);
-                List<VAGON_OPERATIONS> list = new List<VAGON_OPERATIONS>();
-                list = rc_vo.GetWagonsOfWay(way).Where(o => o.lock_id_way == null).OrderBy(o => o.num_vag_on_way).ToList();
 
-                foreach (VAGON_OPERATIONS wag in list)
-                {
-                    if (wag.num_vag_on_way != start_num)
-                    {
-                        wag.num_vag_on_way = start_num;
-                        int res = rc_vo.SaveVagonsOperations(wag);
-                        if (res > 0) result++;
-                        if (res < 0)
-                        {
-                            LogRW.LogError(String.Format("[Maneuvers.OffSetCars]: Ошибка выравнивания позиции вагона №{0}, id_oper {1}", wag.num_vagon, wag.id_oper), eventID);
-                        }
-                    }
-                    start_num++;
-                }
-                return result;
-            }
-            catch (Exception e)
-            {
-                LogRW.LogError(String.Format("[Maneuvers.OffSetCars]: Ошибка, источник: {0}, № {1}, описание:  {2}", e.Source, e.HResult, e.Message), this.eventID);
-                return (int)errorManeuvers.global;
-            }
-
-        }
         /// <summary>
         /// Сделать маневр по вагону
         /// </summary>
@@ -83,11 +47,11 @@ namespace EFRailCars.Helpers
                 if ((int)side_station == wag_oper.lock_side)
                 {
                     int p = (int)wag_oper.lock_id_way;
-                    OffSetCars(p, 2);// Сместить вагоны на пути
+                    rc_vo.OffSetCars(p, 2);// Сместить вагоны на пути
                 }
                 else
                 {
-                    OffSetCars((int)wag_oper.lock_id_way, 1);// Выставить по порядку
+                    rc_vo.OffSetCars((int)wag_oper.lock_id_way, 1);// Выставить по порядку
                     // добавить вагон зади
                     int? num = rc_vo.MaxPositionWay((int)wag_oper.lock_id_way);
                     if (num != null)
@@ -230,7 +194,7 @@ namespace EFRailCars.Helpers
                     int res = ManeuverCars(list_wag, side_station);
                     if (res > 0) result += res;
                 }
-                OffSetCars(way, 1);
+                rc_vo.OffSetCars(way, 1);
                 return result;
 
             }
