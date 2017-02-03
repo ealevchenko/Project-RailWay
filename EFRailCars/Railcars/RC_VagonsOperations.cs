@@ -361,7 +361,7 @@ namespace EFRailCars.Railcars
         /// <param name="num_train"></param>
         /// <param name="id_cond"></param>
         /// <returns></returns>
-        public int InsertInputVagon(int IDSostav, int doc, int natur, int id_vagon, int num_vagon, DateTime dt_uz, DateTime dt_amkr, DateTime dt_imp, int id_station_from, int position, int? id_gruz, string note, int id_station_in, int num_train, int? id_cond, int? id_oper_parent)
+        public int InsertInputVagon(int IDSostav, int doc, int natur, int id_vagon, int num_vagon, DateTime dt_uz, DateTime dt_amkr, DateTime dt_imp, int id_station_from, int position, int? id_gruz, string note, int id_station_in, int num_train, int? id_cond, int? id_oper_parent, int? id_ways)
         {
             //TODO: !!ДОРАБОТАТЬ (ДОБАВИТЬ В ПРИБЫТИЕ С УЗ) - убрать id_vagon,id_gruz,weight_gruz (эти данные берутся из справочника САП входящие поставки по (dt_uz)dt_amkr и num_vagon)
             VAGON_OPERATIONS vo = new VAGON_OPERATIONS()
@@ -375,7 +375,7 @@ namespace EFRailCars.Railcars
                 id_stat = id_station_from,
                 dt_from_stat = dt_imp,
                 dt_on_stat = null,
-                id_way = null, //TODO: добавить путь
+                id_way = id_ways, //TODO: добавить путь
                 dt_from_way = dt_imp,
                 dt_on_way = null,
                 num_vag_on_way = position,

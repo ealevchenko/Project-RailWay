@@ -815,7 +815,7 @@ namespace TransferWagons.Railcars
         /// <param name="id_stations_from"></param>
         /// <param name="id_stations_on"></param>
         /// <returns></returns>
-        protected int SetCarInputSostavToStation(int doc, DateTime dt_input, NumVagStanStpr1InStVag vag_is, int id_stations_from, int id_stations_on)
+        protected int SetCarInputSostavToStation(int doc, DateTime dt_input, NumVagStanStpr1InStVag vag_is, int id_stations_from, int id_stations_on, int? id_ways)
         {
             try
             {
@@ -884,7 +884,7 @@ namespace TransferWagons.Railcars
                 }
                 // Добавим вагон в прибытие
                     res = rc_vo.InsertInputVagon(idsostav, doc, pnh.N_NATUR, id_wagon, vag_is.N_VAG, mt_list != null ? mt_list.DateOperation : dt_amkr, dt_amkr, dt_input, id_stations_from, vag_is.N_IN_ST, id_gruz,
-                        vag_is.REM_IN_ST, id_stations_on, -1, vag_is.GODN_IN_ST, id_oper_parent);
+                        vag_is.REM_IN_ST, id_stations_on, -1, vag_is.GODN_IN_ST, id_oper_parent, id_ways);
                     if (res < 0)
                     {
                         LogRW.LogError(String.Format("[KIS_RC_Transfer.SetCarInputSostavToStation] : Ошибка переноса вагона в прибытие станции (копирование по прибытию из внутрених станций), номер документа: {0}, дата: {1}, № вагона: {2}, код станции прибытия системы RailCars: {3}, код станции отправления системы RailCars: {4}.",
@@ -907,7 +907,7 @@ namespace TransferWagons.Railcars
         /// <param name="id_stations_from"></param>
         /// <param name="id_stations_on"></param>
         /// <returns></returns>
-        public int SetInputSostavToStation(ref Oracle_InputSostav orc_sostav, int id_stations_from, int id_stations_on) 
+        public int SetInputSostavToStation(ref Oracle_InputSostav orc_sostav, int id_stations_from, int id_stations_on, int? id_ways) 
         {
             if (orc_sostav == null) return 0;
             try
@@ -928,7 +928,7 @@ namespace TransferWagons.Railcars
                 IQueryable<NumVagStanStpr1InStVag> list = vc.GetSTPR1InStVag(orc_sostav.DocNum, orc_sostav.NaprFrom == 2 ? true : false);
                 foreach (NumVagStanStpr1InStVag vag_is in list) 
                 { 
-                    if (result.SetResultInsert(SetCarInputSostavToStation(orc_sostav.DocNum, orc_sostav.DateTime, vag_is, id_stations_from, id_stations_on)))
+                    if (result.SetResultInsert(SetCarInputSostavToStation(orc_sostav.DocNum, orc_sostav.DateTime, vag_is, id_stations_from, id_stations_on, id_ways)))
                     {
                        LogRW.LogWarning(String.Format("[KIS_RC_Transfer.SetInputSostavToStation] : Ошибка переноса вагона (копирование по прибытию из внутрених станций), № документа: {0}, дата: {1} вагон: {2} код ошибки: {3}",
                     orc_sostav.DocNum, orc_sostav.DateTime, vag_is.N_VAG, ((errorTransfer)result.result).ToString()), eventID);
@@ -970,18 +970,18 @@ namespace TransferWagons.Railcars
                 return (int)errorTransfer.no_stations;
             }
 
-            //// Определим путь на станции
-            //int? id_ways = ref_kis.DefinitionIDWays((int)id_stations, orc_sostav.WayNum);
-            //if (id_ways == null)
-            //{
-            //    LogRW.LogError(String.Format("[KIS_RC_Transfer.PutCarsToStation] :Ошибка получения id пути из справочника RailCars, натурный лист: {0}, дата :{1}, код станции системы RailCars: {2}, номер пути: {3}", orc_sostav.NaturNum, orc_sostav.DateTime.ToString("dd-MM-yyyy HH:mm:ss"), id_stations, orc_sostav.WayNum), eventID);
-            //    return (int)errorTransfer.no_ways;
-            //}
+            // Определим путь на станции
+            int? id_ways = ref_kis.DefinitionIDWays((int)id_stations_from, orc_sostav.WayNumFrom);
+            if (id_ways == null)
+            {
+                LogRW.LogError(String.Format("[KIS_RC_Transfer.PutInputSostavToStation] :Ошибка получения id пути из справочника RailCars, № документа: {0}, дата :{1}, код станции системы КИС: {2}", orc_sostav.DocNum, orc_sostav.DateTime.ToString("dd-MM-yyyy HH:mm:ss"), orc_sostav.IDOrcStationOn), eventID);
+                //return (int)errorTransfer.no_ways;
+            }
             
             // Формирование общего списка вагонов и постановка их на путь станции прибытия
             List<NumVagStanStpr1InStVag> list_pv = vc.GetSTPR1InStVag(orc_sostav.DocNum, orc_sostav.NaprFrom == 2 ? true : false).ToList();
             orc_sostav.CountWagons = list_pv.Count(); // Определим количество вагонов
-            return SetInputSostavToStation(ref orc_sostav, (int)id_stations_from , (int)id_stations_on);
+            return SetInputSostavToStation(ref orc_sostav, (int)id_stations_from, (int)id_stations_on, id_ways);
 
         }
         #endregion
