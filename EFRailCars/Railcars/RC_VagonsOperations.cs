@@ -818,8 +818,6 @@ namespace EFRailCars.Railcars
             }
             return res;
         }
-
-
         /// <summary>
         /// Получить вагоны на указаном пути
         /// </summary>
@@ -873,6 +871,25 @@ namespace EFRailCars.Railcars
                 return -1;
             }
 
+        }
+        /// <summary>
+        /// Получить список вагонов отправленых на УЗ со станций АМКР
+        /// </summary>
+        /// <param name="idstation_uz"></param>
+        /// <returns></returns>
+        public IQueryable<VAGON_OPERATIONS> GetVagonsAMKRToUZ(int[] idstation_uz)
+        {
+            try
+            {
+                string station_uz_s = idstation_uz.IntsToString(",");
+                string sql = "SELECT * FROM dbo.VAGON_OPERATIONS where [st_lock_id_stat] in(" + station_uz_s + ") and [is_present]=0 and [is_hist]=0";
+                return rep_vo.db.SqlQuery<VAGON_OPERATIONS>(sql).AsQueryable();
+            }
+            catch (Exception e)
+            {
+                LogRW.LogError(e, "GetVagonsAMKRToUZ", eventID);
+                return null;
+            }
         }
     }
 }

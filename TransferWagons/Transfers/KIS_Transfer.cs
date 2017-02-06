@@ -570,5 +570,18 @@ namespace TransferWagons.Transfers
         }
         #endregion
 
+        #region Автоматическое принятие вагонов на станции
+        /// <summary>
+        /// Принять вагоны на станцию УЗ
+        /// </summary>
+        /// <returns></returns>
+        public int TakeWagonsToUZ() 
+        {
+            //TODO: ВЫПОЛНИТЬ принятие в системе RailWay
+            int res = transfer_rc.TakeWagonsToUZ();
+            return res;
+        }
+        #endregion
+
     }
 }

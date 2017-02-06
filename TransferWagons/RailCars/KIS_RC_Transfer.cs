@@ -1025,5 +1025,16 @@ namespace TransferWagons.Railcars
         }
         #endregion
 
+        #region Автоматическое принятие вагонов на станции
+        /// <summary>
+        /// Принять вагоны на станцию УЗ
+        /// </summary>
+        /// <returns></returns>
+        public int TakeWagonsToUZ()
+        {
+            return 0;
+        }
+        #endregion
+
     }
 }
