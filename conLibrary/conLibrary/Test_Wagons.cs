@@ -174,9 +174,11 @@ namespace conLibrary
                     t.K_PODR,t.NAME_P,t.ABREV_P);        
         }
 
+        #region NumVagStanStpr1InStDoc & NumVagStanStpr1InStVag
+
         public void Test_VagonsContent_GetSTPR1InStDoc()
         {
-            foreach (NumVagStanStpr1InStDoc t in vc.GetSTPR1InStDoc())
+            foreach (NumVagStpr1InStDoc t in vc.GetSTPR1InStDoc())
             {
                 WL(t);
             }
@@ -184,7 +186,7 @@ namespace conLibrary
 
         public void Test_VagonsContent_GetSTPR1InStDocOfAmkr()
         {
-            foreach (NumVagStanStpr1InStDoc t in vc.GetSTPR1InStDocOfAmkr())
+            foreach (NumVagStpr1InStDoc t in vc.GetSTPR1InStDocOfAmkr())
             {
                 WL(t);
             }
@@ -196,12 +198,12 @@ namespace conLibrary
             List<OracleRules> list = rc.GetRulesCopyToOracleRulesOfKis(typeOracleRules.Input);
             string wh = "";
             DateTime dt = DateTime.Now.AddDays(-2);
-            foreach (NumVagStanStpr1InStDoc t in vc.GetSTPR1InStDocOfAmkr(wh.ConvertWhere(list, "a.k_stan", "st_in_st ", "OR")).Where(v=>v.DATE_IN_ST>dt))
+            foreach (NumVagStpr1InStDoc t in vc.GetSTPR1InStDocOfAmkr(wh.ConvertWhere(list, "a.k_stan", "st_in_st ", "OR")).Where(v=>v.DATE_IN_ST>dt))
             {
                 WL(t);
             }
         }
-        public void WL(NumVagStanStpr1InStDoc t) 
+        public void WL(NumVagStpr1InStDoc t) 
         {
             if (t == null) { Console.WriteLine(" = Null"); return; }
             Console.WriteLine("ID_DOC: {0},\t DATE_IN_ST: {1},\t ST_IN_ST: {2},\t N_PUT_IN_ST: {3},\t NAPR_IN_ST: {4},\t FIO_IN_ST: {5},\t CEX: {6},\t N_POST: {7},\t K_STAN: {8},\t OLD_N_NATUR: {9}",
@@ -210,7 +212,7 @@ namespace conLibrary
 
         public void Test_VagonsContent_GetSTPR1InStVag()
         {
-            foreach (NumVagStanStpr1InStVag t in vc.GetSTPR1InStVag())
+            foreach (NumVagStpr1InStVag t in vc.GetSTPR1InStVag())
             {
                 WL(t);
             }
@@ -220,12 +222,15 @@ namespace conLibrary
             Console.WriteLine("57 =  {0}",vc.GetCountSTPR1InStVag(227028));
             Console.WriteLine("0 =  {0}",vc.GetCountSTPR1InStVag(0));
         }
-        public void WL(NumVagStanStpr1InStVag t) 
+        public void WL(NumVagStpr1InStVag t) 
         {
             if (t == null) { Console.WriteLine(" = Null"); return; }
             Console.WriteLine("ID_DOC: {0},\t N_IN_ST: {1},\t N_VAG: {2},\t STRAN_SOBSTV: {3},\t GODN_IN_ST: {4},\t GR_IN_ST: {5},\t SOBSTV: {6},\t REM_IN_ST: {7},\t ID_VAG: {8},\t ST_NAZN_OUT_ST: {9},\t STRAN_OUT_ST: {10},\t SOBSTV_OLD: {11}",
                     t.ID_DOC,t.N_IN_ST,t.N_VAG,t.STRAN_SOBSTV,t.GODN_IN_ST,t.GR_IN_ST,t.SOBSTV,t.REM_IN_ST,t.ID_VAG, t.ST_NAZN_OUT_ST, t.STRAN_OUT_ST, t.SOBSTV_OLD);        
         }
+
+        #endregion
+
 
         public void Test_PromContent_TestFilter()
         {
@@ -235,44 +240,73 @@ namespace conLibrary
 
         }
 
-        //**************************** Тест Wagons ****************************************************************************
-        
-        //PromSostav ps3483 = promsostav.GetInputPromSostavToNatur(3483);
-        //if (ps3483 != null)
-        //{
-        //    Console.WriteLine("N_NATUR: {0}, D_DD: {1}, D_MM: {2}, D_YY: {3}, T_HH: {4}, T_MI: {5}, K_ST: {6}"
-        //            , ps3483.N_NATUR, ps3483.D_DD, ps3483.D_MM, ps3483.D_YY, ps3483.T_HH, ps3483.T_MI, ps3483.K_ST);
-        //}
-        //foreach (PromSostav ps in promsostav.GetInputPromSostav())
-        //{
-        //    Console.WriteLine("N_NATUR: {0}, D_DD: {1}, D_MM: {2}, D_YY: {3}, T_HH: {4}, T_MI: {5}, K_ST: {6} "
-        //        , ps.N_NATUR, ps.D_DD, ps.D_MM, ps.D_YY, ps.T_HH, ps.T_MI, ps.K_ST);
-        //}
-        //foreach (PromSostav ps in promsostav.GetInputPromSostav(DateTime.Parse("2016-11-01 00:00:00"), DateTime.Parse("2016-11-01 12:59:59"), false))
-        //{
-        //    Console.WriteLine("N_NATUR: {0}, D_DD: {1}, D_MM: {2}, D_YY: {3}, T_HH: {4}, T_MI: {5}, K_ST: {6} "
-        //        , ps.N_NATUR, ps.D_DD, ps.D_MM, ps.D_YY, ps.T_HH, ps.T_MI, ps.K_ST);
-        //}
-        //Console.WriteLine("Press any key to exit...");
-        //Console.ReadKey();
 
-        //EFStranaRepository strana = new EFStranaRepository();
-        //foreach (Strana str in strana.Strana)
-        //{
-        //    Console.WriteLine("Strana.KOD_STRAND: {0}, Strana.NAME: {1}", str.KOD_STRAN, str.NAME);
-        //}
-        //foreach (PromNatHist pnh in promsostav.GetNatHist())
-        //{
-        //    Console.WriteLine("N_VAG: {0}, GODN: {1}, K_ST: {2}, N_NATUR: {3}, D_PR_DD: {4}, D_PR_MM: {5}, D_PR_YY: {6}, T_PR_HH: {7}, T_PR_MI: {8}", 
-        //        pnh.N_VAG, pnh.GODN,pnh.K_ST,pnh.N_NATUR,pnh.D_PR_DD,pnh.D_PR_MM,pnh.D_PR_YY,pnh.T_PR_HH,pnh.T_PR_MI);
-        //}
-        //foreach (PromVagon pnh in promsostav.GetVagon())
-        //{
-        //    Console.WriteLine("N_VAG: {0}, GODN: {1}, K_ST: {2}, N_NATUR: {3}, D_PR_DD: {4}, D_PR_MM: {5}, D_PR_YY: {6}, T_PR_HH: {7}, T_PR_MI: {8}",
-        //        pnh.N_VAG, pnh.GODN, pnh.K_ST, pnh.N_NATUR, pnh.D_PR_DD, pnh.D_PR_MM, pnh.D_PR_YY, pnh.T_PR_HH, pnh.T_PR_MI);
-        //}
-        //Console.WriteLine("Press any key to exit...");
-        //Console.ReadKey();
-        //**************************** End Тест Wagons ****************************************************************************
+        #region NumVagStanStpr1OutStDoc & NumVagStpr1OutStVag
+        /// <summary>
+        /// Получить все составы по отправке
+        /// </summary>
+        public void Test_VagonsContent_GetSTPR1OutStDoc()
+        {
+            foreach (NumVagStpr1OutStDoc t in vc.GetSTPR1OutStDoc())
+            {
+                WL(t);
+            }
+        }
+
+        public void WL(NumVagStpr1OutStDoc t)
+        {
+            if (t == null) { Console.WriteLine(" = Null"); return; }
+            Console.WriteLine("ID_DOC: {0},\t DATE_OUT_ST: {1},\t ST_OUT_ST: {2},\t N_PUT_OUT_ST: {3},\t NAPR_OUT_ST: {4},\t FIO_IN_ST: {5},\t CEX: {6},\t K_STAN: {7},\t DATE_ST: {8},\t STATUS: {9},\t NAME_ST: {10}",
+                    t.ID_DOC, t.DATE_OUT_ST, t.ST_OUT_ST, t.N_PUT_OUT_ST, t.NAPR_OUT_ST, t.FIO_IN_ST, t.CEX, t.K_STAN ,t.DATE_ST ,t.STATUS ,t.NAME_ST);
+        }
+        /// <summary>
+        /// Получить все вагоны по отправке
+        /// </summary>
+        public void Test_VagonsContent_GetSTPR1OutStVag()
+        {
+            foreach (NumVagStpr1OutStVag t in vc.GetSTPR1OutStVag())
+            {
+                WL(t);
+            }
+        }
+
+        public void WL(NumVagStpr1OutStVag t)
+        {
+            if (t == null) { Console.WriteLine(" = Null"); return; }
+            Console.WriteLine("ID_DOC: {0},\t N_OUT_ST: {1},\t GR_OUT_ST: {2},\t SOBSTV: {3},\t REM_IN_ST: {4},\t ID_VAG: {5},\t ST_NAZN_OUT_ST: {6},\t STRAN_OUT_ST: {7},\t SOBSTV_OLD: {8},\t N_TUP_OUT_ST: {9}",
+                    t.ID_DOC, 
+                    t.N_OUT_ST, 
+                    t.GR_OUT_ST, 
+                    t.SOBSTV, 
+                    t.REM_IN_ST, 
+                    t.ID_VAG, 
+                    t.ST_NAZN_OUT_ST, 
+                    t.STRAN_OUT_ST, 
+                    t.SOBSTV_OLD,
+                    t.N_TUP_OUT_ST);
+        }
+
+        #endregion
+
+        #region NumVagStpr1Tupik
+        /// <summary>
+        /// Список тупиков
+        /// </summary>
+        public void Test_VagonsContent_GetStpr1Tupik()
+        {
+            foreach (NumVagStpr1Tupik t in vc.GetStpr1Tupik())
+            {
+                WL(t);
+            }
+        }
+
+        public void WL(NumVagStpr1Tupik t) 
+        {
+            if (t == null) { Console.WriteLine(" = Null"); return; }
+            Console.WriteLine("ID_CEX: {0},\t ID_CEX_TUPIK: {1},\t NAMETUPIK: {2}",
+                    t.ID_CEX,t.ID_CEX_TUPIK,t.NAMETUPIK);        
+        }
+        #endregion
+
     }
 }

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace EFWagons.Entities
 {
     [Table("NUM_VAG.STPR1_IN_ST_DOC")]
-    public partial class NumVagStanStpr1InStDoc
+    public partial class NumVagStpr1InStDoc
     {
         [Key, Column(Order = 1)]
         public  int ID_DOC { get; set; }        

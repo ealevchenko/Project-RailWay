@@ -541,7 +541,7 @@ namespace TransferWagons.Railcars
                         {
                             //TODO: если он отправлен на станции УЗ (закрыть прибытие уз и сделать строку в операциях)
                             // Обновим из КИС необходимости
-                            rc_vo.UpdateVagon(idsostav, num_vag, rc_st.GetAMKRStationsToID().ToArray(), dt_amkr, pv.GODN, natur);
+                            rc_vo.UpdateVagon(idsostav, num_vag, rc_st.GetAMKRStationsToID().ToArray(), dt_amkr, pv.GODN != null ? (int)pv.GODN : -1, natur);
                         }
                         else 
                         { 
@@ -618,11 +618,19 @@ namespace TransferWagons.Railcars
                     return (int)errorTransfer.no_gruz;
                 }
                 //Обновим все строки операций по вагону за указанную дату захода и номер натурки
-                int res = rc_vo.UpdateVagon(dt_amkr, num_vag, natur,rc_st.GetAMKRStationsToID().ToArray(), (int)id_gruz, (int)id_shop, pnh.GODN);
+                int res = rc_vo.UpdateVagon(dt_amkr, num_vag, natur, rc_st.GetAMKRStationsToID().ToArray(), (int)id_gruz, (int)id_shop, pnh.GODN); // TODO: тест годности
                 if (res < 0)
                 {
                     LogRW.LogError(String.Format("[KIS_RC_Transfer.UpdCarToStation] : Ошибка обновления информации ранее принятого на путь вагона, натурный лист: {0}, дата: {1}, № вагона: {2}, код станции системы RailCars: {3}, код пути системы RailCars: {4}.",
                         natur, dt_amkr.ToString("dd-MM-yyyy HH:mm:ss"), num_vag, id_stations, id_ways), eventID);
+                    return res;
+                }
+                //Обновлять пока не появится годность
+                if (pnh.GODN == null)
+                { 
+                    LogRW.LogError(String.Format("[KIS_RC_Transfer.UpdCarToStation] : Ошибка, нет годности по ранее принятому на путь вагону, натурный лист: {0}, дата: {1}, № вагона: {2}, код станции системы RailCars: {3}, код пути системы RailCars: {4}.",
+                        natur, dt_amkr.ToString("dd-MM-yyyy HH:mm:ss"), num_vag, id_stations, id_ways), eventID);
+                    return (int)errorTransfer.no_godn;                
                 }
                 return res;
             }
@@ -731,7 +739,7 @@ namespace TransferWagons.Railcars
                         orc_sostav.ListNoUpdateWagons += wag.ToString() + ";";
                     }
                 }
-                orc_sostav.CountSetNatHIist = result.ResultInsert;
+                orc_sostav.CountSetNatHIist = (orc_sostav.CountSetNatHIist!=null ? orc_sostav.CountSetNatHIist : 0) + result.ResultInsert;
                 LogRW.LogWarning(String.Format("Определено для обновления из системы КИС (натурный лист: {0}, дата: {1}) – {2} вагонов, поставлено на станцию АМКР (станция: {3}, путь: {4}) – {5} вагонов, ранее перенесено: {6} вагонов, ошибок переноса: {7}.",
                     orc_sostav.NaturNum,orc_sostav.DateTime,set_wagons.Count(),id_stations,id_ways,result.inserts,result.skippeds,result.errors),  eventID);
                 // Сохранить результат и вернуть код
@@ -815,7 +823,7 @@ namespace TransferWagons.Railcars
         /// <param name="id_stations_from"></param>
         /// <param name="id_stations_on"></param>
         /// <returns></returns>
-        protected int SetCarInputSostavToStation(int doc, DateTime dt_input, NumVagStanStpr1InStVag vag_is, int id_stations_from, int id_stations_on, int? id_ways)
+        protected int SetCarInputSostavToStation(int doc, DateTime dt_input, NumVagStpr1InStVag vag_is, int id_stations_from, int id_stations_on, int? id_ways)
         {
             try
             {
@@ -925,8 +933,8 @@ namespace TransferWagons.Railcars
                 // Ставим вагоны
                 ResultTransfers result = new ResultTransfers((int)orc_sostav.CountWagons, 0, null, null, 0, 0);
                 // Ставим вагоны на путь станции
-                IQueryable<NumVagStanStpr1InStVag> list = vc.GetSTPR1InStVag(orc_sostav.DocNum, orc_sostav.NaprFrom == 2 ? true : false);
-                foreach (NumVagStanStpr1InStVag vag_is in list) 
+                IQueryable<NumVagStpr1InStVag> list = vc.GetSTPR1InStVag(orc_sostav.DocNum, orc_sostav.NaprFrom == 2 ? true : false);
+                foreach (NumVagStpr1InStVag vag_is in list) 
                 { 
                     if (result.SetResultInsert(SetCarInputSostavToStation(orc_sostav.DocNum, orc_sostav.DateTime, vag_is, id_stations_from, id_stations_on, id_ways)))
                     {
@@ -979,11 +987,13 @@ namespace TransferWagons.Railcars
             }
             
             // Формирование общего списка вагонов и постановка их на путь станции прибытия
-            List<NumVagStanStpr1InStVag> list_pv = vc.GetSTPR1InStVag(orc_sostav.DocNum, orc_sostav.NaprFrom == 2 ? true : false).ToList();
+            List<NumVagStpr1InStVag> list_pv = vc.GetSTPR1InStVag(orc_sostav.DocNum, orc_sostav.NaprFrom == 2 ? true : false).ToList();
             orc_sostav.CountWagons = list_pv.Count(); // Определим количество вагонов
             return SetInputSostavToStation(ref orc_sostav, (int)id_stations_from, (int)id_stations_on, id_ways);
 
         }
+
+
         #endregion
 
         #region Синхронизация справочников

@@ -51,7 +51,7 @@ namespace conLibrary
             #endregion
 
             #region Test_TrasferKIS
-            Test_TrasferKIS test = new Test_TrasferKIS();
+            //Test_TrasferKIS test = new Test_TrasferKIS();
             //test.Test_ArrivalKIS();
             //test.Test_References_Owner();
             //test.Test_References_Vagon();
@@ -69,14 +69,15 @@ namespace conLibrary
             //test.Test_KIS_Transfer_CopyInputSostavToRailway();
             //test.Test_KIS_Transfer_PutInputSostavToStation();
             //test.Test_KIS_RC_Transfer_PutInputSostavToStation(); // тест поставить строку (копирование внутрених станций) на путь
-            test.Test_KIS_RC_Transfer_PutCarsToStation_UpdateCarsToStation();
+            //test.Test_KIS_RC_Transfer_PutCarsToStation_UpdateCarsToStation();
 
             //test.Test_SAPIncomingSupply_GetDefaultIDSostav();
             //test.Test_KIS_RC_Transfer_CorrectionArrivalSostav();
+            //test.Test_TrasferKIS_KISTransfer_PutCarsToStations(); // Проверить полный перенос вагона из КИС в RailCars
             #endregion
 
             #region Test_Wagons
-            //Test_Wagons test = new Test_Wagons();
+            Test_Wagons test = new Test_Wagons();
             //test.Test_KometaContent_KometaVagonSob();
             //test.Test_KometaContent_KometaVagonSob(67666503);
             //test.Test_KometaContent_KometaVagonSob(67666503,DateTime.Now);
@@ -110,6 +111,9 @@ namespace conLibrary
             //test.Test_VagonsContent_GetSTPR1InStVag();
             //test.Test_VagonsContent_GetCountSTPR1InStVag();
             //test.Test_PromContent_TestFilter();
+            //test.Test_VagonsContent_GetSTPR1OutStDoc(); // Получить все составы по отправке
+            //test.Test_VagonsContent_GetSTPR1OutStVag(); // Получить все вагоны по отправке
+            test.Test_VagonsContent_GetStpr1Tupik(); // Список тупиков
             #endregion
 
             #region Test_RailCars

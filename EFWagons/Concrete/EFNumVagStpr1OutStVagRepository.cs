@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace EFWagons.Concrete
 {
-    public class EFNumVagStanStpr1InStVagRepository : EFRepository, INumVagStanStpr1InStVagRepository
+    public class EFNumVagStpr1OutStVagRepository : EFRepository, INumVagStpr1OutStVagRepository
     {
-        public IQueryable<NumVagStanStpr1InStVag> NumVagStanStpr1InStVag
+        public IQueryable<NumVagStpr1OutStVag> NumVagStpr1OutStVag
         {
-            get { return context.NumVagStanStpr1InStVag; }
+            get { return context.NumVagStpr1OutStVag; }
         }
     }
 }

@@ -108,14 +108,12 @@ namespace conLibrary
             Console.WriteLine("Зерно кукурузы = {0}", refer.DefinitionIDGruzs(15006));
             
         }
-
-        public void Test_TrasferKIS_KISTransfer() { 
+        /// <summary>
+        /// Проверить полный перенос вагона из КИС в RailCars
+        /// </summary>
+        public void Test_TrasferKIS_KISTransfer_PutCarsToStations() { 
             KIS_Transfer kist = new KIS_Transfer();
-
-            //kist.DayControllingAddNatur = 2;
-            kist.PutCarsToStations(0);
-            //kist.UpdateSostavs();
-                Console.WriteLine("Обновлено {0}", kist.CopyArrivalSostavToRailway(2));
+            Console.WriteLine("Обновлено {0}", kist.PutCarsToStations(1));
         }
 
         public void Test_KIS_RC_Transfer_SetListWagon() {

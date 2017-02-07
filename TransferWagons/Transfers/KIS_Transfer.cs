@@ -177,7 +177,7 @@ namespace TransferWagons.Transfers
         /// <param name="start"></param>
         /// <param name="stop"></param>
         /// <returns></returns>
-        public IQueryable<NumVagStanStpr1InStDoc> GetNumVagStanStpr1InStDocIsRules(DateTime start, DateTime stop) 
+        public IQueryable<NumVagStpr1InStDoc> GetNumVagStanStpr1InStDocIsRules(DateTime start, DateTime stop) 
         {
             List<OracleRules> list = orc.GetRulesCopyToOracleRulesOfKis(typeOracleRules.Input);
             string wh =null;
@@ -191,7 +191,7 @@ namespace TransferWagons.Transfers
         /// <param name="stop"></param>
         /// <param name="sort"></param>
         /// <returns></returns>
-        public IQueryable<NumVagStanStpr1InStDoc> GetNumVagStanStpr1InStDocIsRules(DateTime start, DateTime stop, bool sort) 
+        public IQueryable<NumVagStpr1InStDoc> GetNumVagStanStpr1InStDocIsRules(DateTime start, DateTime stop, bool sort) 
         {
             if (sort)
             {
@@ -206,7 +206,7 @@ namespace TransferWagons.Transfers
         /// <param name="inp_sostav"></param>
         /// <param name="status"></param>
         /// <returns></returns>
-        protected int SaveInputSostav(NumVagStanStpr1InStDoc inp_sostav, statusSting status)
+        protected int SaveInputSostav(NumVagStpr1InStDoc inp_sostav, statusSting status)
         {
             try
             {
@@ -277,7 +277,7 @@ namespace TransferWagons.Transfers
         /// </summary>
         /// <param name="list_is"></param>
         /// <param name="list_ois"></param>
-        protected void DelExistInputSostav(ref List<NumVagStanStpr1InStDoc> list_is, ref List<Oracle_InputSostav> list_ois)
+        protected void DelExistInputSostav(ref List<NumVagStpr1InStDoc> list_is, ref List<Oracle_InputSostav> list_ois)
         {
             int index = list_is.Count() - 1;
             while (index >= 0)
@@ -322,12 +322,12 @@ namespace TransferWagons.Transfers
         /// Добавить новые составы появившиеся после переноса
         /// </summary>
         /// <param name="list"></param>
-        protected int InsertInputSostav(List<NumVagStanStpr1InStDoc> list)
+        protected int InsertInputSostav(List<NumVagStpr1InStDoc> list)
         {
             if (list == null | list.Count == 0) return 0;
             int insers = 0;
             int errors = 0;
-            foreach (NumVagStanStpr1InStDoc inp_s in list)
+            foreach (NumVagStpr1InStDoc inp_s in list)
             {
                 int res = SaveInputSostav(inp_s, statusSting.Insert);
                 if (res > 0) insers++;
@@ -449,9 +449,9 @@ namespace TransferWagons.Transfers
             int errors = 0;
             int normals = 0;
             // список новых составов в системе КИС
-            IQueryable<NumVagStanStpr1InStDoc> list_newsostav = null;
+            IQueryable<NumVagStpr1InStDoc> list_newsostav = null;
             // список уже перенесенных в RailWay составов в системе КИС (с учетом периода контроля dayControllingAddNatur)
-            IQueryable<NumVagStanStpr1InStDoc> list_oldsostav = null;
+            IQueryable<NumVagStpr1InStDoc> list_oldsostav = null;
             // список уже перенесенных в RailWay составов (с учетом периода контроля dayControllingAddNatur)
             IQueryable<Oracle_InputSostav> list_inputsostav = null;
             try
@@ -473,7 +473,7 @@ namespace TransferWagons.Transfers
                 // Переносим информацию по новым составам
                 if (list_newsostav != null & list_newsostav.Count() > 0)
                 {
-                    foreach (NumVagStanStpr1InStDoc inps in list_newsostav)
+                    foreach (NumVagStpr1InStDoc inps in list_newsostav)
                     {
 
                         int res = SaveInputSostav(inps, statusSting.Normal);
@@ -486,7 +486,7 @@ namespace TransferWagons.Transfers
                 if (list_oldsostav != null & list_oldsostav.Count() > 0 &
                     list_inputsostav != null & list_inputsostav.Count() > 0)
                 {
-                    List<NumVagStanStpr1InStDoc> list_is = new List<NumVagStanStpr1InStDoc>();
+                    List<NumVagStpr1InStDoc> list_is = new List<NumVagStpr1InStDoc>();
                     list_is = list_oldsostav.ToList();
                     List<Oracle_InputSostav> list_ois = new List<Oracle_InputSostav>();
                     list_ois = list_inputsostav.ToList().Where(a => a.Status != (int)statusSting.Delete).ToList();
@@ -537,6 +537,8 @@ namespace TransferWagons.Transfers
             
             return 0; // TODO: исправить возврат        
         }
+
+
 
         #endregion
 

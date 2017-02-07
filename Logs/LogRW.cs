@@ -18,9 +18,10 @@ namespace Logs
         EFRailWay_KIS_EFOracleArrivalSostavRepository = 2101,
         EFRailWay_KIS_EFOracleRulesCopyRepository = 2102,
         EFRailWay_KIS_EFOracleInputSostavRepository = 2103,
-        EFRailWay_KIS_RulesCopy = 2104,
-        EFRailWay_KIS_ArrivalSostav = 2105,
-        EFRailWay_KIS_InputSostav = 2106,
+        EFRailWay_KIS_EFOracleOutputSostavRepository = 2104, 
+        EFRailWay_KIS_RulesCopy = 2110,
+        EFRailWay_KIS_ArrivalSostav = 2111,
+        EFRailWay_KIS_InputSostav = 2112,
 
         EFRailWay_RailWay = 2300,
         EFRailWay_RailWay_EFReferenceCargoRepository = 2301,

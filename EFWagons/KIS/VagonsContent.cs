@@ -16,23 +16,40 @@ namespace EFWagons.Statics
         
         INumVagStanRepository rep_nvs;
         INumVagStpr1GrRepository rep_nvstpr;
-        INumVagStanStpr1InStDocRepository rep_nvss1isd;
-        INumVagStanStpr1InStVagRepository rep_nvss1isv;
+        INumVagStpr1InStDocRepository rep_nvs1isd;
+        INumVagStpr1InStVagRepository rep_nvs1isv;
+        INumVagStpr1OutStDocRepository rep_nvs1osd;
+        INumVagStpr1OutStVagRepository rep_nvs1osv;
+        INumVagStpr1TupikRepository rep_nvs1t;
+
 
         public VagonsContent() 
         {
             this.rep_nvs = new EFNumVagStanRepository();
             this.rep_nvstpr = new EFNumVagStpr1GrRepository();
-            this.rep_nvss1isd = new EFNumVagStanStpr1InStDocRepository();
-            this.rep_nvss1isv = new EFNumVagStanStpr1InStVagRepository();
+            this.rep_nvs1isd = new EFNumVagStpr1InStDocRepository();
+            this.rep_nvs1isv = new EFNumVagStpr1InStVagRepository();
+            this.rep_nvs1osd = new EFNumVagStpr1OutStDocRepository();
+            this.rep_nvs1osv = new EFNumVagStpr1OutStVagRepository();
+            this.rep_nvs1t = new EFNumVagStpr1TupikRepository();
+
         }
 
-        public VagonsContent(INumVagStanRepository rep_nvs, INumVagStpr1GrRepository rep_nvstpr, INumVagStanStpr1InStDocRepository rep_nvss1isd, INumVagStanStpr1InStVagRepository rep_nvss1isv) 
+        public VagonsContent(INumVagStanRepository rep_nvs, 
+            INumVagStpr1GrRepository rep_nvstpr, 
+            INumVagStpr1InStDocRepository rep_nvs1isd,
+            INumVagStpr1InStVagRepository rep_nvs1isv,
+            INumVagStpr1OutStDocRepository rep_nvs1osd,
+            INumVagStpr1OutStVagRepository rep_nvs1osv,
+            INumVagStpr1TupikRepository rep_nvs1t) 
         {
             this.rep_nvs = rep_nvs;
             this.rep_nvstpr = rep_nvstpr;
-            this.rep_nvss1isd = rep_nvss1isd;
-            this.rep_nvss1isv = rep_nvss1isv;
+            this.rep_nvs1isd = rep_nvs1isd;
+            this.rep_nvs1isv = rep_nvs1isv;
+            this.rep_nvs1osd = rep_nvs1osd;
+            this.rep_nvs1osv = rep_nvs1osv;
+            this.rep_nvs1t = rep_nvs1t;
         }
 
         #region Станции
@@ -80,11 +97,11 @@ namespace EFWagons.Statics
         /// Получить список операций перемещений по прибытию с других станций
         /// </summary>
         /// <returns></returns>
-        public IQueryable<NumVagStanStpr1InStDoc> GetSTPR1InStDoc() 
+        public IQueryable<NumVagStpr1InStDoc> GetSTPR1InStDoc() 
         {
             try
             {
-                return rep_nvss1isd.NumVagStanStpr1InStDoc;
+                return rep_nvs1isd.NumVagStpr1InStDoc;
             }
             catch (Exception e)
             {
@@ -97,12 +114,12 @@ namespace EFWagons.Statics
         /// </summary>
         /// <param name="where"></param>
         /// <returns></returns>
-        public IQueryable<NumVagStanStpr1InStDoc> GetSTPR1InStDocOfAmkr(string where)
+        public IQueryable<NumVagStpr1InStDoc> GetSTPR1InStDocOfAmkr(string where)
         {
             try
             {
                 string sql = "select a.* from NUM_VAG.STPR1_IN_ST_DOC a inner join NUM_VAG.STAN b on a.ST_IN_ST=b.K_STAN and b.MPS=0 " + (!String.IsNullOrWhiteSpace(where) ? " WHERE " + where : "");
-                return rep_nvss1isd.db.SqlQuery<NumVagStanStpr1InStDoc>(sql).AsQueryable();
+                return rep_nvs1isd.db.SqlQuery<NumVagStpr1InStDoc>(sql).AsQueryable();
             }
             catch (Exception e)
             {
@@ -114,17 +131,17 @@ namespace EFWagons.Statics
         /// Получить список операций перемещений по прибытию с других станций на станции АМКР
         /// </summary>
         /// <returns></returns>
-        public IQueryable<NumVagStanStpr1InStDoc> GetSTPR1InStDocOfAmkr() 
+        public IQueryable<NumVagStpr1InStDoc> GetSTPR1InStDocOfAmkr() 
         { return GetSTPR1InStDocOfAmkr(null); }
         /// <summary>
         /// Получить список вагонов перемещений по внутреним станциям по прибытию
         /// </summary>
         /// <returns></returns>
-        public IQueryable<NumVagStanStpr1InStVag> GetSTPR1InStVag() 
+        public IQueryable<NumVagStpr1InStVag> GetSTPR1InStVag() 
         {
             try
             {
-                return rep_nvss1isv.NumVagStanStpr1InStVag;
+                return rep_nvs1isv.NumVagStpr1InStVag;
             }
             catch (Exception e)
             {
@@ -137,7 +154,7 @@ namespace EFWagons.Statics
         /// </summary>
         /// <param name="doc"></param>
         /// <returns></returns>
-        public IQueryable<NumVagStanStpr1InStVag> GetSTPR1InStVag(int doc) 
+        public IQueryable<NumVagStpr1InStVag> GetSTPR1InStVag(int doc) 
         {
             return GetSTPR1InStVag().Where(v => v.ID_DOC == doc);
         }
@@ -147,12 +164,11 @@ namespace EFWagons.Statics
         /// <param name="doc"></param>
         /// <param name="sort"></param>
         /// <returns></returns>
-        public IQueryable<NumVagStanStpr1InStVag> GetSTPR1InStVag(int doc, bool sort) 
+        public IQueryable<NumVagStpr1InStVag> GetSTPR1InStVag(int doc, bool sort) 
         {
             if (sort) { return GetSTPR1InStVag(doc).OrderByDescending(v => v.N_IN_ST); }
             else { return GetSTPR1InStVag(doc).OrderBy(v => v.N_IN_ST);}
         }
-
         /// <summary>
         /// Получить количество вагонов
         /// </summary>
@@ -161,6 +177,60 @@ namespace EFWagons.Statics
         public int GetCountSTPR1InStVag(int doc) 
         {
             return GetSTPR1InStVag(doc).Count();
+        }
+        #endregion
+
+        #region Составы по отправке
+        /// <summary>
+        /// Показать все составы
+        /// </summary>
+        /// <returns></returns>
+        public IQueryable<NumVagStpr1OutStDoc> GetSTPR1OutStDoc()
+        {
+            try
+            {
+                return rep_nvs1osd.NumVagStpr1OutStDoc;
+            }
+            catch (Exception e)
+            {
+                LogRW.LogError(e, "GetSTPR1OutStDoc", eventID);
+                return null;
+            }
+        }
+        /// <summary>
+        /// Показать все вагоны
+        /// </summary>
+        /// <returns></returns>
+        public IQueryable<NumVagStpr1OutStVag> GetSTPR1OutStVag() 
+        {
+            try
+            {
+                return rep_nvs1osv.NumVagStpr1OutStVag;
+            }
+            catch (Exception e)
+            {
+                LogRW.LogError(e, "GetSTPR1OutStVag", eventID);
+                return null;
+            }
+        }
+        #endregion
+
+        #region Тупики
+        /// <summary>
+        /// Показать тупики
+        /// </summary>
+        /// <returns></returns>
+        public IQueryable<NumVagStpr1Tupik> GetStpr1Tupik() 
+        {
+            try
+            {
+                return rep_nvs1t.NumVagStpr1Tupik;
+            }
+            catch (Exception e)
+            {
+                LogRW.LogError(e, "GetStpr1Tupik", eventID);
+                return null;
+            }
         }
         #endregion
     }

@@ -63,6 +63,7 @@
     <Compile Include="Abstract\ICodeStateRepository.cs" />
     <Compile Include="Abstract\ICodeStationRepository.cs" />
     <Compile Include="Abstract\IReferenceRailwayRepository.cs" />
+    <Compile Include="Abstract\KIS\IOracleOutputSostavRepository.cs" />
     <Compile Include="Abstract\KIS\IOracleInputSostavRepository.cs" />
     <Compile Include="Abstract\KIS\IOracleRulesCopyRepository.cs" />
     <Compile Include="Abstract\KIS\IOracleArrivalSostavRepository.cs" />
@@ -82,6 +83,7 @@
     <Compile Include="Concrete\EFCodeStationRepository.cs" />
     <Compile Include="Concrete\EFDbContext.cs" />
     <Compile Include="Concrete\EFReferenceRailwayRepository.cs" />
+    <Compile Include="Concrete\KIS\EFOracleOutputSostavRepository.cs" />
     <Compile Include="Concrete\KIS\EFOracleInputSostavRepository.cs" />
     <Compile Include="Concrete\KIS\EFOracleRulesCopyRepository.cs" />
     <Compile Include="Concrete\KIS\EFOracleArrivalSostavRepository.cs" />
@@ -104,9 +106,11 @@
     <Compile Include="Entities\Code_Country.cs" />
     <Compile Include="Entities\ReferenceCargo.cs" />
     <Compile Include="Entities\ReferenceCountry.cs" />
+    <Compile Include="KIS\OutputSostav.cs" />
     <Compile Include="KIS\InputSostav.cs" />
     <Compile Include="KIS\RulesCopy.cs" />
     <Compile Include="Entities\KIS\Oracle_InputSostav.cs" />
+    <Compile Include="Entities\KIS\Oracle_OutputSostav.cs" />
     <Compile Include="MT\MTContent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="References\GeneralReferences.cs" />

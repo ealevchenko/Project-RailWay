@@ -40,6 +40,7 @@ namespace EFRailWay.Concrete
         public virtual DbSet<Oracle_ArrivalSostav> Oracle_ArrivalSostav { get; set; }
         public virtual DbSet<Oracle_RulesCopy> Oracle_RulesCopy { get; set; }
         public virtual DbSet<Oracle_InputSostav> Oracle_InputSostav { get; set; }
+        public virtual DbSet<Oracle_OutputSostav> Oracle_OutputSostav { get; set; }
 
         //SAP
         public virtual DbSet<SAPIncSupply> SAPIncSupply { get; set; }
