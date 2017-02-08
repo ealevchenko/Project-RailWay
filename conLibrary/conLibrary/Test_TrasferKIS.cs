@@ -331,6 +331,14 @@ namespace conLibrary
             KIS_Transfer kist = new KIS_Transfer();
             Console.WriteLine("Обновлено {0}", kist.CopyInputSostavToRailway(1));  
         }
+        /// <summary>
+        /// Тест переноса данных по отправке
+        /// </summary>
+        public void Test_KIS_Transfer_CopyOutputSostavToRailway()
+        { 
+            KIS_Transfer kist = new KIS_Transfer();
+            Console.WriteLine("Обновлено {0}", kist.CopyOutputSostavToRailway(1));  
+        }
 
         public void Test_KIS_Transfer_PutInputSostavToStation()
         { 

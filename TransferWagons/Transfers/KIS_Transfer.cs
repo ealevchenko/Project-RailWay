@@ -25,6 +25,7 @@ namespace TransferWagons.Transfers
         private eventID eventID = eventID.TransferWagons_Transfers_KIS_Transfer;
         ArrivalSostav oas = new ArrivalSostav();
         InputSostav ois = new InputSostav();
+        OutputSostav oos = new OutputSostav();
         RulesCopy orc = new RulesCopy();
 
         VagonsContent vc = new VagonsContent();
@@ -177,11 +178,11 @@ namespace TransferWagons.Transfers
         /// <param name="start"></param>
         /// <param name="stop"></param>
         /// <returns></returns>
-        public IQueryable<NumVagStpr1InStDoc> GetNumVagStanStpr1InStDocIsRules(DateTime start, DateTime stop) 
+        public IQueryable<NumVagStpr1InStDoc> GetNumVagStpr1InStDocIsRules(DateTime start, DateTime stop) 
         {
             List<OracleRules> list = orc.GetRulesCopyToOracleRulesOfKis(typeOracleRules.Input);
             string wh =null;
-            return vc.GetSTPR1InStDocOfAmkr(wh.ConvertWhere(list, "a.k_stan", "st_in_st ", "OR")).Where(v => v.DATE_IN_ST > start & v.DATE_IN_ST <= stop);
+            return vc.GetSTPR1InStDocOfAmkr(wh.ConvertWhere(list, "a.k_stan", "st_in_st ", "OR")).Where(v => v.DATE_IN_ST >= start & v.DATE_IN_ST <= stop);
 
         }
         /// <summary>
@@ -191,13 +192,13 @@ namespace TransferWagons.Transfers
         /// <param name="stop"></param>
         /// <param name="sort"></param>
         /// <returns></returns>
-        public IQueryable<NumVagStpr1InStDoc> GetNumVagStanStpr1InStDocIsRules(DateTime start, DateTime stop, bool sort) 
+        public IQueryable<NumVagStpr1InStDoc> GetNumVagStpr1InStDocIsRules(DateTime start, DateTime stop, bool sort) 
         {
             if (sort)
             {
-                return GetNumVagStanStpr1InStDocIsRules(start, stop).OrderByDescending(v => v.DATE_IN_ST);
+                return GetNumVagStpr1InStDocIsRules(start, stop).OrderByDescending(v => v.DATE_IN_ST);
             }
-            else return GetNumVagStanStpr1InStDocIsRules(start, stop).OrderBy(v => v.DATE_IN_ST);
+            else return GetNumVagStpr1InStDocIsRules(start, stop).OrderBy(v => v.DATE_IN_ST);
 
         }
         /// <summary>
@@ -273,7 +274,7 @@ namespace TransferWagons.Transfers
             return Result;
         }
         /// <summary>
-        /// Проверяет списки NumVagStanStpr1InStDoc и Oracle_InputSostav на повторяющие документы, оставляет в списке NumVagStanStpr1InStDoc - добавленные составы, Oracle_InputSostav - удаленные из КИС составы
+        /// Проверяет списки NumVagStpr1InStDoc и Oracle_InputSostav на повторяющие документы, оставляет в списке NumVagStpr1InStDoc - добавленные составы, Oracle_InputSostav - удаленные из КИС составы
         /// </summary>
         /// <param name="list_is"></param>
         /// <param name="list_ois"></param>
@@ -341,6 +342,179 @@ namespace TransferWagons.Transfers
             return insers;
         }
         #endregion
+
+        #region Таблица переноса составов из КИС [Oracle_OutputSostav]
+        /// <summary>
+        /// Получить список составов за указаный период
+        /// </summary>
+        /// <param name="start"></param>
+        /// <param name="stop"></param>
+        /// <returns></returns>
+        public IQueryable<NumVagStpr1OutStDoc> GetNumVagStpr1OutStDocIsRules(DateTime start, DateTime stop)
+        {
+            List<OracleRules> list = orc.GetRulesCopyToOracleRulesOfKis(typeOracleRules.Output);
+            string wh = null;
+            return vc.GetSTPR1OutStDocOfAmkr(wh.ConvertWhere(list, "a.st_out_st", "a.k_stan ", "OR")).Where(v => v.DATE_OUT_ST >= start & v.DATE_OUT_ST <= stop);
+        }
+        /// <summary>
+        /// Получить список составов за указаный перилод согласно правила копирования и сортировкой
+        /// </summary>
+        /// <param name="start"></param>
+        /// <param name="stop"></param>
+        /// <param name="sort"></param>
+        /// <returns></returns>
+        public IQueryable<NumVagStpr1OutStDoc> GetNumVagStpr1OutStDocIsRules(DateTime start, DateTime stop, bool sort) 
+        {
+            if (sort)
+            {
+                return GetNumVagStpr1OutStDocIsRules(start, stop).OrderByDescending(v => v.DATE_OUT_ST);
+            }
+            else return GetNumVagStpr1OutStDocIsRules(start, stop).OrderBy(v => v.DATE_OUT_ST);
+
+        }
+        /// <summary>
+        /// Создать и сохранить строку Oracle_OutputSostav
+        /// </summary>
+        /// <param name="out_sostav"></param>
+        /// <param name="status"></param>
+        /// <returns></returns>
+        protected int SaveOutputSostav(NumVagStpr1OutStDoc out_sostav, statusSting status)
+        {
+            try
+            {
+                return oos.SaveOracle_OutputSostav(new Oracle_OutputSostav()
+                {
+                    ID = 0,
+                    DateTime = out_sostav.DATE_OUT_ST,
+                    DocNum = out_sostav.ID_DOC,
+                    IDOrcStationFrom = out_sostav.K_STAN != null ? (int)out_sostav.K_STAN : 0,
+                    IDOrcStationOn = out_sostav.ST_OUT_ST != null ? (int)out_sostav.ST_OUT_ST : 0,
+                    WayNumOn = out_sostav.N_PUT_OUT_ST != null ? (int)out_sostav.N_PUT_OUT_ST : 0,
+                    NaprOn = out_sostav.NAPR_OUT_ST != null ? (int)out_sostav.NAPR_OUT_ST : 0,
+                    CountWagons = null,
+                    CountSetWagons = null,
+                    CountUpdareWagons = null,
+                    Close = null,
+                    Status = (int)status, 
+                    Message = null
+                });
+            }
+            catch (Exception e)
+            {
+                LogRW.LogError(String.Format("[KISTransfer.SaveOutputSostav]: Ошибка выполнения переноса информации о составе (копирование по отправке из внутрених станций) из базы данных КИС в таблицу учета прибытия составов на АМКР (источник: {0}, № {1}, описание:  {2})", e.Source, e.HResult, e.Message), this.eventID);
+                return -1;
+            }
+        }
+        /// <summary>
+        /// Проверить изменения в количестве вагонов в составе
+        /// </summary>
+        /// <param name="o_os"></param>
+        /// <param name="doc"></param>
+        protected void CheckChangeExistOutputSostav(Oracle_OutputSostav o_os, int doc)
+        {
+            int count_vag = vc.GetCountSTPR1OutStVag(doc);
+            // Количество вагонов изменено
+            if (o_os.CountWagons > 0 & count_vag > 0 & o_os.CountWagons != count_vag)
+            {
+                // Изменим количество вагонов и отправим на переустановку вагонов
+                o_os.CountWagons = count_vag;
+                o_os.Status = (int)statusSting.Update;
+                o_os.Close = null;
+                oos.SaveOracle_OutputSostav(o_os);
+            }
+        }
+        /// <summary>
+        /// Найти и удалить из списка Oracle_OutputSostav елемент doc
+        /// </summary>
+        /// <param name="list"></param>
+        /// <param name="doc"></param>
+        /// <returns></returns>
+        protected bool DelExistOutputSostav(ref List<Oracle_OutputSostav> list, int doc)
+        {
+            bool Result = false;
+            int index = list.Count() - 1;
+            while (index >= 0)
+            {
+                if (list[index].DocNum == doc)
+                {
+                    CheckChangeExistOutputSostav(list[index], doc); // количество вагонов
+                    list.RemoveAt(index);
+                    Result = true;
+                }
+                index--;
+            }
+            return Result;
+        }
+        /// <summary>
+        /// Проверяет списки NumVagStpr1OutStDoc и Oracle_OutputSostav на повторяющие документы, оставляет в списке NumVagStpr1OutStDoc - добавленные составы, Oracle_OutputSostav - удаленные из КИС составы
+        /// </summary>
+        /// <param name="list_is"></param>
+        /// <param name="list_oos"></param>
+        protected void DelExistOutputSostav(ref List<NumVagStpr1OutStDoc> list_is, ref List<Oracle_OutputSostav> list_oos)
+        {
+            int index = list_is.Count() - 1;
+            while (index >= 0)
+            {
+                if (DelExistOutputSostav(ref list_oos, list_is[index].ID_DOC))
+                {
+                    list_is.RemoveAt(index);
+                }
+                index--;
+            }
+        }
+        /// <summary>
+        /// удалить строку состава отсутсвующего после переноса
+        /// </summary>
+        /// <param name="list"></param>
+        /// <returns></returns>
+        protected int DeleteOutputSostav(List<Oracle_OutputSostav> list)
+        {
+            if (list == null | list.Count == 0) return 0;
+            int delete = 0;
+            int errors = 0;
+            foreach (Oracle_OutputSostav or_os in list)
+            {
+                // Удалим вагоны из системы RailCars
+                transfer_rc.DeleteVagonsToDocInput(or_os.DocNum);
+                // TODO: Сделать код удаления вагонов из RailWay
+
+                or_os.Close = DateTime.Now;
+                or_os.Status = (int)statusSting.Delete;
+                int res = oos.SaveOracle_OutputSostav(or_os);
+                if (res > 0) delete++;
+                if (res < 1)
+                {
+                    LogRW.LogError(String.Format("[KISTransfer.DeleteOutputSostav] :Ошибка удаления данных из таблицы учета прибытия составов (копирование по отправке из внутрених станций), ID: {0}", or_os.ID), this.eventID);
+                    errors++;
+                }
+            }
+            LogRW.LogWarning(String.Format("Определено для удаленния прибывших составов (копирование по отправке из внутрених станций) {0}, удалено {1}, ошибок удаления {2}", list.Count(), delete, errors), this.eventID);
+            return delete;
+        }
+        /// <summary>
+        /// Добавить новые составы появившиеся после переноса
+        /// </summary>
+        /// <param name="list"></param>
+        protected int InsertOutputSostav(List<NumVagStpr1OutStDoc> list)
+        {
+            if (list == null | list.Count == 0) return 0;
+            int insers = 0;
+            int errors = 0;
+            foreach (NumVagStpr1OutStDoc out_s in list)
+            {
+                int res = SaveOutputSostav(out_s, statusSting.Insert);
+                if (res > 0) insers++;
+                if (res < 1)
+                {
+                    LogRW.LogError(String.Format("[KISTransfer.InsertOutputSostav] :Ошибка добавления данных в таблицу учета прибытия составов (копирование по отправке из внутрених станций), номер документа: {0}", out_s.ID_DOC), this.eventID);
+                    errors++;
+                }
+            }
+            LogRW.LogWarning(String.Format("Определено для добавленных новых составов (копирование по отправке из внутрених станций) {0}, добавлено {1}, ошибок добавления {2}", list.Count(), insers, errors), this.eventID);
+            return insers;
+        }
+        #endregion
+
 
         #region Перенос и обнавление вагонов из системы КИС в RailWay
         /// <summary>
@@ -461,14 +635,14 @@ namespace TransferWagons.Transfers
                 if (lastDT != null)
                 {
                     // Данные есть получим новые
-                    list_newsostav = GetNumVagStanStpr1InStDocIsRules(((DateTime)lastDT).AddSeconds(1), DateTime.Now, false);
-                    list_oldsostav = GetNumVagStanStpr1InStDocIsRules(((DateTime)lastDT).AddDays(day_control_ins * -1), ((DateTime)lastDT).AddSeconds(1), false);
+                    list_newsostav = GetNumVagStpr1InStDocIsRules(((DateTime)lastDT).AddSeconds(1), DateTime.Now, false);
+                    list_oldsostav = GetNumVagStpr1InStDocIsRules(((DateTime)lastDT).AddDays(day_control_ins * -1), ((DateTime)lastDT).AddSeconds(1), false);
                     list_inputsostav = ois.GetInputSostav(((DateTime)lastDT).AddDays(day_control_ins * -1), ((DateTime)lastDT).AddSeconds(1));
                 }
                 else
                 {
                     // Таблица пуста получим первый раз
-                    list_newsostav = GetNumVagStanStpr1InStDocIsRules(DateTime.Now.AddDays(day_control_ins * -1), DateTime.Now, false);
+                    list_newsostav = GetNumVagStpr1InStDocIsRules(DateTime.Now.AddDays(day_control_ins * -1), DateTime.Now, false);
                 }
                 // Переносим информацию по новым составам
                 if (list_newsostav != null & list_newsostav.Count() > 0)
@@ -537,9 +711,72 @@ namespace TransferWagons.Transfers
             
             return 0; // TODO: исправить возврат        
         }
+        /// <summary>
+        /// Перенос информации о составах по внутреним станциям по отправке
+        /// </summary>
+        /// <param name="day_control_ins"></param>
+        /// <returns></returns>
+        public int CopyOutputSostavToRailway(int day_control_ins)
+        {
+            int errors = 0;
+            int normals = 0;
+            // список новых составов в системе КИС
+            List<NumVagStpr1OutStDoc> list_newsostav = new List<NumVagStpr1OutStDoc>();
+            // список уже перенесенных в RailWay составов в системе КИС (с учетом периода контроля dayControllingAddNatur)
+            List<NumVagStpr1OutStDoc> list_oldsostav = new List<NumVagStpr1OutStDoc>();
+            // список уже перенесенных в RailWay составов (с учетом периода контроля dayControllingAddNatur)
+            List<Oracle_OutputSostav> list_outputsostav = new List<Oracle_OutputSostav>();
+            try
+            {
+                // Считаем дату последненго состава
+                DateTime? lastDT = oos.GetLastDateTime();
+                if (lastDT != null)
+                {
+                    // Данные есть получим новые
+                    list_newsostav = GetNumVagStpr1OutStDocIsRules(((DateTime)lastDT).AddSeconds(1), DateTime.Now, false).ToList();
+                    list_oldsostav = GetNumVagStpr1OutStDocIsRules(((DateTime)lastDT).AddDays(day_control_ins * -1), ((DateTime)lastDT).AddSeconds(1), false).ToList();
+                    list_outputsostav = oos.GetOutputSostav(((DateTime)lastDT).AddDays(day_control_ins * -1), ((DateTime)lastDT).AddSeconds(1)).ToList();
+                }
+                else
+                {
+                    // Таблица пуста получим первый раз
+                    list_newsostav = GetNumVagStpr1OutStDocIsRules(DateTime.Now.AddDays(day_control_ins * -1), DateTime.Now, false).ToList();
+                }
+                // Переносим информацию по новым составам
+                if (list_newsostav.Count() > 0)
+                {
+                    foreach (NumVagStpr1OutStDoc inps in list_newsostav)
+                    {
 
+                        int res = SaveOutputSostav(inps, statusSting.Normal);
+                        if (res > 0) normals++;
+                        if (res < 1) { errors++; }
+                    }
+                    LogRW.LogWarning(String.Format("Определено для переноса новых составов из базы данных КИС в таблицу учета прибытия составов (копирование по отправке из внутренних станций): {0}, перенесено {1}, ошибок переноса {2}", list_newsostav.Count(), normals, errors), this.eventID);
+                }
+                // Обновим информацию по составам которые были перенесены
+                if (list_oldsostav.Count() > 0 & list_outputsostav.Count() > 0)
+                {
+                    List<NumVagStpr1OutStDoc> list_is = new List<NumVagStpr1OutStDoc>();
+                    list_is = list_oldsostav;
+                    List<Oracle_OutputSostav> list_ois = new List<Oracle_OutputSostav>();
+                    list_ois = list_outputsostav.Where(a => a.Status != (int)statusSting.Delete).ToList();
+                    DelExistOutputSostav(ref list_is, ref list_ois);
+                    int ins = InsertOutputSostav(list_is);
+                    int del = DeleteOutputSostav(list_ois);
+                    LogRW.LogWarning(String.Format("Определено для добавления {0}, добавлено {1}. Определено для удаления {2}, удалено {3}  в таблице учета прибытия составов (копирование по отправке из внутренних  станций)",
+                        list_is.Count(), ins, list_ois.Count(), del), this.eventID);
+                    normals += ins;
+                }
+            }
+            catch (Exception e)
+            {
+                LogRW.LogError(String.Format("[KISTransfer.CopyOutputSostavToRailway]: Ошибка, источник: {0}, № {1}, описание:  {2}", e.Source, e.HResult, e.Message), this.eventID);
+                return -1;
+            }
 
-
+            return normals;
+        }
         #endregion
 
         #region Синхронизация справочников

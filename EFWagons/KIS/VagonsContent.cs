@@ -213,6 +213,49 @@ namespace EFWagons.Statics
                 return null;
             }
         }
+        /// <summary>
+        /// Получить список операций перемещений по отправке с других станций c дополнительной выборкой
+        /// </summary>
+        /// <param name="where"></param>
+        /// <returns></returns>
+        public IQueryable<NumVagStpr1OutStDoc> GetSTPR1OutStDocOfAmkr(string where)
+        {
+            try
+            {
+                string sql = "select a.* from NUM_VAG.STPR1_OUT_ST_DOC a inner join NUM_VAG.STAN b on a.st_out_st=b.K_STAN and b.MPS=0 " + (!String.IsNullOrWhiteSpace(where) ? " WHERE " + where : "");
+                return rep_nvs1isd.db.SqlQuery<NumVagStpr1OutStDoc>(sql).AsQueryable();
+            }
+            catch (Exception e)
+            {
+                LogRW.LogError(e, "GetSTPR1OutStDocOfAmkr", eventID);
+                return null;
+            }
+        }
+        /// <summary>
+        /// Получить список операций перемещений по отправке с других станций на станции АМКР
+        /// </summary>
+        /// <returns></returns>
+        public IQueryable<NumVagStpr1OutStDoc> GetSTPR1OutStDocOfAmkr()
+        { return GetSTPR1OutStDocOfAmkr(null); }
+        /// <summary>
+        /// Вернуть список вагонов по номеру документа
+        /// </summary>
+        /// <param name="doc"></param>
+        /// <returns></returns>
+        public IQueryable<NumVagStpr1OutStVag> GetSTPR1OutStVag(int doc) 
+        {
+            return GetSTPR1OutStVag().Where(v => v.ID_DOC == doc);
+        }
+        /// <summary>
+        /// Вернуть ко вагонов по номеру документа
+        /// </summary>
+        /// <param name="doc"></param>
+        /// <returns></returns>
+        public int GetCountSTPR1OutStVag(int doc) 
+        {
+            return GetSTPR1InStVag(doc).Count();
+        }
+
         #endregion
 
         #region Тупики

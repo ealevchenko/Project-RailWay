@@ -87,8 +87,8 @@ namespace KIS.Service
                     int result_pi = kist.PutInputSostavToStation();
                 }
                 if (activeCopyOutput) 
-                { 
-                
+                {
+                    int result_co = kist.CopyOutputSostavToRailway(this.dayControllingCopyOutput_ins);
                 }
                 if (activeDelete) 
                 {
