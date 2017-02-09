@@ -1,6 +1,7 @@
-﻿using EFRailWay.Abstract;
+﻿using EFRailWay.Abstract.Reference;
 using EFRailWay.Concrete;
-using EFRailWay.Entities;
+using EFRailWay.Concrete.Reference;
+using EFRailWay.Entities.Reference;
 using Logs;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,9 @@ using System.Threading.Tasks;
 
 namespace EFRailWay.References
 {
-    
+    /// <summary>
+    /// Большие справочники железных дорог, стран, станций, грузов
+    /// </summary>
     public class ReferenceRailway
     {
         private eventID eventID = eventID.EFRailWay_References_ReferenceRailway;
@@ -28,7 +31,6 @@ namespace EFRailWay.References
         {
             this.RRRrepository = new EFReferenceRailwayRepository();
         }
-
 
         #region СТРАНЫ Ж.Д (Code_State)
         /// <summary>

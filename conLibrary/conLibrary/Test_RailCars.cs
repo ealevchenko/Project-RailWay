@@ -13,6 +13,7 @@ namespace conLibrary
     public class Test_RailCars
     {
         RC_Shops shops = new RC_Shops();
+        RC_Tupiki tupik = new RC_Tupiki();
 
         public Test_RailCars() 
         { 
@@ -781,6 +782,56 @@ namespace conLibrary
             {
                 Console.WriteLine("id_shop: {0}, name: {1}, name_full: {2}, id_stat: {3}, id_ora: {4}",
                         t.id_shop, t.name, t.name_full, t.id_stat, t.id_ora);
+            }
+            else { Console.WriteLine("= NULL"); }
+        }
+        #endregion
+
+        #region RC_Tupiki
+
+        public void Test_RC_Tupiki_GetTupiki() 
+        {
+            foreach (TUPIKI t in tupik.GetTupiki())
+            {
+                WL(t);
+            }
+        }
+
+        public void Test_RC_Tupiki_GetTupik()
+        {
+            WL(tupik.GetTupik(4));
+            WL(tupik.GetTupikOfKis(26));
+            Console.WriteLine("id_tupik: {0}", tupik.GetIDTupikOfKis(26));
+        }
+
+        public void Test_RC_Tupiki_Save_Read_Delete()
+        {
+            TUPIKI s1 = new TUPIKI()
+            {
+                id_tupik = 0,
+                name = "Тест-1",
+                id_ora = 3
+            };
+            int id_new = tupik.SaveTUPIKI(s1);
+            WL(tupik.GetTupik(id_new));
+            TUPIKI s2 = new TUPIKI()
+            {
+                id_tupik = id_new,
+                name = "Тест-2",
+                id_ora = 4
+            };
+            int id_ch = tupik.SaveTUPIKI(s2);
+            WL(tupik.GetTupik(id_ch));
+            TUPIKI del = tupik.DeleteTUPIKI(id_ch);
+            WL(del);
+        }
+
+        public void WL(TUPIKI t) 
+        {
+            if (t != null)
+            {
+                Console.WriteLine("id_tupik: {0}, id_ora: {1}, name: {2}",
+                        t.id_tupik, t.id_ora, t.name);
             }
             else { Console.WriteLine("= NULL"); }
         }

@@ -308,5 +308,33 @@ namespace conLibrary
         }
         #endregion
 
+        #region NumVagStran
+        /// <summary>
+        /// Список стран
+        /// </summary>
+        public void Test_VagonsContent_GetStran()
+        {
+            foreach (NumVagStran t in vc.GetStran())
+            {
+                WL(t);
+            }
+        }
+
+        public void Test_VagonsContent_GetStranOf()
+        {
+            WL(vc.GetStran(16));
+            WL(vc.GetStranOfCodeEurope(8405));
+            WL(vc.GetStranOfCodeStarn(840));
+        }
+
+
+        public void WL(NumVagStran t) 
+        {
+            if (t == null) { Console.WriteLine(" = Null"); return; }
+            Console.WriteLine("NPP: {0},\t NAME: {1},\t ABREV_STRAN: {2},\t KOD_EUROP: {3},\t KOD_STRAN: {4},\t KOD_OLD: {5}",
+                    t.NPP,t.NAME,t.ABREV_STRAN,t.KOD_EUROP,t.KOD_STRAN,t.KOD_OLD);        
+        }
+        #endregion
+
     }
 }

@@ -1,6 +1,7 @@
 ﻿using EFRailCars.Entities;
 using EFRailCars.Railcars;
 using EFRailWay.Entities;
+using EFRailWay.Entities.Reference;
 using EFRailWay.References;
 using EFWagons.Entities;
 using EFWagons.Statics;
@@ -24,6 +25,7 @@ namespace TransferWagons.Railcars
         RC_OwnersContries rs_ocn = new RC_OwnersContries();
         RC_Gruzs rs_gr = new RC_Gruzs();
         RC_Shops rs_shp = new RC_Shops();
+        RC_Tupiki rs_tp = new RC_Tupiki();
         VagonsContent vc = new VagonsContent();
         KometaContent kc = new KometaContent();
         PromContent pc = new PromContent();
@@ -169,16 +171,6 @@ namespace TransferWagons.Railcars
             return (int)id_vagons;
 
         }
-        ///// <summary>
-        ///// Обновить информацию по вагону зашедшему ранее
-        ///// </summary>
-        ///// <param name="num_vag"></param>
-        ///// <param name="dt"></param>
-        ///// <returns></returns>
-        //public int DefinitionUpdIDVagon(int num_vag, DateTime dt)
-        //{
-        //    return 0;
-        //}
         /// <summary>
         /// Определить Id владельца (если id нет в системе RailCars создать из данных КИС)
         /// </summary>
@@ -212,25 +204,25 @@ namespace TransferWagons.Railcars
         /// </summary>
         /// <param name="id_stran_ora"></param>
         /// <returns></returns>
-        public int? DefinitionIDOwnersContries(int id_stran_ora)
-        {
-            int? id_own_cont = rs_ocn.GetIDOwnersContriesOfKis(id_stran_ora);
-            if (id_own_cont == null)
-            {
-                KometaStrana kst = kc.GetKometaStrana(id_stran_ora);
-                if (kst != null)
-                {
-                    int res = rs_ocn.SaveOwnersContries(new OWNERS_COUNTRIES()
-                    {
-                        id_own_country = 0,
-                        name = kst.NAME.Trim(),
-                        id_ora = id_stran_ora,
-                    });
-                    if (res > 0) { id_own_cont = res; }
-                }
-            }
-            return id_own_cont;
-        }
+        //public int? DefinitionIDOwnersContries(int id_stran_ora)
+        //{
+        //    int? id_own_cont = rs_ocn.GetIDOwnersContriesOfKis(id_stran_ora);
+        //    if (id_own_cont == null)
+        //    {
+        //        KometaStrana kst = kc.GetKometaStrana(id_stran_ora);
+        //        if (kst != null)
+        //        {
+        //            int res = rs_ocn.SaveOwnersContries(new OWNERS_COUNTRIES()
+        //            {
+        //                id_own_country = 0,
+        //                name = kst.NAME.Trim(),
+        //                id_ora = id_stran_ora,
+        //            });
+        //            if (res > 0) { id_own_cont = res; }
+        //        }
+        //    }
+        //    return id_own_cont;
+        //}
         /// <summary>
         /// Определить Id груза (если id нет в системе RailCars создать из данных КИС)
         /// </summary>
@@ -348,6 +340,32 @@ namespace TransferWagons.Railcars
                 }
             }
             return id_shop;
+        }
+        /// <summary>
+        /// Определить id тупика (если id нет в системе RailCars создать из данных КИС)
+        /// </summary>
+        /// <param name="id_tupik_kis"></param>
+        /// <returns></returns>
+        public int? DefinitionIDTupiki(int? id_tupik_kis) 
+        {
+            if (id_tupik_kis==null) return null;
+            int? id_tupik = rs_tp.GetIDTupikOfKis((int)id_tupik_kis);
+            if (id_tupik == null)
+            {
+                NumVagStpr1Tupik tupik = vc.GetStpr1Tupik((int)id_tupik_kis);
+                if (tupik != null)
+                {
+                    int res = rs_tp.SaveTUPIKI(new TUPIKI()
+                    {
+                        id_tupik = 0,
+                        id_ora = id_tupik_kis,
+                        name = tupik.NAMETUPIK
+                    });
+                    if (res > 0) { id_tupik = res; }
+                }
+                else return null;
+            }
+            return id_tupik;
         }
         #endregion
 

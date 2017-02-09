@@ -1,6 +1,6 @@
-﻿using EFRailWay.Abstract;
-using EFRailWay.Concrete;
-using EFRailWay.Entities;
+﻿using EFRailWay.Abstract.Settings;
+using EFRailWay.Concrete.Settings;
+using EFRailWay.Entities.Settings;
 using System;
 using System.Collections.Generic;
 using System.Configuration;

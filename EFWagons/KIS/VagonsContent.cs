@@ -21,6 +21,7 @@ namespace EFWagons.Statics
         INumVagStpr1OutStDocRepository rep_nvs1osd;
         INumVagStpr1OutStVagRepository rep_nvs1osv;
         INumVagStpr1TupikRepository rep_nvs1t;
+        INumVagStranRepository rep_nvstr; 
 
 
         public VagonsContent() 
@@ -32,7 +33,7 @@ namespace EFWagons.Statics
             this.rep_nvs1osd = new EFNumVagStpr1OutStDocRepository();
             this.rep_nvs1osv = new EFNumVagStpr1OutStVagRepository();
             this.rep_nvs1t = new EFNumVagStpr1TupikRepository();
-
+            this.rep_nvstr = new EFNumVagStranRepository();
         }
 
         public VagonsContent(INumVagStanRepository rep_nvs, 
@@ -41,7 +42,8 @@ namespace EFWagons.Statics
             INumVagStpr1InStVagRepository rep_nvs1isv,
             INumVagStpr1OutStDocRepository rep_nvs1osd,
             INumVagStpr1OutStVagRepository rep_nvs1osv,
-            INumVagStpr1TupikRepository rep_nvs1t) 
+            INumVagStpr1TupikRepository rep_nvs1t,
+            INumVagStranRepository rep_nvstr) 
         {
             this.rep_nvs = rep_nvs;
             this.rep_nvstpr = rep_nvstpr;
@@ -50,6 +52,7 @@ namespace EFWagons.Statics
             this.rep_nvs1osd = rep_nvs1osd;
             this.rep_nvs1osv = rep_nvs1osv;
             this.rep_nvs1t = rep_nvs1t;
+            this.rep_nvstr = rep_nvstr;
         }
 
         #region Станции
@@ -159,7 +162,7 @@ namespace EFWagons.Statics
             return GetSTPR1InStVag().Where(v => v.ID_DOC == doc);
         }
         /// <summary>
-        /// Получить список вагонов перемещений по внутреним станциям по прибытию по указаномку документу c сортировкой вагонов по порядку прибывания
+        /// Получить список вагонов перемещений по внутреним станциям по прибытию по указаному документу c сортировкой вагонов по порядку прибывания
         /// </summary>
         /// <param name="doc"></param>
         /// <param name="sort"></param>
@@ -247,6 +250,17 @@ namespace EFWagons.Statics
             return GetSTPR1OutStVag().Where(v => v.ID_DOC == doc);
         }
         /// <summary>
+        /// Получить список вагонов перемещений по внутреним станциям по отправке по указаному документу c сортировкой вагонов по порядку прибывания
+        /// </summary>
+        /// <param name="doc"></param>
+        /// <param name="sort"></param>
+        /// <returns></returns>
+        public IQueryable<NumVagStpr1OutStVag> GetSTPR1OutStVag(int doc, bool sort) 
+        {
+            if (sort) { return GetSTPR1OutStVag(doc).OrderByDescending(v => v.N_OUT_ST); }
+            else { return GetSTPR1OutStVag(doc).OrderBy(v => v.N_OUT_ST); }
+        }
+        /// <summary>
         /// Вернуть ко вагонов по номеру документа
         /// </summary>
         /// <param name="doc"></param>
@@ -275,6 +289,63 @@ namespace EFWagons.Statics
                 return null;
             }
         }
+        /// <summary>
+        /// Получить строку NumVagStpr1Tupik по указаному id_cex_tupik
+        /// </summary>
+        /// <param name="id_cex_tupik"></param>
+        /// <returns></returns>
+        public NumVagStpr1Tupik GetStpr1Tupik(int id_cex_tupik) 
+        {
+            return GetStpr1Tupik().Where(t => t.ID_CEX_TUPIK == id_cex_tupik).FirstOrDefault();
+        }
+
         #endregion
+
+        #region Страны
+        /// <summary>
+        /// Вернуть стоки с кодами всех стран
+        /// </summary>
+        /// <returns></returns>
+        public IQueryable<NumVagStran> GetStran() 
+        {
+            try
+            {
+                return rep_nvstr.NumVagStran;
+            }
+            catch (Exception e)
+            {
+                LogRW.LogError(e, "GetStran", eventID);
+                return null;
+            }
+        }
+        /// <summary>
+        /// Вернуть стоку с указаным id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public NumVagStran GetStran(int id) 
+        {
+            return GetStran().Where(s => s.NPP == id).FirstOrDefault();
+        }
+        /// <summary>
+        /// Вернуть стоку с указаным кодом европы
+        /// </summary>
+        /// <param name="code_europe"></param>
+        /// <returns></returns>
+        public NumVagStran GetStranOfCodeEurope(int code_europe) 
+        {
+            return GetStran().Where(s => s.KOD_EUROP == code_europe).FirstOrDefault();
+        }
+        /// <summary>
+        /// Вернуть стоку с указаным кодом iso
+        /// </summary>
+        /// <param name="code_stran"></param>
+        /// <returns></returns>
+        public NumVagStran GetStranOfCodeStarn(int code_stran) 
+        {
+            return GetStran().Where(s => s.KOD_STRAN == code_stran).FirstOrDefault();
+        }
+        #endregion
+
     }
 }

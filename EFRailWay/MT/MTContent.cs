@@ -1,6 +1,6 @@
-﻿using EFRailWay.Abstract;
-using EFRailWay.Concrete;
-using EFRailWay.Entities;
+﻿using EFRailWay.Abstract.MT;
+using EFRailWay.Concrete.MT;
+using EFRailWay.Entities.MT;
 using Logs;
 using System;
 using System.Collections.Generic;

@@ -2,6 +2,7 @@
 using EFRailCars.Railcars;
 using EFRailWay.Entities;
 using EFRailWay.Entities.KIS;
+using EFRailWay.Entities.MT;
 using EFRailWay.KIS;
 using EFRailWay.MT;
 using EFRailWay.References;
@@ -28,7 +29,9 @@ namespace conLibrary
         InputSostav ois = new InputSostav();
         PromContent pc = new PromContent();
         RulesCopy rc = new RulesCopy();
-        
+
+
+
         public Test_TrasferKIS() { }
 
         public void Test_ArrivalKIS() 
@@ -36,6 +39,8 @@ namespace conLibrary
             ArrivalKIS akis = new ArrivalKIS();
             akis.Transfer();        
         }
+
+        #region ТЕСТ СПРАВОЧНИКОВ RAILCARS
 
         public void Test_References_Owner() 
         {
@@ -72,8 +77,8 @@ namespace conLibrary
         public void Test_References_OwnersContries() 
         {
             TransferWagons.Railcars.ReferencesKIS refer = new TransferWagons.Railcars.ReferencesKIS(); 
-            Console.WriteLine("Украина 1= {0}", refer.DefinitionIDOwnersContries(22));
-            Console.WriteLine("Null = {0}", refer.DefinitionIDOwnersContries(0));
+            //Console.WriteLine("Украина 1= {0}", refer.DefinitionIDOwnersContries(22));
+            //Console.WriteLine("Null = {0}", refer.DefinitionIDOwnersContries(0));
             //int? new_oc = refer.DefinitionIDOwnersContries(100);
             //Console.WriteLine("США ID = {0}", new_oc);
         }
@@ -108,6 +113,15 @@ namespace conLibrary
             Console.WriteLine("Зерно кукурузы = {0}", refer.DefinitionIDGruzs(15006));
             
         }
+
+        public void Test_References_Tupiki() 
+        {
+            ReferencesKIS refer = new ReferencesKIS();
+            //Console.WriteLine("15T (1035)= {0}", refer.DefinitionIDTupiki(43) );
+            Console.WriteLine("(?)= {0}", refer.DefinitionIDTupiki(63) );
+        }
+        #endregion
+
         /// <summary>
         /// Проверить полный перенос вагона из КИС в RailCars
         /// </summary>

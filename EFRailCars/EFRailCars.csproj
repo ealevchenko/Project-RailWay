@@ -40,6 +40,8 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -53,6 +55,7 @@
     <Compile Include="Abstract\IOwnersRepository.cs" />
     <Compile Include="Abstract\IShopsRepository.cs" />
     <Compile Include="Abstract\IStationsRepository.cs" />
+    <Compile Include="Abstract\ITupikiRepository.cs" />
     <Compile Include="Abstract\IVagonsOperationsRepository.cs" />
     <Compile Include="Abstract\IVagonsRepository.cs" />
     <Compile Include="Abstract\IWaysRepository.cs" />
@@ -63,6 +66,7 @@
     <Compile Include="Concrete\EFRepository.cs" />
     <Compile Include="Concrete\EFShopsRepository.cs" />
     <Compile Include="Concrete\EFStationsRepository.cs" />
+    <Compile Include="Concrete\EFTupikiRepository.cs" />
     <Compile Include="Concrete\EFVagonsOperationsRepository.cs" />
     <Compile Include="Concrete\EFVagonsRepository.cs" />
     <Compile Include="Concrete\EFWaysRepository.cs" />
@@ -88,6 +92,7 @@
     <Compile Include="Railcars\RC_OwnersContries.cs" />
     <Compile Include="Railcars\RC_Shops.cs" />
     <Compile Include="Railcars\RC_Stations.cs" />
+    <Compile Include="Railcars\RC_Tupiki.cs" />
     <Compile Include="Railcars\RC_Vagons.cs" />
     <Compile Include="Railcars\RC_VagonsOperations.cs" />
     <Compile Include="Railcars\RC_Ways.cs" />
@@ -103,7 +108,9 @@
       <Name>Logs</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Model\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

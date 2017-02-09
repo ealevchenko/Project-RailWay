@@ -51,13 +51,15 @@ namespace conLibrary
             #endregion
 
             #region Test_TrasferKIS
-            Test_TrasferKIS test = new Test_TrasferKIS();
-            //test.Test_ArrivalKIS();
+            //Test_TrasferKIS test = new Test_TrasferKIS();
             //test.Test_References_Owner();
             //test.Test_References_Vagon();
             //test.Test_References_OwnersContries();
             //test.Test_References_Gruzs();
             //test.Test_References_Shop();
+            //test.Test_References_Tupiki(); // Тест справочника тупиков
+
+            //test.Test_ArrivalKIS();
             //test.Test_TrasferKIS_KISTransfer();
 
             //test.Test_KIS_RC_Transfer_SetListWagon();
@@ -67,7 +69,7 @@ namespace conLibrary
             //test.Test_SAP_IncomingSupply();
             //test.Test_KIS_RulesCopy_GetRulesCopyToOracleRules();
             //test.Test_KIS_Transfer_CopyInputSostavToRailway();
-            test.Test_KIS_Transfer_CopyOutputSostavToRailway();     //Тест переноса данных по отправке
+            //test.Test_KIS_Transfer_CopyOutputSostavToRailway();     //Тест переноса данных по отправке
             //test.Test_KIS_Transfer_PutInputSostavToStation();
             //test.Test_KIS_RC_Transfer_PutInputSostavToStation();  // тест поставить строку (копирование внутрених станций) на путь
             //test.Test_KIS_RC_Transfer_PutCarsToStation_UpdateCarsToStation();
@@ -78,7 +80,7 @@ namespace conLibrary
             #endregion
 
             #region Test_Wagons
-            //Test_Wagons test = new Test_Wagons();
+            Test_Wagons test = new Test_Wagons();
             //test.Test_KometaContent_KometaVagonSob();
             //test.Test_KometaContent_KometaVagonSob(67666503);
             //test.Test_KometaContent_KometaVagonSob(67666503,DateTime.Now);
@@ -115,6 +117,8 @@ namespace conLibrary
             //test.Test_VagonsContent_GetSTPR1OutStDoc(); // Получить все составы по отправке
             //test.Test_VagonsContent_GetSTPR1OutStVag(); // Получить все вагоны по отправке
             //test.Test_VagonsContent_GetStpr1Tupik(); // Список тупиков
+            //test.Test_VagonsContent_GetStran(); // список стран
+            test.Test_VagonsContent_GetStranOf(); // Выбраные страны
             #endregion
 
             #region Test_RailCars
@@ -159,6 +163,9 @@ namespace conLibrary
             //test.Test_SUD_RC_Shops();
             //test.Test_Maneuvers_ManeuverCars(); // Тест маневр вагонов на станции
             //test.Test_RC_VagonsOperations_UpdateVagon(); // тест обновления вагона после ручного принятия вагона на станцию АМКР
+            //test.Test_RC_Tupiki_GetTupiki(); // Показать все тупики
+            //test.Test_RC_Tupiki_GetTupik(); // Показать определенные тупики по , id_kis, определить id
+            //test.Test_RC_Tupiki_Save_Read_Delete(); // Проверка записи чтения изменения чтения удаления инф. по тупику
             #endregion
 
             #region Test_Reference_RW

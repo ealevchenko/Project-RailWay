@@ -3,8 +3,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System.Linq;
 using System.Collections.Generic;
-using EFRailWay.Abstract;
-using EFRailWay.Entities;
+using EFRailWay.Abstract.MT;
+using EFRailWay.Entities.MT;
 using EFRailWay.MT;
 
 namespace Test_EFRailWay

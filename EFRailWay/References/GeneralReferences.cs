@@ -10,6 +10,9 @@ using System.Threading.Tasks;
 
 namespace EFRailWay.References
 {
+    /// <summary>
+    /// Справочник системы RailCars
+    /// </summary>
     public class GeneralReferences
     {
         private eventID eventID = eventID.EFRailWay_References_GeneralReferences;

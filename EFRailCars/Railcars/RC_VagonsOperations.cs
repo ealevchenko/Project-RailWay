@@ -75,20 +75,9 @@ namespace EFRailCars.Railcars
         {
             return GetVagonsOperations().Where(o => o.IDSostav == id_sostav & o.dt_amkr == dt_amkr).OrderBy(o => o.num_vag_on_way);
         }
-        /// <summary>
+        /// </summary>        
         /// Вернуть операцию по вагону по указаному натурному листу и дате захода на АМКР
-        /// </summary>
-        /// <param name="natur"></param>
-        /// <param name="dt_amkr"></param>
-        /// <param name="id_vagon"></param>
-        /// <returns></returns>
-        //public VAGON_OPERATIONS GetVagonsOperationsToNatur(int natur, DateTime dt_amkr, int id_vagon) 
-        //{
-        //    return GetVagonsOperationsToNatur(natur, dt_amkr).Where(o => o.id_vagon == id_vagon).FirstOrDefault();
-        //}
-        /// <summary>
-        /// Вернуть операцию по вагону по указаному натурному листу и дате захода на АМКР
-        /// </summary>
+        /// </summary>     
         /// <param name="natur"></param>
         /// <param name="dt_amkr"></param>
         /// <param name="num_vagon"></param>
@@ -128,18 +117,25 @@ namespace EFRailCars.Railcars
             return GetVagonsOperationsToDocInputSostav(doc).Where(o => o.num_vagon == num_vag).OrderByDescending(o => o.id_oper).FirstOrDefault();
         }
         /// <summary>
-        /// Операция над вагоном с указаным натуральным листом и датой захода существует?
+        /// Вернуть операции над вагонами по указаному номеру документа (копирование по отправке)
         /// </summary>
-        /// <param name="natur"></param>
-        /// <param name="dt_amkr"></param>
-        /// <param name="id_vagon"></param>
+        /// <param name="doc"></param>
         /// <returns></returns>
-        //public bool IsVagonOperationKIS(int natur, DateTime dt_amkr, int id_vagon) 
-        //{ 
-        //    VAGON_OPERATIONS vo = GetVagonsOperationsToNatur(natur,dt_amkr,id_vagon);
-        //    if (vo != null) { return true; }
-        //    return false;
-        //}
+        public IQueryable<VAGON_OPERATIONS> GetVagonsOperationsToDocOutputSostav(int doc) 
+        {
+            return GetVagonsOperations().Where(o => o.id_oracle == doc);
+        }
+        /// <summary>
+        /// Вернуть операции над вагонами по указаному номеру документа и вагона (копирование по прибытию)
+        /// </summary>
+        /// <param name="doc"></param>
+        /// <param name="num_vag"></param>
+        /// <returns></returns>
+        public VAGON_OPERATIONS GetVagonsOperationsToDocOutputSostav(int doc, int num_vag) 
+        {
+            return GetVagonsOperationsToDocOutputSostav(doc).Where(o => o.num_vagon == num_vag).OrderByDescending(o => o.id_oper).FirstOrDefault();
+        }
+
         /// <summary>
         /// Операция над вагоном с указаным натуральным листом и датой захода существует?
         /// </summary>
@@ -576,6 +572,7 @@ namespace EFRailCars.Railcars
         /// <returns></returns>
         public int DeleteVagonsToDocInput(int doc)
         {
+            //TODO: Прибить все вагоны которые перенесены по прибытию и отпраквлены далее
             try
             {
                 return rep_vo.db.ExecuteSqlCommand("DELETE FROM dbo.VAGON_OPERATIONS WHERE id_ora_23_temp=" + doc.ToString());
@@ -585,9 +582,52 @@ namespace EFRailCars.Railcars
                 LogRW.LogError(e, "DeleteVagonsToDocInput", eventID);
                 return -1;
             }
-            
-            
         }
+        /// <summary>
+        /// Удалить цепочку ранее поставленного вагона
+        /// </summary>
+        /// <param name="id_oper"></param>
+        /// <param name="num"></param>
+        /// <param name="id_sostav"></param>
+        /// <returns></returns>
+        public int DeleteVagonsToDocOutput(int id_oper, int num, int? id_sostav)
+        {
+            try
+            {
+                return rep_vo.db.ExecuteSqlCommand("DELETE FROM dbo.VAGON_OPERATIONS WHERE num_vagon=" + num.ToString()+" and id_oper>=" +id_oper.ToString()+" and IDSostav " + id_sostav==null ? "is null": "= " +id_sostav.ToString());
+            }
+            catch (Exception e)
+            {
+                LogRW.LogError(e, String.Format("DeleteVagonsToDocOutput(id_oper:{0},num:{1},id_sostav:{2})",id_oper,num,id_sostav), eventID);
+                return -1;
+            }
+        }
+        /// <summary>
+        /// Удалить вагоны пренадлежащие документу по отправке на станцию
+        /// </summary>
+        /// <param name="doc"></param>
+        /// <returns></returns>
+        public int DeleteVagonsToDocOutput(int doc)
+        {
+            int delete = 0;
+            try
+            {
+                IQueryable<VAGON_OPERATIONS> list = GetVagonsOperationsToDocOutputSostav(doc).OrderBy(o => o.num_vag_on_way);
+                if (list == null) return 0;
+                foreach (VAGON_OPERATIONS vag in list.ToList())
+                {
+                    int res = DeleteVagonsToDocOutput(vag.id_oper, (int)vag.num_vagon, vag.IDSostav);
+                    if (res > 0) delete++;
+                }
+            }
+            catch (Exception e)
+            {
+                LogRW.LogError(e, String.Format("DeleteVagonsToDocOutput(doc:{0})",doc), eventID);
+                return -1;
+            }
+            return delete;
+        }
+
         /// <summary>
         /// Очистить данные из прибытия по указанной станции до указанного времени
         /// </summary>

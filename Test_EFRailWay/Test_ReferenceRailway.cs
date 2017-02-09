@@ -1,11 +1,11 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using EFRailWay.Abstract;
+using EFRailWay.Abstract.Reference;
 using EFRailWay.References;
 using System.Collections.Generic;
 using System.Linq;
-using EFRailWay.Entities;
+using EFRailWay.Entities.Reference;
 
 namespace Test_EFRailWay
 {

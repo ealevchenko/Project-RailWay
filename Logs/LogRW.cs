@@ -24,8 +24,10 @@ namespace Logs
         EFRailWay_KIS_InputSostav = 2112,
 
         EFRailWay_RailWay = 2300,
-        EFRailWay_RailWay_EFReferenceCargoRepository = 2301,
-        EFRailWay_RailWay_EFReferenceCountryRepository = 2302,
+        EFRailWay_RailWay_EFReferenceRailwayRepository = 2301,
+        EFRailWay_RailWay_EFReferenceCargoRepository = 2302,
+        EFRailWay_RailWay_EFReferenceCountryRepository = 2303,
+        EFRailWay_RailWay_EFCodeCountryRepository = 2304,
 
         EFRailWay_MT = 2400,
         EFRailWay_MT_MTContent = 2401,
@@ -78,15 +80,19 @@ namespace Logs
         EFRailCars_Helpers_Maneuvers =7101,
 
         EFRailCars_RailCars = 7200,
-        EFRailCars_RailCars_RC_VagonsOperations = 7201,
-        EFRailCars_RailCars_RC_Shops = 7202,
-        EFRailCars_RailCars_RC_Vagons = 7203,
-        EFRailCars_RailCars_RC_Stations = 7204,
-        EFRailCars_RailCars_RC_Ways = 7205, 
-        EFRailCars_RailCars_EFVagonsOperationsRepository = 7210,
-        EFRailCars_RailCars_EFShopsRepository = 7211,
-        EFRailCars_RailCars_EFVagonsRepository = 7212,
+        EFRailCars_RailCars_EFVagonsOperationsRepository = 7201,
+        EFRailCars_RailCars_EFVagonsRepository = 7202,
+        EFRailCars_RailCars_EFShopsRepository = 7203,
 
+
+        EFRailCars_RailCars_EFTupikiRepository = 7206,
+
+        EFRailCars_RailCars_RC_VagonsOperations = 7211,
+        EFRailCars_RailCars_RC_Vagons = 7212,
+        EFRailCars_RailCars_RC_Shops = 7213,
+        EFRailCars_RailCars_RC_Stations = 7214,
+        EFRailCars_RailCars_RC_Ways = 7215,
+        EFRailCars_RailCars_RC_Tupiki =7216 
     }
 
     public class LogRW

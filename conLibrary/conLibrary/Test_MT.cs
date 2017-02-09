@@ -1,5 +1,6 @@
 ﻿using EFRailWay.Entities;
 using EFRailWay.Entities.KIS;
+using EFRailWay.Entities.MT;
 using EFRailWay.KIS;
 using EFRailWay.MT;
 using MetallurgTrans.Helpers;

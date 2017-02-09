@@ -1,7 +1,10 @@
 ﻿using EFRailWay.Abstract;
 using EFRailWay.Entities;
 using EFRailWay.Entities.KIS;
+using EFRailWay.Entities.MT;
+using EFRailWay.Entities.Reference;
 using EFRailWay.Entities.SAP;
+using EFRailWay.Entities.Settings;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
