@@ -29,7 +29,8 @@ namespace TransferWagons.Transfers
         no_gruz = -8,
         no_wagon_is_list = -9,
         no_wagon_is_nathist = -10,
-        no_godn = -11
+        no_godn = -11,
+        no_del_output =-12
     }
     /// <summary>
     /// Класс данных результат переноса массва данных

@@ -19,6 +19,7 @@ namespace conLibrary
             Console.WriteLine("Оксиды магния природные = {0}", trans_ref.DefinitionIDCargo(241604));
             Console.WriteLine("Оксиды магния природные = {0}", trans_ref.DefinitionIDCargo(300));
         }
+
         public void Test_GeneralReferencesCountry()
         {
             //Console.WriteLine("221 = {0}", trans_ref.DefinitionIDCountrySNG(221));
@@ -27,6 +28,11 @@ namespace conLibrary
             Console.WriteLine("22 = {0}", trans_ref.DefinitionIDCountrySNG(22));
         }
 
+        public void Test_GeneralReferencesStation()
+        {
+            //Console.WriteLine("Одеса порт = {0}", trans_ref.DefinitionIDStation(400409));
+            Console.WriteLine("0 = {0}", trans_ref.DefinitionIDStation(676));
+        }
     }
 
 

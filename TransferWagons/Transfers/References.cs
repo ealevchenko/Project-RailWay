@@ -18,7 +18,7 @@ namespace TransferWagons.Transfers
 
         public References() { }
 
-        #region Определение ID по справочникам
+        #region Определение ID по справочникам стран
         /// <summary>
         /// Получить id страны по коду СНГ и стран балтии
         /// </summary>
@@ -27,27 +27,65 @@ namespace TransferWagons.Transfers
         public int DefinitionIDCountrySNG(int code_country_sng)
         {
             Code_Country code = rw_ref.GetCountryOfCodeSNG(code_country_sng);
-            if (code != null)
-            {
-                if (code.Code > 0)
-                {
-                    ReferenceCountry ref_code = g_ref.GetReferenceCountryOfCode(code.Code);
-                    if (ref_code == null) 
-                    {
-                        ReferenceCountry new_rc = new ReferenceCountry() {
-                            IDCountry = 0,
-                            Country = code.Country,
-                            Code = code.Code,
-                        };
-                        int res = g_ref.SaveReferenceCountry(new_rc);
-                        if (res > 0) { return res; }
-                        else return 0;
-                    }
-                    return ref_code.IDCountry;
-                }
-            }
-            return 0;
+            return DefinitionIDCountry(code);
+            //if (code != null)
+            //{
+            //    if (code.Code > 0)
+            //    {
+            //        ReferenceCountry ref_code = g_ref.GetReferenceCountryOfCode(code.Code);
+            //        if (ref_code == null) 
+            //        {
+            //            ReferenceCountry new_rc = new ReferenceCountry() {
+            //                IDCountry = 0,
+            //                Country = code.Country,
+            //                Code = code.Code,
+            //            };
+            //            int res = g_ref.SaveReferenceCountry(new_rc);
+            //            if (res > 0) { return res; }
+            //            else return 0;
+            //        }
+            //        return ref_code.IDCountry;
+            //    }
+            //}
+            //return 0;
         }
+        /// <summary>
+        /// Получить id страны по коду iso
+        /// </summary>
+        /// <param name="code_iso"></param>
+        /// <returns></returns>
+        public int DefinitionIDCountryCode(int code_iso)
+        {
+            Code_Country code = rw_ref.GetCountryOfCode(code_iso);
+            return DefinitionIDCountry(code);
+        }
+        /// <summary>
+        /// Получить id страны из справочника
+        /// </summary>
+        /// <param name="code"></param>
+        /// <returns></returns>
+        protected int DefinitionIDCountry(Code_Country code)
+        {
+            if (code == null) return 0;
+            if (code.Code<=0) return 0;
+            ReferenceCountry ref_code = g_ref.GetReferenceCountryOfCode(code.Code);
+            if (ref_code == null)
+            {
+                ReferenceCountry new_rc = new ReferenceCountry()
+                {
+                    IDCountry = 0,
+                    Country = code.Country,
+                    Code = code.Code,
+                };
+                int res = g_ref.SaveReferenceCountry(new_rc);
+                if (res > 0) { return res; }
+                else return 0;
+            }
+            return ref_code.IDCountry;
+        }
+        #endregion
+
+        #region Определение ID по справочникам грузов
         /// <summary>
         /// Получить id груза по коду ЕТ СНГ 
         /// </summary>
@@ -78,5 +116,36 @@ namespace TransferWagons.Transfers
             return ref_cargo.IDCargo;
         }
         #endregion
+
+        #region Определение ID по справочникам станций
+        /// <summary>
+        /// Получить id станции по коду станции
+        /// </summary>
+        /// <param name="code_cs"></param>
+        /// <returns></returns>
+        public int DefinitionIDStation(int code_cs)
+        {
+            ReferenceStation station = g_ref.GetReferenceStationOfCode(code_cs);
+            if (station != null) return station.IDStation;
+            Code_Station code_station = rw_ref.GetStationsOfCodeCS(code_cs);
+            if (code_station == null) return 0;
+            Code_InternalRailroad code_ir = rw_ref.GetInternalRailroads(code_station.IDInternalRailroad!=null? (int)code_station.IDInternalRailroad:0);
+            Code_State code_st = rw_ref.GetState(code_ir!=null ?  code_ir.IDState: 0);
+            int res = g_ref.SaveReferenceStation(new ReferenceStation()
+            {
+                IDStation = 0,
+                Name = code_station.Station + (code_ir != null ?  " " + code_ir.Abbr + " ж/д" : "") + (code_st != null ? " " + code_st.ABB_RUS : ""),
+                Station = code_station.Station,
+                InternalRailroad = code_ir != null ? code_ir.InternalRailroad : "-",
+                IR_Abbr = code_ir != null ? code_ir.Abbr : "-",
+                NameNetwork = code_st != null ? code_st.NameNetwork : "-",
+                NN_Abbr = code_st != null ? code_st.ABB_RUS : "-",
+                CodeCS = code_cs
+            });
+            if (res > 0) { return res; }
+            return 0;
+        }
+        #endregion
+
     }
 }

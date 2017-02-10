@@ -50,6 +50,7 @@ namespace EFRailWay.Concrete
         // Справочники системы Railway
         public virtual DbSet<ReferenceCargo> ReferenceCargo { get; set; }
         public virtual DbSet<ReferenceCountry> ReferenceCountry { get; set; }
+        public virtual DbSet<ReferenceStation> ReferenceStation { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

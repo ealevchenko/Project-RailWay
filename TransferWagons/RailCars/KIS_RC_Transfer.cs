@@ -1012,7 +1012,6 @@ namespace TransferWagons.Railcars
 
         protected int SetCarOutputSostavToStation(int doc, DateTime dt_output, NumVagStpr1OutStVag vag_os, int id_stations_from, int id_stations_on, int? id_ways)
         {
-            //return 0;
             try
             {
                 // Найдем вагон в натурном листе PromNatHist
@@ -1040,62 +1039,58 @@ namespace TransferWagons.Railcars
                     LogRW.LogError(String.Format("[KIS_RC_Transfer.SetCarOutputSostavToStation] : Ошибка определения тупика (STPR1_OUT_ST_VAG.N_TUP_OUT_ST) номер документа: {0}, дата: {1}, № вагона: {2}, тупик: {3}.",
                         doc, dt_output.ToString("dd-MM-yyyy HH:mm:ss"), vag_os.N_VAG, vag_os.N_TUP_OUT_ST), eventID);
                 }
-
-                //int id_wagon = ref_kis.DefinitionSetIDVagon(vag_os.N_VAG, dt_amkr, -1, idsostav, pnh.N_NATUR, false); // определить id вагона (если нет создать новый id? локоматив -1)
-                //VAGON_OPERATIONS vag = rc_vo.GetVagonsOperationsToDocInputSostav(doc, vag_os.N_VAG);
-                //int res;
-                //int? id_oper_parent = null;
-                //// если вагон есть (хотя мы должны были удалить все вагоны с доком) закроем запись
-                //if (vag != null)
-                //{
-                //    id_oper_parent = vag.id_oper;
-                //    if (!rc_st.IsUZ(vag.id_stat != null ? (int)vag.id_stat : 0) & !rc_st.IsUZ(vag.st_lock_id_stat != null ? (int)vag.st_lock_id_stat : 0))
-                //    {
-                //        vag.is_hist = 1; // ставим признак строка актуальная с нее происходит переход
-                //        // Вагон не на ст. УЗ или туда не отправлен.
-                //        if (vag.is_present == 1)
-                //        {
-                //            //вагон стоит на пути станции  - убрать
-                //            vag.is_present = 0;
-                //        }
-                //        if (vag.lock_id_way > 0 | vag.st_lock_id_stat > 0 | vag.st_shop > 0)
-                //        {
-                //            // Вагон отпрален на другой путь или станцию
-                //            vag.lock_id_way = null;
-                //            vag.lock_order = null;
-                //            vag.lock_id_locom = null;
-                //            vag.lock_side = null;
-                //            vag.st_lock_id_stat = null;
-                //            vag.st_lock_locom1 = null;
-                //            vag.st_lock_locom2 = null;
-                //            vag.st_lock_order = null;
-                //            vag.st_lock_side = null;
-                //            vag.st_lock_train = null;
-                //            vag.st_shop = null;
-                //        }
-                //        res = rc_vo.SaveVagonsOperations(vag);
-                //        if (res < 0)
-                //        {
-                //            LogRW.LogError(String.Format("[KIS_RC_Transfer.SetCarOutputSostavToStation] : Ошибка закрытия строки вагона (копирование по прибытию из внутрених станций), номер документа: {0}, дата: {1}, № вагона: {2}, код станции прибытия системы RailCars: {3}, код станции отправления системы RailCars: {4}.",
-                //            doc, dt_output.ToString("dd-MM-yyyy HH:mm:ss"), vag_os.N_VAG, id_stations_on, id_stations_from), eventID);
-                //        }
-                //        if (res > 0)
-                //        {
-                //            rc_vo.OffSetCars((int)vag.id_way, 1); // Откорректровать нумерацию
-                //        }
-                //    }
-                //}
-                //// Добавим вагон в прибытие
-                //res = rc_vo.InsertInputVagon(idsostav, doc, pnh.N_NATUR, id_wagon, vag_os.N_VAG, mt_list != null ? mt_list.DateOperation : dt_amkr, dt_amkr, dt_output, id_stations_from, vag_os.N_IN_ST, id_gruz,
-                //    vag_os.REM_IN_ST, id_stations_on, -1, vag_os.GODN_IN_ST, id_oper_parent, id_ways);
-                //if (res < 0)
-                //{
-                //    LogRW.LogError(String.Format("[KIS_RC_Transfer.SetCarOutputSostavToStation] : Ошибка переноса вагона в прибытие станции (копирование по прибытию из внутрених станций), номер документа: {0}, дата: {1}, № вагона: {2}, код станции прибытия системы RailCars: {3}, код станции отправления системы RailCars: {4}.",
-                //        doc, dt_output.ToString("dd-MM-yyyy HH:mm:ss"), vag_os.N_VAG, id_stations_on, id_stations_from), eventID);
-                //}
-
-                //return res;
-                return 0;
+                // определяем страну назначения
+                int? id_country = ref_kis.DefinitionIDContries(vag_os.STRAN_OUT_ST != null ? (int)vag_os.STRAN_OUT_ST : -1);
+                if (id_country == null)
+                {
+                    LogRW.LogError(String.Format("[KIS_RC_Transfer.SetCarOutputSostavToStation] : Ошибка определения страны назначения (STPR1_OUT_ST_VAG.STRAN_OUT_ST) номер документа: {0}, дата: {1}, № вагона: {2}, страна назначения: {3}.",
+                        doc, dt_output.ToString("dd-MM-yyyy HH:mm:ss"), vag_os.N_VAG, vag_os.STRAN_OUT_ST), eventID);
+                }
+                int id_station_nazn = ref_kis.DefinitionIDStations(vag_os.ST_NAZN_OUT_ST != null ? (int)vag_os.ST_NAZN_OUT_ST : 0);
+                if (id_station_nazn == 0)
+                {
+                    LogRW.LogError(String.Format("[KIS_RC_Transfer.SetCarOutputSostavToStation] : Ошибка определения станции назначения (STPR1_OUT_ST_VAG.ST_NAZN_OUT_ST) номер документа: {0}, дата: {1}, № вагона: {2}, станция назначения: {3}.",
+                        doc, dt_output.ToString("dd-MM-yyyy HH:mm:ss"), vag_os.N_VAG, vag_os.ST_NAZN_OUT_ST), eventID);
+                }
+                int id_wagon = ref_kis.DefinitionSetIDVagon(vag_os.N_VAG, dt_amkr, -1, idsostav, pnh.N_NATUR, false); // определить id вагона (если нет создать новый id? локоматив -1)
+                int res;
+                VAGON_OPERATIONS vag = rc_vo.GetVagonsOperationsToDocOutputSostav(doc, vag_os.N_VAG);
+                if (vag != null)
+                {
+                    res = rc_vo.DeleteVagonsToDocOutput(vag.id_oper, vag_os.N_VAG, vag.IDSostav);
+                    if (res < 0)
+                    {
+                        LogRW.LogError(String.Format("[KIS_RC_Transfer.SetCarOutputSostavToStation] : Ошибка удаления цепочки вагонов раненее перенесеных (копирование по отправке из внутрених станций), номер документа: {0}, дата: {1}, № вагона: {2}, код станции прибытия системы RailCars: {3}, код станции отправления системы RailCars: {4}.",
+                            doc, dt_output.ToString("dd-MM-yyyy HH:mm:ss"), vag_os.N_VAG, id_stations_on, id_stations_from), eventID);
+                        return (int)errorTransfer.no_del_output;
+                    }
+                }
+                // Добавим вагон в прибытие
+                res = rc_vo.InsertOutputVagon(idsostav,
+                    doc,
+                    pnh.N_NATUR,
+                    id_wagon,
+                    vag_os.N_VAG,
+                    mt_list != null ? mt_list.DateOperation : dt_amkr,
+                    dt_amkr,
+                    dt_output,
+                    id_stations_from,
+                    vag_os.N_OUT_ST,
+                    id_gruz,
+                    id_tupik,
+                    id_country,
+                    id_station_nazn,
+                    id_stations_on,
+                    -1,
+                    vag_os.GODN_OUT_ST,
+                    vag_os.REM_IN_ST,
+                    id_ways);
+                if (res < 0)
+                {
+                    LogRW.LogError(String.Format("[KIS_RC_Transfer.SetCarOutputSostavToStation] : Ошибка переноса вагона в прибытие станции (копирование по отправке из внутрених станций), номер документа: {0}, дата: {1}, № вагона: {2}, код станции прибытия системы RailCars: {3}, код станции отправления системы RailCars: {4}.",
+                        doc, dt_output.ToString("dd-MM-yyyy HH:mm:ss"), vag_os.N_VAG, id_stations_on, id_stations_from), eventID);
+                }
+                return res;
             }
             catch (Exception e)
             {

@@ -27,7 +27,8 @@ namespace Logs
         EFRailWay_RailWay_EFReferenceRailwayRepository = 2301,
         EFRailWay_RailWay_EFReferenceCargoRepository = 2302,
         EFRailWay_RailWay_EFReferenceCountryRepository = 2303,
-        EFRailWay_RailWay_EFCodeCountryRepository = 2304,
+        EFRailWay_RailWay_EFReferenceStationRepository= 2304,
+        EFRailWay_RailWay_EFCodeCountryRepository = 2305,
 
         EFRailWay_MT = 2400,
         EFRailWay_MT_MTContent = 2401,

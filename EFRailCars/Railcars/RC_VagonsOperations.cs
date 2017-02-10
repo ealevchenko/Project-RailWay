@@ -135,7 +135,6 @@ namespace EFRailCars.Railcars
         {
             return GetVagonsOperationsToDocOutputSostav(doc).Where(o => o.num_vagon == num_vag).OrderByDescending(o => o.id_oper).FirstOrDefault();
         }
-
         /// <summary>
         /// Операция над вагоном с указаным натуральным листом и датой захода существует?
         /// </summary>
@@ -413,6 +412,86 @@ namespace EFRailCars.Railcars
             return SaveVagonsOperations(vo);
         }
         /// <summary>
+        /// Поставить вагон на путь станции по данным КИС (копирование по внутреним станциям по отправке)
+        /// </summary>
+        /// <param name="IDSostav"></param>
+        /// <param name="doc"></param>
+        /// <param name="natur"></param>
+        /// <param name="id_vagon"></param>
+        /// <param name="num_vagon"></param>
+        /// <param name="dt_uz"></param>
+        /// <param name="dt_amkr"></param>
+        /// <param name="dt_out"></param>
+        /// <param name="id_station_from"></param>
+        /// <param name="position"></param>
+        /// <param name="id_gruz"></param>
+        /// <param name="id_tupik"></param>
+        /// <param name="id_nazn_country"></param>
+        /// <param name="id_station_nazn"></param>
+        /// <param name="id_station_in"></param>
+        /// <param name="num_train"></param>
+        /// <param name="id_cond"></param>
+        /// <param name="note"></param>
+        /// <param name="id_ways"></param>
+        /// <returns></returns>
+        public int InsertOutputVagon(int IDSostav, int doc, int natur, int id_vagon, int num_vagon, DateTime dt_uz, DateTime dt_amkr, DateTime dt_out, int id_station_from, 
+            int position, int? id_gruz, int? id_tupik, int? id_nazn_country, int id_station_nazn, int id_station_in, int num_train, int? id_cond, string note,
+            int? id_ways)
+        {
+            VAGON_OPERATIONS vo = new VAGON_OPERATIONS()
+            {
+                id_oper = 0,
+                dt_uz = dt_uz,
+                dt_amkr = dt_amkr, // 
+                dt_out_amkr = null,
+                n_natur = natur,
+                id_vagon = id_vagon,
+                id_stat = id_station_from,
+                dt_from_stat = dt_out,
+                dt_on_stat = null,
+                id_way = id_ways,
+                dt_from_way = dt_out,
+                dt_on_way = null,
+                num_vag_on_way = position,
+                is_present = 0,
+                id_locom = null,
+                id_locom2 = null,
+                id_cond2 = 14,
+                id_gruz = id_gruz,
+                id_gruz_amkr = id_gruz,
+                id_shop_gruz_for = null,
+                weight_gruz = null,
+                id_tupik = id_tupik,
+                id_nazn_country = id_nazn_country,
+                id_gdstait = id_station_nazn,
+                id_cond = id_cond,
+                note = note,
+                is_hist = 0,
+                id_oracle = doc,
+                lock_id_way = null,
+                lock_order = null,
+                lock_side = null,
+                lock_id_locom = null,
+                st_lock_id_stat = id_station_in,
+                st_lock_order = position,
+                st_lock_train = num_train,
+                st_lock_side = null,
+                st_gruz_front = null,
+                st_shop = null,
+                oracle_k_st = null,
+                st_lock_locom1 = null,
+                st_lock_locom2 = null,
+                id_oper_parent = null,
+                grvu_SAP = null,
+                ngru_SAP = null,
+                id_ora_23_temp = null,
+                IDSostav = IDSostav,
+                num_vagon = num_vagon,
+            };
+            return SaveVagonsOperations(vo);
+        }
+
+        /// <summary>
         /// Поставить вагон на станцию
         /// </summary>
         /// <param name="natur"></param>
@@ -594,7 +673,8 @@ namespace EFRailCars.Railcars
         {
             try
             {
-                return rep_vo.db.ExecuteSqlCommand("DELETE FROM dbo.VAGON_OPERATIONS WHERE num_vagon=" + num.ToString()+" and id_oper>=" +id_oper.ToString()+" and IDSostav " + id_sostav==null ? "is null": "= " +id_sostav.ToString());
+                string sql = "DELETE FROM dbo.VAGON_OPERATIONS WHERE num_vagon=" + num.ToString() + " and id_oper>=" + id_oper.ToString() + " and IDSostav " + (id_sostav == null ? "is null" : "= " + id_sostav.ToString());
+                return rep_vo.db.ExecuteSqlCommand(sql);
             }
             catch (Exception e)
             {

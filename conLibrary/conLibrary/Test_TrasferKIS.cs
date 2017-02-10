@@ -27,6 +27,7 @@ namespace conLibrary
     {
         ArrivalSostav oas = new ArrivalSostav();
         InputSostav ois = new InputSostav();
+        OutputSostav oos = new OutputSostav();
         PromContent pc = new PromContent();
         RulesCopy rc = new RulesCopy();
 
@@ -119,6 +120,14 @@ namespace conLibrary
             ReferencesKIS refer = new ReferencesKIS();
             //Console.WriteLine("15T (1035)= {0}", refer.DefinitionIDTupiki(43) );
             Console.WriteLine("(?)= {0}", refer.DefinitionIDTupiki(63) );
+        }
+
+        public void Test_References_Country() 
+        {
+            ReferencesKIS refer = new ReferencesKIS();
+            //Console.WriteLine("(Шри-ланка)= {0}", refer.DefinitionIDContries(1446));
+            //Console.WriteLine("(0)= {0}", refer.DefinitionIDContries(0));
+            Console.WriteLine("(new)= {0}", refer.DefinitionIDContries(8944));
         }
         #endregion
 
@@ -390,6 +399,17 @@ namespace conLibrary
             KIS_RC_Transfer transfer_rc = new KIS_RC_Transfer();
             int res = transfer_rc.CorrectionArrivalSostav();
             Console.WriteLine("Обновлено {0}", res);
+        }
+        /// <summary>
+        /// Перенос вагонов по  отправке
+        /// </summary>
+        public void Test_KIS_RC_Transfer_PutOutputSostavToStation()
+        {
+            Oracle_OutputSostav oros = oos.GetOutputSostav(92);
+
+            KIS_RC_Transfer kisrs = new KIS_RC_Transfer();
+            int res = kisrs.PutOutputSostavToStation(ref oros);
+            Console.WriteLine("Обновлено {0}", res);        
         }
 
     }

@@ -19,17 +19,20 @@ namespace EFRailWay.References
 
         private IReferenceCountryRepository rep_country;
         private IReferenceCargoRepository rep_cargo;
+        private IReferenceStationRepository rep_station;
 
-        public GeneralReferences(IReferenceCountryRepository rep_country, IReferenceCargoRepository rep_cargo)
+        public GeneralReferences(IReferenceCountryRepository rep_country, IReferenceCargoRepository rep_cargo, IReferenceStationRepository rep_station)
         {
             this.rep_country = rep_country;
             this.rep_cargo = rep_cargo;
+            this.rep_station = rep_station;
         }
 
         public GeneralReferences()
         {
             this.rep_country = new EFReferenceCountryRepository();
             this.rep_cargo = new EFReferenceCargoRepository();
+            this.rep_station = new EFReferenceStationRepository();
         }
 
         #region Справочник стран
@@ -121,5 +124,52 @@ namespace EFRailWay.References
         }
 
         #endregion
+
+        #region Справочник станций
+        /// <summary>
+        /// Показать все станции
+        /// </summary>
+        /// <returns></returns>
+        public IQueryable<ReferenceStation> GetReferenceStation()
+        {
+            try
+            {
+                return rep_station.ReferenceStation;
+            }
+            catch (Exception e)
+            {
+                LogRW.LogError(e, "GetReferenceStation", eventID);
+                return null;
+            }
+        }
+        /// <summary>
+        /// Показать станцию по указаному id
+        /// </summary>
+        /// <param name="IDStation"></param>
+        /// <returns></returns>
+        public ReferenceStation GetReferenceStation(int IDStation)
+        {
+            return GetReferenceStation().Where(s => s.IDStation == IDStation).FirstOrDefault();
+        }
+        /// <summary>
+        /// Показать станцию по указаному коду
+        /// </summary>
+        /// <param name="codecs"></param>
+        /// <returns></returns>
+        public ReferenceStation GetReferenceStationOfCode(int codecs)
+        {
+            return GetReferenceStation().Where(s => s.CodeCS == codecs).FirstOrDefault();
+        }
+        /// <summary>
+        /// Добавить или изменить строку станции
+        /// </summary>
+        /// <param name="ReferenceStation"></param>
+        /// <returns></returns>
+        public int SaveReferenceStation(ReferenceStation ReferenceStation)
+        {
+            return rep_station.SaveReferenceStation(ReferenceStation);
+        }
+        #endregion
+
     }
 }

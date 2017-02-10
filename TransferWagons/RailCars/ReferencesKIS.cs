@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TransferWagons.Transfers;
 
 namespace TransferWagons.Railcars
 {
@@ -30,6 +31,7 @@ namespace TransferWagons.Railcars
         KometaContent kc = new KometaContent();
         PromContent pc = new PromContent();
         ReferenceRailway refRailway = new ReferenceRailway();
+        References reference = new References();
 
         public ReferencesKIS()
         {
@@ -65,6 +67,15 @@ namespace TransferWagons.Railcars
                 }
             }
             return stan;
+        }
+        /// <summary>
+        /// Определить ID станции системы Railcars (если ID нет в системе создать по данным глобальных станций)
+        /// </summary>
+        /// <param name="code_cs"></param>
+        /// <returns></returns>
+        public int DefinitionIDStations(int code_cs)
+        {
+            return reference.DefinitionIDStation(code_cs);
         }
         /// <summary>
         /// Определить ID пути системы Railcars (если ID нет в системе создать путь)
@@ -199,30 +210,6 @@ namespace TransferWagons.Railcars
             }
             return id_own;
         }
-        /// <summary>
-        /// Определить Id страны владельца (если id нет в системе RailCars создать из данных КИС)
-        /// </summary>
-        /// <param name="id_stran_ora"></param>
-        /// <returns></returns>
-        //public int? DefinitionIDOwnersContries(int id_stran_ora)
-        //{
-        //    int? id_own_cont = rs_ocn.GetIDOwnersContriesOfKis(id_stran_ora);
-        //    if (id_own_cont == null)
-        //    {
-        //        KometaStrana kst = kc.GetKometaStrana(id_stran_ora);
-        //        if (kst != null)
-        //        {
-        //            int res = rs_ocn.SaveOwnersContries(new OWNERS_COUNTRIES()
-        //            {
-        //                id_own_country = 0,
-        //                name = kst.NAME.Trim(),
-        //                id_ora = id_stran_ora,
-        //            });
-        //            if (res > 0) { id_own_cont = res; }
-        //        }
-        //    }
-        //    return id_own_cont;
-        //}
         /// <summary>
         /// Определить Id груза (если id нет в системе RailCars создать из данных КИС)
         /// </summary>
@@ -366,6 +353,18 @@ namespace TransferWagons.Railcars
                 else return null;
             }
             return id_tupik;
+        }
+        /// <summary>
+        /// Получить id справочника из кода страны (европейский стандарт)
+        /// </summary>
+        /// <param name="id_code_europe"></param>
+        /// <returns></returns>
+        public int? DefinitionIDContries(int id_code_europe) 
+        {
+            if (id_code_europe <= 0) return 0;
+            NumVagStran str = vc.GetStranOfCodeEurope(id_code_europe);
+            if (str==null) return null; //TODO: Можно доработать сделав подбор кода (европ от isa отличается на 1 цифру больше, убирать последнюю цифру и пробовать как код iso)  
+            return reference.DefinitionIDCountryCode(str.KOD_STRAN);
         }
         #endregion
 

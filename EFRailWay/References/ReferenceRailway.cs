@@ -37,20 +37,11 @@ namespace EFRailWay.References
         /// Получить список стран
         /// </summary>
         /// <returns></returns>
-        public IQueryable<Code_State> GetStates() 
-        {
-            return RRRrepository.Code_State.OrderBy(s => s.IDState);
-        }
-        /// <summary>
-        /// Получить страну по коду
-        /// </summary>
-        /// <param name="ID"></param>
-        /// <returns></returns>
-        public Code_State GetState(int code)
+        public IQueryable<Code_State> GetStates()
         {
             try
             {
-                return RRRrepository.Code_State.Where(s => s.IDState == code).FirstOrDefault();
+                return RRRrepository.Code_State;
             }
             catch (Exception e)
             {
@@ -58,11 +49,22 @@ namespace EFRailWay.References
                 return null;
             }
         }
+        /// <summary>
+        /// Получить страну по коду
+        /// </summary>
+        /// <param name="ID"></param>
+        /// <returns></returns>
+        public Code_State GetState(int idstate)
+        {
+            return GetStates().Where(s => s.IDState == idstate).FirstOrDefault();
+        }
         public string GetStateToState(int code)
         {
             Code_State state = GetState(code);
             return state != null ? state.State : null;
         }
+
+
 
         /// <summary>
         /// Вернуть список стран и кодов по ISO3166
@@ -98,7 +100,15 @@ namespace EFRailWay.References
         {
             return GetCountry().Where(c => c.IDState == code_sng).FirstOrDefault();
         }
-
+        /// <summary>
+        /// Вернуть строку кодов страны по коду iso
+        /// </summary>
+        /// <param name="code_iso"></param>
+        /// <returns></returns>
+        public Code_Country GetCountryOfCode(int code_iso) 
+        {
+            return GetCountry().Where(c => c.Code == code_iso).FirstOrDefault();
+        }
         #endregion
 
         #region ВНУТРЕНИЕ Ж.Д (Code_InternalRailroad)
@@ -108,9 +118,9 @@ namespace EFRailWay.References
             return RRRrepository.Code_InternalRailroad.OrderBy(s => s.IDInternalRailroad);
         }
 
-        public IQueryable<Code_InternalRailroad> GetInternalRailroads(int code)
+        public Code_InternalRailroad  GetInternalRailroads(int idIR)
         {
-            return RRRrepository.Code_InternalRailroad.Where(s => s.IDInternalRailroad == code);
+            return RRRrepository.Code_InternalRailroad.Where(s => s.IDInternalRailroad == idIR).FirstOrDefault();
         }
 
         public IQueryable<Code_InternalRailroad> GetInternalRailroads(int code, int code_state)
@@ -226,12 +236,9 @@ namespace EFRailWay.References
         /// Установить код ж.д. для всех станций указаной ж.д.
         /// </summary>
         /// <param name="code_InternalRailroad"></param>
-        public void SetInternalRailroadToStation(int code_InternalRailroad) 
+        public void SetInternalRailroadToStation(int IDIR)
         {
-            foreach (Code_InternalRailroad cir in GetInternalRailroads(code_InternalRailroad))
-            {
-                SetInternalRailroad(cir);
-            }
+            SetInternalRailroad(GetInternalRailroads(IDIR));
         }
 
         #endregion
