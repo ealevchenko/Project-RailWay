@@ -9,6 +9,7 @@ using EFRailWay.References;
 using EFRailWay.SAP;
 using EFRailWay.Statics;
 using EFWagons.Entities;
+using EFWagons.KIS;
 using EFWagons.Statics;
 using KIS.Service;
 using MetallurgTrans.Helpers;

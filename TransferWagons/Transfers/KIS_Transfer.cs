@@ -4,6 +4,7 @@ using EFRailWay.KIS;
 using EFRailWay.MT;
 using EFRailWay.Statics;
 using EFWagons.Entities;
+using EFWagons.KIS;
 using EFWagons.Statics;
 using Logs;
 using System;

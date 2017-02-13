@@ -1,6 +1,7 @@
 ﻿using EFWagons.Abstarct;
 using EFWagons.Concrete;
 using EFWagons.Entities;
+using EFWagons.Statics;
 using Logs;
 using System;
 using System.Collections;
@@ -10,7 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EFWagons.Statics
+namespace EFWagons.KIS
 {
 
     
@@ -64,6 +65,20 @@ namespace EFWagons.Statics
         {
             return GetInputPromSostav().Where( p => p.N_NATUR == natur).FirstOrDefault();
         }
+        /// <summary>
+        /// Вернуть состав прибывший на станцию промышленую по натурке и дате
+        /// </summary>
+        /// <param name="natur"></param>
+        /// <param name="station"></param>
+        /// <param name="day"></param>
+        /// <param name="month"></param>
+        /// <param name="year"></param>
+        /// <returns></returns>
+        public PromSostav GetInputPromSostavToNatur(int natur, int station, int day, int month, int year)
+        {
+            return GetInputPromSostav().Where( p => p.N_NATUR == natur & p.K_ST==station & p.D_DD==day & p.D_MM==month & p.D_YY==year).FirstOrDefault();
+        }
+
         /// <summary>
         /// Вернуть составы прибывшие на станцию промышленую за указанный период
         /// </summary>

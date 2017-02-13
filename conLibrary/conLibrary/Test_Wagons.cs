@@ -1,6 +1,7 @@
 ﻿using EFRailWay.KIS;
 using EFRailWay.Statics;
 using EFWagons.Entities;
+using EFWagons.KIS;
 using EFWagons.Statics;
 using System;
 using System.Collections.Generic;
