@@ -1,4 +1,5 @@
-﻿using EFRailWay.KIS;
+﻿using EFRailWay.Entities.KIS;
+using EFRailWay.KIS;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,6 +34,19 @@ namespace EFRailWay.Statics
               Where+=" ("+name_field_on+"="+or.IDOn.ToString()+ " AND "+name_field_from+" IN("+or.IDFrom.IntsToString(",")+")) "+log_oper;
             }
             return Where.Remove(Where.Length - log_oper.Length);
+        }
+
+        public static List<Oracle_ArrivalSostav> SortField(this IEnumerable<Oracle_ArrivalSostav> source, string field, bool order)
+        {
+            switch (field) {
+                case "DateTime": return order ? source.OrderByDescending(a => a.DateTime).ToList() : source.OrderBy(a => a.DateTime).ToList();
+                case "NaturNum": return order ? source.OrderByDescending(a => a.NaturNum).ToList() : source.OrderBy(a => a.NaturNum).ToList();
+                case "IDOrcStation": return order ? source.OrderByDescending(a => a.IDOrcStation).ToList() : source.OrderBy(a => a.IDOrcStation).ToList();
+                case "Close": return order ? source.OrderByDescending(a => a.Close).ToList() : source.OrderBy(a => a.Close).ToList();
+                case "Napr": return order ? source.OrderByDescending(a => a.Napr).ToList() : source.OrderBy(a => a.Napr).ToList();
+                case "Status": return order ? source.OrderByDescending(a => a.Status).ToList() : source.OrderBy(a => a.Status).ToList();
+                default: return order ? source.OrderByDescending(a => a.DateTime).ToList() : source.OrderBy(a => a.DateTime).ToList();
+            }
         }
 
     }

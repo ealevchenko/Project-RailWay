@@ -50,5 +50,6 @@ namespace EFRailWay.Entities.KIS
 
         public string ListNoUpdateWagons { get; set; }
 
+        public string Message { get; set; }
     }
 }

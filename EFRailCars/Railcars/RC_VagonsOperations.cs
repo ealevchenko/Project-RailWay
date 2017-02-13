@@ -490,40 +490,6 @@ namespace EFRailCars.Railcars
             };
             return SaveVagonsOperations(vo);
         }
-
-        /// <summary>
-        /// Поставить вагон на станцию
-        /// </summary>
-        /// <param name="natur"></param>
-        /// <param name="dt_amkr"></param>
-        /// <param name="id_vagon"></param>
-        /// <param name="id_station"></param>
-        /// <param name="id_way"></param>
-        /// <param name="id_stat_kis"></param>
-        /// <returns></returns>
-        //TODO: Переделал обновление
-        //public int UpdateVagon(DateTime dt_amkr, int num_vagon, int id_way, int id_gruz, int id_shop, decimal? wes_gr, int? id_cond)
-        //{
-        //    //TODO: !! ДОРАБОТАТЬ (ОБНОВЛЕНИЕ ВАГОНОВ ПО КИСУ - UpdateVagon) обновлять готовность по прибытию и дату зачисления на АМКР
-        //    try
-        //    {
-        //        string sql = "update  dbo.VAGON_OPERATIONS " +
-        //                        "set id_gruz = " + id_gruz.ToString() + ", id_gruz_amkr = " + id_gruz.ToString() + ", id_shop_gruz_for = " + id_shop.ToString() + ", weight_gruz = " + (wes_gr != null ? ((decimal)wes_gr).ToString("F", CultureInfo.CreateSpecificCulture("en-US")) : "null") +
-        //                        ", id_cond = " + (id_cond !=null ? id_cond.ToString(): "null ") +
-        //                        ", id_cond2 = 15 " +
-        //                        " where id_way= " + id_way.ToString() +
-        //                        " and num_vagon= " + num_vagon.ToString() +
-        //                        " and Convert(char(19),dt_amkr) ='" + dt_amkr.ToString("yyyy-MM-dd HH:mm:ss") + "'" +
-        //                        " and is_present = 1 " +
-        //                        " and is_hist = 0 ";
-        //        return rep_vo.db.ExecuteSqlCommand(sql);
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        LogRW.LogError(e, "UpdateVagon(1)", eventID);
-        //        return -1;
-        //    }                    
-        //}
         /// <summary>
         /// Обновить информацию по вагону поставленному на путь или принятому вручную.
         /// </summary>
@@ -644,24 +610,7 @@ namespace EFRailCars.Railcars
             
             
         }
-        /// <summary>
-        /// Удалить вагоны пренадлежащие документу прибытия на станцию
-        /// </summary>
-        /// <param name="doc"></param>
-        /// <returns></returns>
-        public int DeleteVagonsToDocInput(int doc)
-        {
-            //TODO: Прибить все вагоны которые перенесены по прибытию и отпраквлены далее
-            try
-            {
-                return rep_vo.db.ExecuteSqlCommand("DELETE FROM dbo.VAGON_OPERATIONS WHERE id_ora_23_temp=" + doc.ToString());
-            }
-            catch (Exception e)
-            {
-                LogRW.LogError(e, "DeleteVagonsToDocInput", eventID);
-                return -1;
-            }
-        }
+
         /// <summary>
         /// Удалить цепочку ранее поставленного вагона
         /// </summary>
@@ -669,7 +618,7 @@ namespace EFRailCars.Railcars
         /// <param name="num"></param>
         /// <param name="id_sostav"></param>
         /// <returns></returns>
-        public int DeleteVagonsToDocOutput(int id_oper, int num, int? id_sostav)
+        public int DeleteChainVagons(int id_oper, int num, int? id_sostav)
         {
             try
             {
@@ -682,6 +631,42 @@ namespace EFRailCars.Railcars
                 return -1;
             }
         }
+        /// <summary>
+        /// Удалить вагоны пренадлежащие документу прибытия на станцию
+        /// </summary>
+        /// <param name="doc"></param>
+        /// <returns></returns>
+        public int DeleteVagonsToDocInput(int doc)
+        {
+            //TODO: Прибить все вагоны которые перенесены по прибытию и отпраквлены далее
+            int delete = 0;
+            try
+            {
+                IQueryable<VAGON_OPERATIONS> list = GetVagonsOperationsToDocInputSostav(doc).OrderBy(o => o.num_vag_on_way);
+                if (list == null) return 0;
+                foreach (VAGON_OPERATIONS vag in list.ToList())
+                {
+                    int res = DeleteChainVagons(vag.id_oper, (int)vag.num_vagon, vag.IDSostav);
+                    if (res > 0) delete++;
+                }
+            }
+            catch (Exception e)
+            {
+                LogRW.LogError(e, String.Format("DeleteVagonsToDocInput(doc:{0})", doc), eventID);
+                return -1;
+            }
+            return delete;
+            //try
+            //{
+            //    return rep_vo.db.ExecuteSqlCommand("DELETE FROM dbo.VAGON_OPERATIONS WHERE id_ora_23_temp=" + doc.ToString());
+            //}
+            //catch (Exception e)
+            //{
+            //    LogRW.LogError(e, "DeleteVagonsToDocInput", eventID);
+            //    return -1;
+            //}
+        }
+
         /// <summary>
         /// Удалить вагоны пренадлежащие документу по отправке на станцию
         /// </summary>
@@ -696,7 +681,7 @@ namespace EFRailCars.Railcars
                 if (list == null) return 0;
                 foreach (VAGON_OPERATIONS vag in list.ToList())
                 {
-                    int res = DeleteVagonsToDocOutput(vag.id_oper, (int)vag.num_vagon, vag.IDSostav);
+                    int res = DeleteChainVagons(vag.id_oper, (int)vag.num_vagon, vag.IDSostav);
                     if (res > 0) delete++;
                 }
             }

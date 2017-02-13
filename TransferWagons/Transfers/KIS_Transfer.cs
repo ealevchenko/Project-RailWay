@@ -475,7 +475,7 @@ namespace TransferWagons.Transfers
             foreach (Oracle_OutputSostav or_os in list)
             {
                 // Удалим вагоны из системы RailCars
-                transfer_rc.DeleteVagonsToDocInput(or_os.DocNum);
+                transfer_rc.DeleteVagonsToDocOutput(or_os.DocNum);
                 // TODO: Сделать код удаления вагонов из RailWay
 
                 or_os.Close = DateTime.Now;
@@ -589,7 +589,7 @@ namespace TransferWagons.Transfers
         {
             IQueryable<Oracle_ArrivalSostav> list_noClose = oas.Get_ArrivalSostavNoClose();
             if (list_noClose == null | list_noClose.Count() == 0) return 0;
-            foreach (Oracle_ArrivalSostav or_as in list_noClose)
+            foreach (Oracle_ArrivalSostav or_as in list_noClose.ToList())
             {
                 Oracle_ArrivalSostav kis_sostav = new Oracle_ArrivalSostav();
                 kis_sostav = or_as;

@@ -91,6 +91,12 @@ namespace TransferWagons.Transfers
         }
     }
 
+    //public class ResultTransferWagon
+    //{
+    //    public int result { get; set; }
+    //    public string message  { get; set; }
+    //}
+
     public class trWagon
     {
         public int Position { get; set; }

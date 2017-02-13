@@ -55,13 +55,14 @@ namespace EFRailWay.Concrete.KIS
                     Status = oracle_ArrivalSostav.Status,
                     ListWagons = oracle_ArrivalSostav.ListWagons,
                     ListNoSetWagons = oracle_ArrivalSostav.ListNoSetWagons,
-                    ListNoUpdateWagons = oracle_ArrivalSostav.ListNoUpdateWagons,
+                    ListNoUpdateWagons = oracle_ArrivalSostav.ListNoUpdateWagons, 
+                    Message = oracle_ArrivalSostav.Message
                 };
-                context_edit.Oracle_ArrivalSostav.Add(dbEntry);
+                context.Oracle_ArrivalSostav.Add(dbEntry);
             }
             else
             {
-                dbEntry = context_edit.Oracle_ArrivalSostav.Find(oracle_ArrivalSostav.IDOrcSostav);
+                dbEntry = context.Oracle_ArrivalSostav.Find(oracle_ArrivalSostav.IDOrcSostav);
                 if (dbEntry != null)
                 {
                         //dbEntry.IDOrcSostav = oracle_ArrivalSostav.IDOrcSostav;
@@ -83,12 +84,13 @@ namespace EFRailWay.Concrete.KIS
                         dbEntry.Status = oracle_ArrivalSostav.Status;
                         dbEntry.ListWagons = oracle_ArrivalSostav.ListWagons;
                         dbEntry.ListNoSetWagons = oracle_ArrivalSostav.ListNoSetWagons;
-                        dbEntry.ListNoUpdateWagons = oracle_ArrivalSostav.ListNoUpdateWagons; 
+                        dbEntry.ListNoUpdateWagons = oracle_ArrivalSostav.ListNoUpdateWagons;
+                        dbEntry.Message = oracle_ArrivalSostav.Message;
                 }
             }
             try
             {
-                context_edit.SaveChanges();
+                context.SaveChanges();
             }
             catch (Exception e)
             {
@@ -116,13 +118,13 @@ namespace EFRailWay.Concrete.KIS
         /// <returns></returns>
         public Oracle_ArrivalSostav DeleteOracle_ArrivalSostav(int IDOrcSostav)
         {
-            Oracle_ArrivalSostav dbEntry = context_edit.Oracle_ArrivalSostav.Find(IDOrcSostav);
+            Oracle_ArrivalSostav dbEntry = context.Oracle_ArrivalSostav.Find(IDOrcSostav);
             if (dbEntry != null)
             {
-                context_edit.Oracle_ArrivalSostav.Remove(dbEntry);
+                context.Oracle_ArrivalSostav.Remove(dbEntry);
                 try
                 {
-                    context_edit.SaveChanges();
+                    context.SaveChanges();
                 }
                 catch (Exception e)
                 {
