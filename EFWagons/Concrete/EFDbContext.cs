@@ -53,5 +53,6 @@ namespace EFWagons.Concrete
         public DbSet<NumVagStpr1OutStVag> NumVagStpr1OutStVag { get; set; } // Вагоны по внутреним станциям по прибытию 
         public DbSet<NumVagStpr1Tupik> NumVagStpr1Tupik { get; set; } // Список тупиков по цехам 
         public DbSet<NumVagStran> NumVagStran { get; set; } // Список стран для отправки 
+        public DbSet<NumVagGodn> NumVagGodn { get; set; } // Список годностей
     }
 }

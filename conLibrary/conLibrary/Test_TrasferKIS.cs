@@ -406,7 +406,7 @@ namespace conLibrary
         /// </summary>
         public void Test_KIS_RC_Transfer_PutOutputSostavToStation()
         {
-            Oracle_OutputSostav oros = oos.GetOutputSostav(96);
+            Oracle_OutputSostav oros = oos.GetOutputSostav(117);
 
             KIS_RC_Transfer kisrs = new KIS_RC_Transfer();
             int res = kisrs.PutOutputSostavToStation(ref oros);

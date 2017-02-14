@@ -74,9 +74,14 @@ namespace EFWagons.KIS
         /// <param name="month"></param>
         /// <param name="year"></param>
         /// <returns></returns>
-        public PromSostav GetInputPromSostavToNatur(int natur, int station, int day, int month, int year)
+        public PromSostav GetArrivalPromSostavToNatur(int natur, int station, int day, int month, int year)
         {
             return GetInputPromSostav().Where( p => p.N_NATUR == natur & p.K_ST==station & p.D_DD==day & p.D_MM==month & p.D_YY==year).FirstOrDefault();
+        }
+
+        public PromSostav GetInputPromSostavToNatur(int natur, int station, int day, int month, int year)
+        {
+            return rep_ps.PromSostav.Where(p => p.N_NATUR == natur & p.K_ST == station & p.D_DD == day & p.D_MM == month & p.D_YY == year).FirstOrDefault();
         }
 
         /// <summary>

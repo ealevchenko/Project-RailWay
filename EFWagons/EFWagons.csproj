@@ -55,6 +55,7 @@
     <Compile Include="Abstarct\IDBRepository.cs" />
     <Compile Include="Abstarct\IKometaSobstvForNaklRepository.cs" />
     <Compile Include="Abstarct\IKometaVagonSobRepository.cs" />
+    <Compile Include="Abstarct\INumVagGodnRepository.cs" />
     <Compile Include="Abstarct\INumVagStpr1OutStVagRepository.cs" />
     <Compile Include="Abstarct\INumVagStpr1OutStDocRepository.cs" />
     <Compile Include="Abstarct\INumVagStpr1InStVagRepository.cs" />
@@ -72,6 +73,7 @@
     <Compile Include="Concrete\EFDbContext.cs" />
     <Compile Include="Concrete\EFKometaSobstvForNaklRepository.cs" />
     <Compile Include="Concrete\EFKometaVagonSobRepository.cs" />
+    <Compile Include="Concrete\EFNumVagGodnRepository.cs" />
     <Compile Include="Concrete\EFNumVagStpr1OutStVagRepository.cs" />
     <Compile Include="Concrete\EFNumVagStpr1OutStDocRepository.cs" />
     <Compile Include="Concrete\EFNumVagStpr1InStVagRepository.cs" />
@@ -97,6 +99,7 @@
     <Compile Include="Entities\NumVagStpr1Gr.cs" />
     <Compile Include="Entities\NumVagStan.cs" />
     <Compile Include="Entities\NumVagStpr1Tupik.cs" />
+    <Compile Include="Entities\NumVagGodn.cs" />
     <Compile Include="Entities\PromGruzSP.cs" />
     <Compile Include="Entities\PromCex.cs" />
     <Compile Include="Entities\PromVagon.cs" />

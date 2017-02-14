@@ -21,7 +21,8 @@ namespace EFWagons.KIS
         INumVagStpr1OutStDocRepository rep_nvs1osd;
         INumVagStpr1OutStVagRepository rep_nvs1osv;
         INumVagStpr1TupikRepository rep_nvs1t;
-        INumVagStranRepository rep_nvstr; 
+        INumVagStranRepository rep_nvstr;
+        INumVagGodnRepository rep_nvg;
 
 
         public VagonsContent() 
@@ -34,6 +35,7 @@ namespace EFWagons.KIS
             this.rep_nvs1osv = new EFNumVagStpr1OutStVagRepository();
             this.rep_nvs1t = new EFNumVagStpr1TupikRepository();
             this.rep_nvstr = new EFNumVagStranRepository();
+            this.rep_nvg = new EFNumVagGodnRepository();
         }
 
         public VagonsContent(INumVagStanRepository rep_nvs, 
@@ -43,7 +45,8 @@ namespace EFWagons.KIS
             INumVagStpr1OutStDocRepository rep_nvs1osd,
             INumVagStpr1OutStVagRepository rep_nvs1osv,
             INumVagStpr1TupikRepository rep_nvs1t,
-            INumVagStranRepository rep_nvstr) 
+            INumVagStranRepository rep_nvstr,
+            INumVagGodnRepository rep_nvg) 
         {
             this.rep_nvs = rep_nvs;
             this.rep_nvstpr = rep_nvstpr;
@@ -53,6 +56,7 @@ namespace EFWagons.KIS
             this.rep_nvs1osv = rep_nvs1osv;
             this.rep_nvs1t = rep_nvs1t;
             this.rep_nvstr = rep_nvstr;
+            this.rep_nvg = rep_nvg;
         }
 
         #region Станции
@@ -346,6 +350,35 @@ namespace EFWagons.KIS
             return GetStran().Where(s => s.KOD_STRAN == code_stran).FirstOrDefault();
         }
         #endregion
+
+        #region Годность
+        /// <summary>
+        /// Получить все годности
+        /// </summary>
+        /// <returns></returns>
+        public IQueryable<NumVagGodn> GetGodn() 
+        {
+            try
+            {
+                return rep_nvg.NumVagGodn;
+            }
+            catch (Exception e)
+            {
+                LogRW.LogError(e, "GetGodn", eventID);
+                return null;
+            }
+        }
+        /// <summary>
+        /// Получить указаную годность по коду
+        /// </summary>
+        /// <param name="code"></param>
+        /// <returns></returns>
+        public NumVagGodn GetGodn(int code) 
+        {
+            return GetGodn().Where(g => g.CODE == code).FirstOrDefault();
+        }
+        #endregion
+
 
     }
 }

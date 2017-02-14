@@ -19,9 +19,6 @@ namespace EFWagons.Entities
         public  int? K_ST { get; set; }
         [Key, Column(Order = 1)]
         public  int N_NATUR { get; set; }
-
-
-
         // дата
         public  int? D_PR_DD { get; set; }
         public  int? D_PR_MM { get; set; }
