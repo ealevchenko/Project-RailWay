@@ -35,7 +35,13 @@ namespace EFRailWay.Statics
             }
             return Where.Remove(Where.Length - log_oper.Length);
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="field"></param>
+        /// <param name="order"></param>
+        /// <returns></returns>
         public static List<Oracle_ArrivalSostav> SortField(this IEnumerable<Oracle_ArrivalSostav> source, string field, bool order)
         {
             switch (field) {
@@ -48,7 +54,44 @@ namespace EFRailWay.Statics
                 default: return order ? source.OrderByDescending(a => a.DateTime).ToList() : source.OrderBy(a => a.DateTime).ToList();
             }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="field"></param>
+        /// <param name="order"></param>
+        /// <returns></returns>
+        public static List<Oracle_OutputSostav> SortField(this IEnumerable<Oracle_OutputSostav> source, string field, bool order)
+        {
+            switch (field) {
+                case "DateTime": return order ? source.OrderByDescending(a => a.DateTime).ToList() : source.OrderBy(a => a.DateTime).ToList();
+                case "DocNum": return order ? source.OrderByDescending(a => a.DocNum).ToList() : source.OrderBy(a => a.DocNum).ToList();
+                case "IDOrcStationFrom": return order ? source.OrderByDescending(a => a.IDOrcStationFrom).ToList() : source.OrderBy(a => a.IDOrcStationFrom).ToList();
+                case "IDOrcStationOn": return order ? source.OrderByDescending(a => a.IDOrcStationOn).ToList() : source.OrderBy(a => a.IDOrcStationOn).ToList();
+                case "Close": return order ? source.OrderByDescending(a => a.Close).ToList() : source.OrderBy(a => a.Close).ToList();
+                case "Status": return order ? source.OrderByDescending(a => a.Status).ToList() : source.OrderBy(a => a.Status).ToList();
+                default: return order ? source.OrderByDescending(a => a.DateTime).ToList() : source.OrderBy(a => a.DateTime).ToList();
+            }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="field"></param>
+        /// <param name="order"></param>
+        /// <returns></returns>
+        public static List<Oracle_InputSostav> SortField(this IEnumerable<Oracle_InputSostav> source, string field, bool order)
+        {
+            switch (field) {
+                case "DateTime": return order ? source.OrderByDescending(a => a.DateTime).ToList() : source.OrderBy(a => a.DateTime).ToList();
+                case "DocNum": return order ? source.OrderByDescending(a => a.DocNum).ToList() : source.OrderBy(a => a.DocNum).ToList();
+                case "IDOrcStationFrom": return order ? source.OrderByDescending(a => a.IDOrcStationFrom).ToList() : source.OrderBy(a => a.IDOrcStationFrom).ToList();
+                case "IDOrcStationOn": return order ? source.OrderByDescending(a => a.IDOrcStationOn).ToList() : source.OrderBy(a => a.IDOrcStationOn).ToList();
+                case "Close": return order ? source.OrderByDescending(a => a.Close).ToList() : source.OrderBy(a => a.Close).ToList();
+                case "Status": return order ? source.OrderByDescending(a => a.Status).ToList() : source.OrderBy(a => a.Status).ToList();
+                default: return order ? source.OrderByDescending(a => a.DateTime).ToList() : source.OrderBy(a => a.DateTime).ToList();
+            }
+        }
     }
 
 

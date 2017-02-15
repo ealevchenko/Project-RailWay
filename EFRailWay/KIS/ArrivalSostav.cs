@@ -87,5 +87,16 @@ namespace EFRailWay.KIS
         {
             return rep_as.SaveOracle_ArrivalSostav(Oracle_ArrivalSostav);
         }
+        /// <summary>
+        /// Закрыть строку
+        /// </summary>
+        /// <param name="IDOrcSostav"></param>
+        /// <returns></returns>
+        public int CloseArrivalSostav(int IDOrcSostav) 
+        {
+            Oracle_ArrivalSostav ors = Get_ArrivalSostav(IDOrcSostav);
+            ors.Close = DateTime.Now;
+            return SaveOracle_ArrivalSostav(ors);
+        }
     }
 }

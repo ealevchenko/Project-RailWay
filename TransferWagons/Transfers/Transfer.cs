@@ -30,7 +30,9 @@ namespace TransferWagons.Transfers
         no_wagon_is_list = -9,
         no_wagon_is_nathist = -10,
         no_godn = -11,
-        no_del_output =-12
+        no_del_output =-12,
+        no_tupik =-13,
+        no_station_nazn = -14
     }
     /// <summary>
     /// Класс данных результат переноса массва данных
