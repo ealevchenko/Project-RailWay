@@ -51,7 +51,7 @@ namespace conLibrary
             #endregion
 
             #region Test_TrasferKIS
-            Test_TrasferKIS test = new Test_TrasferKIS();
+            //Test_TrasferKIS test = new Test_TrasferKIS();
             //test.Test_References_Owner();
             //test.Test_References_Vagon();
             //test.Test_References_OwnersContries();
@@ -71,7 +71,7 @@ namespace conLibrary
             //test.Test_KIS_RulesCopy_GetRulesCopyToOracleRules();
             //test.Test_KIS_Transfer_CopyInputSostavToRailway();
             //test.Test_KIS_Transfer_CopyOutputSostavToRailway();     //Тест переноса данных по отправке
-            test.Test_KIS_RC_Transfer_PutOutputSostavToStation();   // Перенос вагонов по отправке
+            //test.Test_KIS_RC_Transfer_PutOutputSostavToStation();   // Перенос вагонов по отправке +
             //test.Test_KIS_Transfer_PutInputSostavToStation();
             //test.Test_KIS_RC_Transfer_PutInputSostavToStation();  // тест поставить строку (копирование внутрених станций) на путь
             //test.Test_KIS_RC_Transfer_PutCarsToStation_UpdateCarsToStation();
@@ -82,7 +82,7 @@ namespace conLibrary
             #endregion
 
             #region Test_Wagons
-            //Test_Wagons test = new Test_Wagons();
+            Test_Wagons test = new Test_Wagons();
             //test.Test_KometaContent_KometaVagonSob();
             //test.Test_KometaContent_KometaVagonSob(67666503);
             //test.Test_KometaContent_KometaVagonSob(67666503,DateTime.Now);
@@ -121,6 +121,8 @@ namespace conLibrary
             //test.Test_VagonsContent_GetStpr1Tupik(); // Список тупиков
             //test.Test_VagonsContent_GetStran(); // список стран
             //test.Test_VagonsContent_GetStranOf(); // Выбраные страны
+            //test.Test_VagonsContent_GetPromSostav(); // Список прибывающих и отправляющих вагонов
+            test.Test_VagonsContent_GetInputPromSostav();
             #endregion
 
             #region Test_RailCars

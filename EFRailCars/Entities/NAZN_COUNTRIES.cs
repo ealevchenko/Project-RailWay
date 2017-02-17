@@ -11,7 +11,7 @@ namespace EFRailCars.Entities
         public NAZN_COUNTRIES()
         {
             OWNERS = new HashSet<OWNERS>();
-            VAGON_OPERATIONS = new HashSet<VAGON_OPERATIONS>();
+            //VAGON_OPERATIONS = new HashSet<VAGON_OPERATIONS>();
         }
 
         [Key]
@@ -25,6 +25,6 @@ namespace EFRailCars.Entities
 
         public virtual ICollection<OWNERS> OWNERS { get; set; }
 
-        public virtual ICollection<VAGON_OPERATIONS> VAGON_OPERATIONS { get; set; }
+        //public virtual ICollection<VAGON_OPERATIONS> VAGON_OPERATIONS { get; set; }
     }
 }

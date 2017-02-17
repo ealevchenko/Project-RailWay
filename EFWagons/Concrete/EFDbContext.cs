@@ -36,7 +36,7 @@ namespace EFWagons.Concrete
 
         public DbSet<KometaStrana> KometaStrana { get; set; }
         // Информация по станции Промышленная
-        public DbSet<PromSostav> PromSostav { get; set; }
+        public DbSet<PromSostav> PromSostav { get; set; } // Применил составные ключи
         public DbSet<PromNatHist> PromNatHist { get; set;}
         public DbSet<PromVagon> PromVagon { get; set; }
         public DbSet<PromGruzSP> PromGruzSP { get; set; } // грузы на приходе

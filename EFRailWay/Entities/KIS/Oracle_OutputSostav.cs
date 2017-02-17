@@ -33,7 +33,7 @@ namespace EFRailWay.Entities.KIS
 
         public int Status { get; set; }
 
-        [StringLength(1000)]
+        [StringLength(2000)]
         public string Message { get; set; }
     }
 }

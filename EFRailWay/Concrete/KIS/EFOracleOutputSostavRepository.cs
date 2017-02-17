@@ -53,6 +53,7 @@ namespace EFRailWay.Concrete.KIS
             }
             else
             {
+                //int c = Oracle_OutputSostav.Message.Length;
                 dbEntry = context.Oracle_OutputSostav.Find(Oracle_OutputSostav.ID);
                 if (dbEntry != null)
                 {
@@ -68,6 +69,7 @@ namespace EFRailWay.Concrete.KIS
                     dbEntry.Close = Oracle_OutputSostav.Close;
                     dbEntry.Status = Oracle_OutputSostav.Status;
                     dbEntry.Message = Oracle_OutputSostav.Message;
+                    
                 }
             }
             try

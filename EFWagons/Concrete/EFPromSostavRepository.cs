@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace EFWagons.Concrete
 {
-    public class EFPromSostavRepository : IPromSostavRepository
+    public class EFPromSostavRepository : EFRepository, IPromSostavRepository
     {
-        private EFDbORCContext context = new EFDbORCContext();
         public IQueryable<PromSostav> PromSostav
         {
             get { return context.PromSostav; }
         }
+
     }
 }

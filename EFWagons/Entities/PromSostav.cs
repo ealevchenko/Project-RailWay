@@ -29,6 +29,11 @@ namespace EFWagons.Entities
         public int? NAPR { get; set; }
         public int? P_OT { get; set; }
         public int? V_P { get; set; }
-
+        public int? K_ST_OTPR { get; set; }
+        public int? K_ST_PR { get; set; }
+        public int? N_VED_PR { get; set; }
+        public int? N_SOST_OT { get; set; }
+        public int? N_SOST_PR { get; set; }
+        public DateTime? DAT_VVOD { get; set; }
     }
 }

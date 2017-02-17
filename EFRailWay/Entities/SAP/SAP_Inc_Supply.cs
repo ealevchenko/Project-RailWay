@@ -11,6 +11,8 @@ namespace EFRailWay.Entities.SAP
     {
         public int ID { get; set; }
 
+        public DateTime? DateTime { get; set; }
+
         [Required]
         [StringLength(50)]
         public string CompositionIndex { get; set; }

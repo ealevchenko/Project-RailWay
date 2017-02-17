@@ -15,6 +15,7 @@ namespace conLibrary
     {
         PromContent promsostav = new PromContent();
         VagonsContent vc = new VagonsContent();
+        PromContent pc = new PromContent();
 
         public Test_Wagons() 
         { 
@@ -148,11 +149,12 @@ namespace conLibrary
         {
             WL(promsostav.GetNatHist(natur, station, day, month, year, wag));
         }
-        public void WL(PromNatHist t) 
+
+        public void WL(PromNatHist t)
         {
-            if (t == null) { Console.WriteLine(" = Null"); return; }
-            Console.WriteLine("N_NATUR: {0},\t D_PR_DD: {1},\t D_PR_MM: {2},\t D_PR_YY: {3},\t T_PR_HH: {4},\t T_PR_MI: {5},\t N_VAG: {6},\t NPP: {7},\t GODN: {8},\t K_ST: {9},\t N_VED_PR: {10},\t N_NAK_MPS: {11},\t N_NAK_KMK: {12},\t WES_GR: {13},\t K_OP: {14},\t K_FRONT: {15},\t KOD_STRAN: {16},\t DAT_VVOD: {17}",
-                    t.N_NATUR,t.D_PR_DD,t.D_PR_MM,t.D_PR_YY,t.T_PR_HH,t.T_PR_MI,t.N_VAG,t.NPP,t.GODN,t.K_ST,t.N_VED_PR,t.N_NAK_MPS,t.N_NAK_KMK,t.WES_GR,t.K_OP,t.K_FRONT,t.KOD_STRAN,t.DAT_VVOD);        
+            //if (t == null) { Console.WriteLine(" = Null"); return; }
+            //Console.WriteLine("NPP: {0},\t NAME: {1},\t ABREV_STRAN: {2},\t KOD_EUROP: {3},\t KOD_STRAN: {4},\t KOD_OLD: {5}",
+            //        t.NPP, t.NAME, t.ABREV_STRAN, t.KOD_EUROP, t.KOD_STRAN, t.KOD_OLD);
         }
 
         public void Test_PromContent_GetCex()
@@ -309,6 +311,8 @@ namespace conLibrary
         }
         #endregion
 
+ 
+        
         #region NumVagStran
         /// <summary>
         /// Список стран
@@ -335,6 +339,36 @@ namespace conLibrary
             Console.WriteLine("NPP: {0},\t NAME: {1},\t ABREV_STRAN: {2},\t KOD_EUROP: {3},\t KOD_STRAN: {4},\t KOD_OLD: {5}",
                     t.NPP,t.NAME,t.ABREV_STRAN,t.KOD_EUROP,t.KOD_STRAN,t.KOD_OLD);        
         }
+        #endregion
+
+        #region PromSostav
+        /// <summary>
+        /// Список прибывающих и отправляющих вагонов
+        /// </summary>
+        //public void Test_VagonsContent_GetPromSostav()
+        //{
+        //    foreach (PromSostav t in pc.GetPromSostav())
+        //    {
+        //        WL(t);
+        //    }
+        //}
+
+        public void Test_VagonsContent_GetInputPromSostav()
+        {
+            foreach (PromSostav t in pc.GetInputPromSostav())
+            {
+                WL(t);
+            }
+        }
+
+
+        public void WL(PromSostav t) 
+        {
+            if (t == null) { Console.WriteLine(" = Null"); return; }
+            Console.WriteLine("N_NATUR: {0},\t D_DD: {1},\t D_MM: {2},\t D_YY: {3},\t T_HH: {4},\t T_MI: {5},\t K_ST: {6},\t N_PUT: {7},\t NAPR: {8},\t P_OT: {9},\t V_P: {10}",
+                    t.N_NATUR,t.D_DD,t.D_MM,t.D_YY,t.T_HH,t.T_MI,t.K_ST,t.N_PUT,t.NAPR,t.P_OT,t.V_P);        
+        }
+
         #endregion
 
     }

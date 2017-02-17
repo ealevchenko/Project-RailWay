@@ -27,6 +27,7 @@ namespace EFRailWay.Concrete.SAP
                 dbEntry = new SAPIncSupply()
                 {
                     ID = SAPIncSupply.ID,
+                    DateTime = SAPIncSupply.DateTime,
                     CompositionIndex = SAPIncSupply.CompositionIndex,
                     IDMTSostav = SAPIncSupply.IDMTSostav,
                     CarriageNumber = SAPIncSupply.CarriageNumber,
@@ -61,6 +62,7 @@ namespace EFRailWay.Concrete.SAP
                 dbEntry = context.SAPIncSupply.Find(SAPIncSupply.ID);
                 if (dbEntry != null)
                 {
+                    dbEntry.DateTime = SAPIncSupply.DateTime;
                     dbEntry.CompositionIndex = SAPIncSupply.CompositionIndex;
                     dbEntry.IDMTSostav = SAPIncSupply.IDMTSostav;
                     dbEntry.CarriageNumber = SAPIncSupply.CarriageNumber;

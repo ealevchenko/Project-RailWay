@@ -42,6 +42,7 @@ namespace TransferWagons.Transfers
             SAPIncSupply sap_Supply = new SAPIncSupply()
              {
                  ID = 0,
+                 DateTime = wagon.DateOperation,
                  CompositionIndex = wagon.CompositionIndex,
                  IDMTSostav = idsostav,
                  CarriageNumber = wagon.CarriageNumber,
@@ -127,52 +128,6 @@ namespace TransferWagons.Transfers
             {
                 trWagon new_wag = GetWagons(sostav.Wagons, wag);
                 result.SetResultInsert(sapis.SaveSAPIncSupply(ConvertWagonToSAPSupply(new_wag, sostav.id)));
-                //TODO: Оттестить и убрать
-                ////Определим страну по общему справочнику
-                //int id_country=0;
-                //if (new_wag.CountryCode > 0)
-                //{
-                //    int country = 0;
-                //    country = int.Parse(new_wag.CountryCode.ToString().Substring(0, 2));
-                //    id_country = trans_ref.DefinitionIDCountrySNG(country);
-                //}
-                ////Определим груз по общему справочнику
-                //int id_cargo = trans_ref.DefinitionIDCargo(new_wag.IDCargo); 
-
-                //if (new_wag != null) 
-                //{
-                //    SAPIncSupply sap_Supply = new SAPIncSupply() {
-                //        ID = 0,
-                //        CompositionIndex = new_wag.CompositionIndex,
-                //        IDMTSostav = sostav.id,
-                //        CarriageNumber = new_wag.CarriageNumber,
-                //        Position = new_wag.Position,
-                //        NumNakl = null,
-                //        CountryCode = new_wag.CountryCode,
-                //        IDCountry = id_country, 
-                //        WeightDoc = (decimal?)new_wag.Weight,
-                //        DocNumReweighing = null,
-                //        DocDataReweighing = null,
-                //        WeightReweighing = null,
-                //        DateTimeReweighing = null,
-                //        PostReweighing = null,
-                //        CodeCargo = new_wag.IDCargo,
-                //        IDCargo = id_cargo,
-                //        CodeMaterial = null,
-                //        NameMaterial = null,
-                //        CodeStationShipment = null,
-                //        NameStationShipment = null,
-                //        CodeShop = null,
-                //        NameShop = null,
-                //        CodeNewShop = null,
-                //        NameNewShop = null,
-                //        PermissionUnload = null,
-                //        Step1 = null,
-                //        Step2 = null
-                    
-                //    };
-                // result.SetResultInsert(sapis.SaveSAPIncSupply(sap_Supply));
-                //}
             }
             // если есть старый состав обновим id и исправим нумерацию вагонов
             if (sostav.ParentID != null)

@@ -41,7 +41,6 @@ namespace EFWagons.Statics
             }
             return ((T[])aList.ToArray(typeof(T)));
         }
-
         /// <summary>
         /// Больше или равно меньше или равно для PromSostav
         /// </summary>
@@ -52,7 +51,8 @@ namespace EFWagons.Statics
         public static bool IsGreaterOrequalToLessOrEqual(PromSostav ps, DateTime? start, DateTime? stop)
         {
             DateTime? DT = GetDateTime(ps);
-            if (DT != null & DT >= start & DT <= stop) { return true; }
+            if (DT != null & DT >= start & DT <= stop) 
+            { return true; }
             return false;
         }
         /// <summary>
@@ -88,7 +88,6 @@ namespace EFWagons.Statics
             if (DT != null & DT <= start) { return true; }
             return false;
         }
-
         /// <summary>
         /// вернуть дату и время
         /// </summary>
@@ -96,10 +95,13 @@ namespace EFWagons.Statics
         /// <returns></returns>
         public static DateTime? GetDateTime(PromSostav ps)
         {
-            if (ps.D_DD != null & ps.D_MM != null & ps.D_YY != null & ps.T_HH != null & ps.T_MI != null)
-            {
+            try { 
                 return DateTime.Parse(ps.D_DD.ToString() + "-" + ps.D_MM.ToString() + "-" + ps.D_YY.ToString() + " " + ps.T_HH.ToString() + ":" + ps.T_MI.ToString() + ":00", CultureInfo.CreateSpecificCulture("ru-RU"));
-            } return null;
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
         }
 
         public static DateTime? GetDateTime(PromNatHist pnh)

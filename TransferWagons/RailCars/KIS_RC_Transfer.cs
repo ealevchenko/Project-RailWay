@@ -1075,13 +1075,13 @@ namespace TransferWagons.Railcars
                 string mesage_error = null;
                 foreach (NumVagStpr1OutStVag vag_os in list) 
                 {
-                    mesage_error = null;
+                    mesage_error += vag_os.N_VAG.ToString()+":";
                     if (result.SetResultInsert(SetCarOutputSostavToStation(orc_sostav.DocNum, orc_sostav.DateTime, vag_os, id_stations_from, id_stations_on, id_ways, ref mesage_error)))
                     {
                         LogRW.LogWarning(String.Format("[KIS_RC_Transfer.SetOutputSostavToStation] : Ошибка переноса вагона (копирование по отправке из внутрених станций), № документа: {0}, дата: {1} вагон: {2} код ошибки: {3}",
                             orc_sostav.DocNum, orc_sostav.DateTime, vag_os.N_VAG, ((errorTransfer)result.result).ToString()), eventID);
                     }
-                    mesage_error += result.result.ToString() + ",";
+                    mesage_error += result.result.ToString() + ";";
                 }
                 orc_sostav.Message = mesage_error;
                 orc_sostav.CountSetWagons = result.ResultInsert;

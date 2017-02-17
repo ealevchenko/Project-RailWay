@@ -49,6 +49,45 @@ namespace EFWagons.KIS
 
         #region PROM.SOSTAV
         /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public IQueryable<PromSostav> GetPromSostav()
+        {
+            try
+            {
+                string sql = "SELECT N_NATUR,D_DD,D_MM,D_YY,T_HH,T_MI,K_ST,N_PUT,NAPR,P_OT,V_P,K_ST_OTPR,K_ST_PR,N_VED_PR,N_SOST_OT,N_SOST_PR,DAT_VVOD FROM PROM.SOSTAV WHERE ( P_OT = 0 and K_ST_OTPR is not null) or  (P_OT = 1 and K_ST_PR is not null)";
+                return rep_ps.db.SqlQuery<PromSostav>(sql).AsQueryable();
+            }
+            catch (Exception e)
+            {
+                LogRW.LogError(e, "GetPromSostav(1)", eventID);
+                return null;
+            }
+        }
+
+        public IQueryable<PromSostav> GetPromSostav(DateTime start, DateTime stop)
+        {
+            return GetPromSostav().ToArray().FilterArrayOfFilterFromTo(Filters.IsGreaterOrequalToLessOrEqual, start, stop).AsQueryable();
+        }
+
+        /// <summary>
+        /// Вернуть все прибывшие составы
+        /// </summary>
+        /// <returns></returns>
+        public IQueryable<PromSostav> GetArrivalPromSostav()
+        {
+            return rep_ps.PromSostav.Where(p => p.P_OT == 0 & p.K_ST_OTPR != null);
+        }
+        /// <summary>
+        /// Вернуть все отправленные составы
+        /// </summary>
+        /// <returns></returns>
+        public IQueryable<PromSostav> GetDeparturePromSostav()
+        {
+            return rep_ps.PromSostav.Where(p => p.P_OT == 1 & p.K_ST_PR != null);
+        }
+        /// <summary>
         /// Вернуть составы прибывшие на станцию промышленую
         /// </summary>
         /// <returns></returns>
@@ -83,7 +122,26 @@ namespace EFWagons.KIS
         {
             return rep_ps.PromSostav.Where(p => p.N_NATUR == natur & p.K_ST == station & p.D_DD == day & p.D_MM == month & p.D_YY == year).FirstOrDefault();
         }
-
+        /// <summary>
+        /// Вернуть все составы на станции промышленая за указанный период
+        /// </summary>
+        /// <param name="start"></param>
+        /// <param name="stop"></param>
+        /// <returns></returns>
+        public IQueryable<PromSostav> GetArrivalPromSostav(DateTime start, DateTime stop)
+        {
+            return GetArrivalPromSostav().ToArray().FilterArrayOfFilterFromTo(Filters.IsGreaterOrequalToLessOrEqual, start, stop).AsQueryable();
+        }
+        /// <summary>
+        /// Вернуть все составы на станции промышленая за указанный период
+        /// </summary>
+        /// <param name="start"></param>
+        /// <param name="stop"></param>
+        /// <returns></returns>
+        public IQueryable<PromSostav> GetDeparturePromSostav(DateTime start, DateTime stop)
+        {
+            return GetDeparturePromSostav().ToArray().FilterArrayOfFilterFromTo(Filters.IsGreaterOrequalToLessOrEqual, start, stop).AsQueryable();
+        }
         /// <summary>
         /// Вернуть составы прибывшие на станцию промышленую за указанный период
         /// </summary>
@@ -122,6 +180,7 @@ namespace EFWagons.KIS
             }
 
         }
+
         #endregion
 
         #region PROM.Nat_Hist

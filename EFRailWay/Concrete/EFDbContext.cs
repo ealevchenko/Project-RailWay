@@ -83,6 +83,7 @@ namespace EFRailWay.Concrete
                 .Property(e => e.WeightReweighing)
                 .HasPrecision(18, 3);
         }
+
     }
 
 }

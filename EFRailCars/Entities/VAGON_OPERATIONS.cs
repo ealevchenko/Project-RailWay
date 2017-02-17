@@ -119,11 +119,11 @@ namespace EFRailCars.Entities
         [Column(TypeName = "datetime")]
         public DateTime? dt_out_amkr { get; set; }
 
-        public virtual GDSTAIT GDSTAIT { get; set; }
+        //public virtual GDSTAIT GDSTAIT { get; set; }
 
         public virtual GRUZS GRUZS { get; set; }
 
-        public virtual NAZN_COUNTRIES NAZN_COUNTRIES { get; set; }
+        //public virtual NAZN_COUNTRIES NAZN_COUNTRIES { get; set; }
 
         public virtual SHOPS SHOPS { get; set; }
 

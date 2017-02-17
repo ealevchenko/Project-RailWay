@@ -47,10 +47,10 @@ namespace EFRailCars.Concrete
                 .Property(e => e.id_ora)
                 .IsFixedLength();
 
-            modelBuilder.Entity<NAZN_COUNTRIES>()
-                .HasMany(e => e.VAGON_OPERATIONS)
-                .WithOptional(e => e.NAZN_COUNTRIES)
-                .HasForeignKey(e => e.id_nazn_country);
+            //modelBuilder.Entity<NAZN_COUNTRIES>()
+            //    .HasMany(e => e.VAGON_OPERATIONS)
+            //    .WithOptional(e => e.NAZN_COUNTRIES)
+            //    .HasForeignKey(e => e.id_nazn_country);
 
             modelBuilder.Entity<OWNERS_COUNTRIES>()
                 .Property(e => e.name)
