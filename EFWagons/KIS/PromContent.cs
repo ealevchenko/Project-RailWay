@@ -49,14 +49,22 @@ namespace EFWagons.KIS
 
         #region PROM.SOSTAV
         /// <summary>
-        /// 
+        /// Выбрать строки с указанием направления
         /// </summary>
         /// <returns></returns>
-        public IQueryable<PromSostav> GetPromSostav()
+        public IQueryable<PromSostav> GetPromSostav(bool direction)
         {
             try
             {
-                string sql = "SELECT N_NATUR,D_DD,D_MM,D_YY,T_HH,T_MI,K_ST,N_PUT,NAPR,P_OT,V_P,K_ST_OTPR,K_ST_PR,N_VED_PR,N_SOST_OT,N_SOST_PR,DAT_VVOD FROM PROM.SOSTAV WHERE ( P_OT = 0 and K_ST_OTPR is not null) or  (P_OT = 1 and K_ST_PR is not null)";
+                string sql = "SELECT N_NATUR,D_DD,D_MM,D_YY,T_HH,T_MI,K_ST,N_PUT,NAPR,P_OT,V_P,K_ST_OTPR,K_ST_PR,N_VED_PR,N_SOST_OT,N_SOST_PR,DAT_VVOD FROM PROM.SOSTAV ";
+                    if (direction) 
+                    {
+                        sql+="WHERE (P_OT = 1 and K_ST_PR is not null)";
+                    } else {
+                    
+                    sql+="WHERE ( P_OT = 0 and K_ST_OTPR is not null)";
+                    }
+
                 return rep_ps.db.SqlQuery<PromSostav>(sql).AsQueryable();
             }
             catch (Exception e)
@@ -65,10 +73,16 @@ namespace EFWagons.KIS
                 return null;
             }
         }
-
-        public IQueryable<PromSostav> GetPromSostav(DateTime start, DateTime stop)
+        /// <summary>
+        /// Выбрать строки с указанием направления и временного диапазона
+        /// </summary>
+        /// <param name="start"></param>
+        /// <param name="stop"></param>
+        /// <param name="direction"></param>
+        /// <returns></returns>
+        public IQueryable<PromSostav> GetPromSostav(DateTime start, DateTime stop, bool direction)
         {
-            return GetPromSostav().ToArray().FilterArrayOfFilterFromTo(Filters.IsGreaterOrequalToLessOrEqual, start, stop).AsQueryable();
+            return GetPromSostav(direction).ToArray().FilterArrayOfFilterFromTo(Filters.IsGreaterOrequalToLessOrEqual, start, stop).AsQueryable();
         }
 
         /// <summary>

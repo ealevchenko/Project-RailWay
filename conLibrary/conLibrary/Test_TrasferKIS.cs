@@ -132,6 +132,12 @@ namespace conLibrary
         }
         #endregion
 
+        public void Test_TrasferKIS_KISTransfer_CopyArrivalSostavToRailway()
+        { 
+            KIS_Transfer kist = new KIS_Transfer();
+            Console.WriteLine("Обновлено {0}", kist.CopyArrivalSostavToRailway(1));
+        }
+
         /// <summary>
         /// Проверить полный перенос вагона из КИС в RailCars
         /// </summary>
@@ -161,9 +167,12 @@ namespace conLibrary
         }
 
         public void Test_KIS_RC_Transfer_ClearArrivingWagons() 
-        { 
-            KIS_RC_Transfer kisrs = new KIS_RC_Transfer();
-            int res = kisrs.ClearArrivingWagons(new int[] { 3, 9, 10, 11, 14, 18, 19, 21, 22, 25, 26 }, 2);        
+        {
+            KIS_Transfer kist = new KIS_Transfer();
+            int res_del = kist.ClearArrivingWagons(1);
+            Console.WriteLine("Обновлено {0}", res_del);
+            //KIS_RC_Transfer kisrs = new KIS_RC_Transfer();
+            //int res = kisrs.ClearArrivingWagons(new int[] {1, 3, 9, 10, 11, 14, 18, 19, 21, 22, 25, 26 }, 1);
         }
 
         public void Test_KIS_RC_Transfer_DeleteInArrival() 

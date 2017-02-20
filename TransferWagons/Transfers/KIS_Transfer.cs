@@ -835,8 +835,8 @@ namespace TransferWagons.Transfers
         public int ClearArrivingWagons(int day) 
         {
             //TODO: ВЫПОЛНИТЬ чистку  в системе RailWay
-            int res_ca = transfer_rc.ClearArrivingWagons(new int[] { 3,9,10,11,14,18,19,21,22,25,26 } ,day);
-            int res_cp = transfer_rc.ClearPendingWagons(new int[] { 3,9,10,11,14,18,19,21,22,25,26 }, day);
+            int res_ca = transfer_rc.ClearArrivingWagons(new int[] { 1,3,9,10,11,14, 18,19,21,22,25,26 } ,day);
+            int res_cp = transfer_rc.ClearPendingWagons(new int[] { 1,3,9,10,11,14, 18,19,21,22,25,26 }, day);
             LogRW.LogWarning(String.Format("Очищено – закладка прибытие: {0} строк, закладка ожидают зачисления: {1} строк.", res_ca, res_cp), this.eventID);
             return res_ca + res_cp;
         }

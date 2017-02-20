@@ -189,7 +189,7 @@ namespace Logs
 
         static public void LogError(Exception e, string source, eventID eventID)
         {
-            LogRW.LogError(String.Format("[" + source + "] : Ошибка источник: {0}, № {1}, описание:  {2}, InnerException:  {3})", e.Source, e.HResult, e.Message, e.InnerException.Message), (int)eventID);
+            LogRW.LogError(String.Format("[" + source + "] : Ошибка источник: {0}, № {1}, описание:  {2}, InnerException:  {3})", e.Source, e.HResult, e.Message, e.InnerException!=null ? e.InnerException.Message:null), (int)eventID);
         }
     }
 }

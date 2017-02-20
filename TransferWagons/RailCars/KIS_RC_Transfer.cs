@@ -630,7 +630,7 @@ namespace TransferWagons.Railcars
                         orc_sostav.ListNoSetWagons += wag.ToString() + ";";
                     }
                 }
-                orc_sostav.CountSetWagons = result.ResultInsert;
+                orc_sostav.CountSetWagons = orc_sostav.CountSetWagons==null? result.ResultInsert : (int)orc_sostav.CountSetWagons + result.ResultInsert;
                 LogRW.LogWarning(String.Format("Определено для переноса из системы КИС (натурный лист: {0}, дата: {1}) – {2} вагонов, поставлено на станцию АМКР (станция: {3}, путь: {4}) – {5} вагонов, ранее перенесено: {6} вагонов, ошибок переноса: {7}.",
                     orc_sostav.NaturNum,orc_sostav.DateTime,set_wagons.Count(),id_stations,id_ways,result.inserts,result.skippeds,result.errors),  eventID);
                 // Сохранить результат и вернуть код

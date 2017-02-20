@@ -51,7 +51,7 @@ namespace conLibrary
             #endregion
 
             #region Test_TrasferKIS
-            //Test_TrasferKIS test = new Test_TrasferKIS();
+            Test_TrasferKIS test = new Test_TrasferKIS();
             //test.Test_References_Owner();
             //test.Test_References_Vagon();
             //test.Test_References_OwnersContries();
@@ -65,7 +65,7 @@ namespace conLibrary
 
             //test.Test_KIS_RC_Transfer_SetListWagon();
             //test.Test_References_SynchronizeWagons(2);
-            //test.Test_KIS_RC_Transfer_ClearArrivingWagons();
+            test.Test_KIS_RC_Transfer_ClearArrivingWagons(); // Убрать
             //test.Test_KIS_RC_Transfer_DeleteInArrival();
             //test.Test_SAP_IncomingSupply();
             //test.Test_KIS_RulesCopy_GetRulesCopyToOracleRules();
@@ -79,10 +79,12 @@ namespace conLibrary
             //test.Test_SAPIncomingSupply_GetDefaultIDSostav();
             //test.Test_KIS_RC_Transfer_CorrectionArrivalSostav();
             //test.Test_TrasferKIS_KISTransfer_PutCarsToStations(); // Проверить полный перенос вагона из КИС в RailCars
+            //test.Test_TrasferKIS_KISTransfer_CopyArrivalSostavToRailway(); // Проверка выбора для копирования
+
             #endregion
 
             #region Test_Wagons
-            Test_Wagons test = new Test_Wagons();
+            //Test_Wagons test = new Test_Wagons();
             //test.Test_KometaContent_KometaVagonSob();
             //test.Test_KometaContent_KometaVagonSob(67666503);
             //test.Test_KometaContent_KometaVagonSob(67666503,DateTime.Now);
@@ -122,7 +124,7 @@ namespace conLibrary
             //test.Test_VagonsContent_GetStran(); // список стран
             //test.Test_VagonsContent_GetStranOf(); // Выбраные страны
             //test.Test_VagonsContent_GetPromSostav(); // Список прибывающих и отправляющих вагонов
-            test.Test_VagonsContent_GetInputPromSostav();
+            //test.Test_VagonsContent_GetInputPromSostav();
             #endregion
 
             #region Test_RailCars
