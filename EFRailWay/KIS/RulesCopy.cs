@@ -122,5 +122,17 @@ namespace EFRailWay.KIS
             return list;
 
         }
+        /// <summary>
+        /// Проверка есть на эти станции правила
+        /// </summary>
+        /// <param name="station_from"></param>
+        /// <param name="station_on"></param>
+        /// <param name="tp"></param>
+        /// <returns></returns>
+        public bool IsRules(int station_from, int station_on, typeOracleRules tp) 
+        {
+            Oracle_RulesCopy rules = GetRulesCopy().Where(r => r.TypeCopy == (int)tp & r.IDStationFrom == station_from & r.IDStationOn == station_on).FirstOrDefault();
+            return rules != null ? true : false;
+        }
     }
 }

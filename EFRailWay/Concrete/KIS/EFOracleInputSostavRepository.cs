@@ -46,7 +46,8 @@ namespace EFRailWay.Concrete.KIS
                     CountSetWagons = Oracle_InputSostav.CountSetWagons,
                     CountUpdareWagons = Oracle_InputSostav.CountUpdareWagons,
                     Close = Oracle_InputSostav.Close,
-                    Status = Oracle_InputSostav.Status
+                    Status = Oracle_InputSostav.Status,
+                    Message = Oracle_InputSostav.Message  
                 };
                 context.Oracle_InputSostav.Add(dbEntry);
             }
@@ -55,7 +56,6 @@ namespace EFRailWay.Concrete.KIS
                 dbEntry = context.Oracle_InputSostav.Find(Oracle_InputSostav.ID);
                 if (dbEntry != null)
                 {
-
                     dbEntry.DateTime = Oracle_InputSostav.DateTime;
                     dbEntry.DocNum = Oracle_InputSostav.DocNum;
                     dbEntry.IDOrcStationFrom = Oracle_InputSostav.IDOrcStationFrom;
@@ -67,6 +67,7 @@ namespace EFRailWay.Concrete.KIS
                     dbEntry.CountUpdareWagons = Oracle_InputSostav.CountUpdareWagons;
                     dbEntry.Close = Oracle_InputSostav.Close;
                     dbEntry.Status = Oracle_InputSostav.Status;
+                    dbEntry.Message = Oracle_InputSostav.Message;
                 }
             }
             try

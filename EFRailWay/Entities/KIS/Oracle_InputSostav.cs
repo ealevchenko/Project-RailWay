@@ -32,5 +32,8 @@ namespace EFRailWay.Entities.KIS
         public DateTime? Close { get; set; }
 
         public int Status { get; set; }
+
+        [StringLength(2000)]
+        public string Message { get; set; }
     }
 }

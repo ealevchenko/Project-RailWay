@@ -117,6 +117,27 @@ namespace EFWagons.KIS
             }
         }
         /// <summary>
+        /// Получить строку по номеру документа
+        /// </summary>
+        /// <param name="doc"></param>
+        /// <returns></returns>
+        public NumVagStpr1InStDoc GetSTPR1InStDoc(int doc) 
+        {
+            return GetSTPR1InStDoc().Where(i => i.ID_DOC == doc).FirstOrDefault();
+        }
+
+        /// <summary>
+        /// Показать за указаный период
+        /// </summary>
+        /// <param name="start"></param>
+        /// <param name="stop"></param>
+        /// <returns></returns>
+        public IQueryable<NumVagStpr1InStDoc> GetSTPR1InStDoc(DateTime start, DateTime stop) 
+        {
+            return GetSTPR1InStDoc().Where(v => v.DATE_IN_ST >= start & v.DATE_IN_ST <= stop);
+        }
+
+        /// <summary>
         /// Получить список операций перемещений по прибытию с других станций c дополнительной выборкой
         /// </summary>
         /// <param name="where"></param>
