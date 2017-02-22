@@ -17,19 +17,22 @@ namespace EFWagons.KIS
         IKometaVagonSobRepository rep_vsob;
         IKometaSobstvForNaklRepository rep_sfn;
         IKometaStranaRepository rep_str;
+        IKometaStanRepository rep_sta;
 
         public KometaContent() 
         {
             this.rep_vsob = new EFKometaVagonSobRepository();
             this.rep_sfn = new EFKometaSobstvForNaklRepository();
             this.rep_str = new EFKometaStranaRepository();
+            this.rep_sta = new EFKometaStanRepository();
         }
 
-        public KometaContent(IKometaVagonSobRepository rep_vsob, IKometaSobstvForNaklRepository rep_sfn, IKometaStranaRepository rep_str) 
+        public KometaContent(IKometaVagonSobRepository rep_vsob, IKometaSobstvForNaklRepository rep_sfn, IKometaStranaRepository rep_str, IKometaStanRepository rep_sta) 
         {
             this.rep_vsob = rep_vsob;
             this.rep_sfn = rep_sfn;
             this.rep_str = rep_str;
+            this.rep_sta = rep_sta;
         }
 
         #region KometaVagonSob
@@ -125,6 +128,23 @@ namespace EFWagons.KIS
             return GetKometaStrana().Where(s=>s.KOD_STRAN == kod_stran).FirstOrDefault();
         }
         #endregion
+
+        #region KometaStan
+        /// <summary>
+        /// Вернуть список станций
+        /// </summary>
+        /// <returns></returns>
+        public IQueryable<KometaStan> GetKometaStan() 
+        {
+            return rep_sta.KometaStan;
+        }
+
+        public KometaStan GetKometaStan(int k_stan) 
+        {
+            return GetKometaStan().Where(s => s.K_STAN == k_stan).FirstOrDefault();
+        }
+        #endregion
+
 
     }
 }

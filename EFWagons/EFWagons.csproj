@@ -54,8 +54,11 @@
   <ItemGroup>
     <Compile Include="Abstarct\IDBRepository.cs" />
     <Compile Include="Abstarct\IKometaSobstvForNaklRepository.cs" />
+    <Compile Include="Abstarct\INumVagNumVagGDStaitRepository.cs" />
+    <Compile Include="Abstarct\INumVagStranaRepository.cs" />
     <Compile Include="Abstarct\IKometaVagonSobRepository.cs" />
     <Compile Include="Abstarct\INumVagGodnRepository.cs" />
+    <Compile Include="Abstarct\IKometaStanRepository.cs" />
     <Compile Include="Abstarct\INumVagStpr1OutStVagRepository.cs" />
     <Compile Include="Abstarct\INumVagStpr1OutStDocRepository.cs" />
     <Compile Include="Abstarct\INumVagStpr1InStVagRepository.cs" />
@@ -72,8 +75,11 @@
     <Compile Include="Abstarct\IKometaStranaRepository.cs" />
     <Compile Include="Concrete\EFDbContext.cs" />
     <Compile Include="Concrete\EFKometaSobstvForNaklRepository.cs" />
+    <Compile Include="Concrete\EFNumVagGDStaitRepository.cs" />
+    <Compile Include="Concrete\EFNumVagStranaRepository.cs" />
     <Compile Include="Concrete\EFKometaVagonSobRepository.cs" />
     <Compile Include="Concrete\EFNumVagGodnRepository.cs" />
+    <Compile Include="Concrete\EFKometaStanRepository.cs" />
     <Compile Include="Concrete\EFNumVagStpr1OutStVagRepository.cs" />
     <Compile Include="Concrete\EFNumVagStpr1OutStDocRepository.cs" />
     <Compile Include="Concrete\EFNumVagStpr1InStVagRepository.cs" />
@@ -90,6 +96,9 @@
     <Compile Include="Concrete\EFKometaStranaRepository.cs" />
     <Compile Include="Concrete\EFRepository.cs" />
     <Compile Include="Entities\KometaSobstvForNakl.cs" />
+    <Compile Include="Entities\KometaStan.cs" />
+    <Compile Include="Entities\NumVagGDStait.cs" />
+    <Compile Include="Entities\NumVagStrana.cs" />
     <Compile Include="Entities\KometaVagonSob.cs" />
     <Compile Include="Entities\NumVagStran.cs" />
     <Compile Include="Entities\NumVagStpr1OutStVag.cs" />

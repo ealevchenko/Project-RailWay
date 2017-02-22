@@ -35,6 +35,8 @@ namespace EFWagons.Concrete
         }
 
         public DbSet<KometaStrana> KometaStrana { get; set; }
+        public DbSet<KometaStan> KometaStan { get; set; }
+
         // Информация по станции Промышленная
         public DbSet<PromSostav> PromSostav { get; set; } // Применил составные ключи
         public DbSet<PromNatHist> PromNatHist { get; set;}
@@ -53,6 +55,8 @@ namespace EFWagons.Concrete
         public DbSet<NumVagStpr1OutStVag> NumVagStpr1OutStVag { get; set; } // Вагоны по внутреним станциям по прибытию 
         public DbSet<NumVagStpr1Tupik> NumVagStpr1Tupik { get; set; } // Список тупиков по цехам 
         public DbSet<NumVagStran> NumVagStran { get; set; } // Список стран для отправки 
+        public DbSet<NumVagStrana> NumVagStrana { get; set; } // Список стран прибытия
         public DbSet<NumVagGodn> NumVagGodn { get; set; } // Список годностей
+        public DbSet<NumVagGDStait> NumVagGDStait { get; set; } // Список станций для отправки
     }
 }

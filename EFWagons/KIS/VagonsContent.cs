@@ -23,6 +23,8 @@ namespace EFWagons.KIS
         INumVagStpr1TupikRepository rep_nvs1t;
         INumVagStranRepository rep_nvstr;
         INumVagGodnRepository rep_nvg;
+        INumVagStranaRepository rep_nvstra;
+        INumVagGDStaitRepository rep_nvgds;
 
 
         public VagonsContent() 
@@ -36,6 +38,8 @@ namespace EFWagons.KIS
             this.rep_nvs1t = new EFNumVagStpr1TupikRepository();
             this.rep_nvstr = new EFNumVagStranRepository();
             this.rep_nvg = new EFNumVagGodnRepository();
+            this.rep_nvstra = new EFNumVagStranaRepository();
+            this.rep_nvgds = new EFNumVagGDStaitRepository();
         }
 
         public VagonsContent(INumVagStanRepository rep_nvs, 
@@ -46,7 +50,9 @@ namespace EFWagons.KIS
             INumVagStpr1OutStVagRepository rep_nvs1osv,
             INumVagStpr1TupikRepository rep_nvs1t,
             INumVagStranRepository rep_nvstr,
-            INumVagGodnRepository rep_nvg) 
+            INumVagGodnRepository rep_nvg, 
+            INumVagStranaRepository rep_nvstra,
+            INumVagGDStaitRepository rep_nvgds)
         {
             this.rep_nvs = rep_nvs;
             this.rep_nvstpr = rep_nvstpr;
@@ -57,6 +63,8 @@ namespace EFWagons.KIS
             this.rep_nvs1t = rep_nvs1t;
             this.rep_nvstr = rep_nvstr;
             this.rep_nvg = rep_nvg;
+            this.rep_nvstra = rep_nvstra;
+            this.rep_nvgds = rep_nvgds;
         }
 
         #region Станции
@@ -226,6 +234,27 @@ namespace EFWagons.KIS
             }
         }
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="start"></param>
+        /// <param name="stop"></param>
+        /// <returns></returns>
+        public NumVagStpr1OutStDoc GetSTPR1OutStDoc(int doc)
+        {
+            return GetSTPR1OutStDoc().Where(v => v.ID_DOC==doc).FirstOrDefault();
+        }
+        /// <summary>
+        /// Показать отправленные составы за указанное время
+        /// </summary>
+        /// <param name="start"></param>
+        /// <param name="stop"></param>
+        /// <returns></returns>
+        public IQueryable<NumVagStpr1OutStDoc> GetSTPR1OutStDoc(DateTime start, DateTime stop)
+        {
+            return GetSTPR1OutStDoc().Where(v => v.DATE_OUT_ST >= start & v.DATE_OUT_ST <= stop);
+        }
+
+        /// <summary>
         /// Показать все вагоны
         /// </summary>
         /// <returns></returns>
@@ -370,6 +399,31 @@ namespace EFWagons.KIS
         {
             return GetStran().Where(s => s.KOD_STRAN == code_stran).FirstOrDefault();
         }
+        /// <summary>
+        /// Вернуть стоки с кодами всех стран прибытия
+        /// </summary>
+        /// <returns></returns>
+        public IQueryable<NumVagStrana> GetStrana() 
+        {
+            try
+            {
+                return rep_nvstra.NumVagStrana;
+            }
+            catch (Exception e)
+            {
+                LogRW.LogError(e, "GetStrana", eventID);
+                return null;
+            }
+        }
+        /// <summary>
+        /// Вернуть стоку с указаным id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public NumVagStrana GetStrana(int kod_stran) 
+        {
+            return GetStrana().Where(s => s.KOD_STRAN == kod_stran).FirstOrDefault();
+        }
         #endregion
 
         #region Годность
@@ -398,6 +452,35 @@ namespace EFWagons.KIS
         {
             return GetGodn().Where(g => g.CODE == code).FirstOrDefault();
         }
+        #endregion
+
+        #region Станции для отправки
+        /// <summary>
+        /// Показать все станции для отправки
+        /// </summary>
+        /// <returns></returns>
+        public IQueryable<NumVagGDStait> GetNumVagGDStait()
+        {
+            try
+            {
+                return rep_nvgds.NumVagGDStait;
+            }
+            catch (Exception e)
+            {
+                LogRW.LogError(e, "GetNumVagGDStait", eventID);
+                return null;
+            }
+        }
+        /// <summary>
+        /// Показать станцию
+        /// </summary>
+        /// <param name="codgd"></param>
+        /// <returns></returns>
+        public NumVagGDStait GetNumVagGDStait(int codgd)
+        {
+            return GetNumVagGDStait().Where(g => g.CODGD == codgd).FirstOrDefault();
+        }
+
         #endregion
 
 
