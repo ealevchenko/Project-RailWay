@@ -52,6 +52,26 @@ namespace EFRailWay.KIS
             }
         }
         /// <summary>
+        /// Получить правило по id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public Oracle_RulesCopy GetRulesCopy(int id)
+        {
+            return GetRulesCopy().Where(r => r.IDRulesCopy == id).FirstOrDefault();
+        }
+        /// <summary>
+        /// Получить правило для по типу копирования для станций
+        /// </summary>
+        /// <param name="from"></param>
+        /// <param name="on"></param>
+        /// <returns></returns>
+        public Oracle_RulesCopy GetRulesCopy(int from, int on, typeOracleRules tor)
+        {
+            return GetRulesCopy().Where(r => r.IDStationFrom == from & r.IDStationOn==on & r.TypeCopy==(int)tor).FirstOrDefault();
+        }
+
+        /// <summary>
         /// Сохранить правило
         /// </summary>
         /// <param name="oracle_RulesCopy"></param>
@@ -121,6 +141,12 @@ namespace EFRailWay.KIS
             }
             return list;
 
+        }
+
+        public OracleRules GetRulesCopyToOracleRules(int station_from, int station_on, typeOracleRules tor)
+        {
+            Oracle_RulesCopy rules = GetRulesCopy(station_from, station_on, tor);
+            return rules != null ? new OracleRules() { IDOn = rules.IDStationOn, IDFrom = new int[] { rules.IDStationFrom } } : null;
         }
         /// <summary>
         /// Проверка есть на эти станции правила
