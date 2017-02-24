@@ -1,6 +1,7 @@
 ﻿using EFRailCars.Abstract;
 using EFRailCars.Concrete;
 using EFRailCars.Entities;
+using EFRailCars.Statics;
 using Logs;
 using System;
 using System.Collections.Generic;
@@ -132,7 +133,7 @@ namespace EFRailCars.Railcars
         /// </summary>
         /// <param name="stations"></param>
         /// <returns></returns>
-        private List<int> GetListStations(IQueryable<STATIONS> stations) 
+        public List<int> GetListStations(IQueryable<STATIONS> stations) 
         { 
             List<int> list = new List<int>();
             if (stations != null) 
@@ -164,5 +165,45 @@ namespace EFRailCars.Railcars
             STATIONS stat = GetStations(id_stat);
             return (stat != null & stat.is_uz == 0) ? true : false;
         }
+        /// <summary>
+        /// Вернуть список станций пренадлежащих списку
+        /// </summary>
+        /// <param name="id_statuins"></param>
+        /// <returns></returns>
+        public IQueryable<STATIONS> GetStationOfListID(int[] id_statuins)
+        {
+            try
+            {
+                string station_uz_s = id_statuins.IntsToString(",");
+                string sql = "SELECT * FROM dbo.STATIONS where [id_stat] in(" + station_uz_s + ") ";
+                return rep_st.db.SqlQuery<STATIONS>(sql).AsQueryable();
+            }
+            catch (Exception e)
+            {
+                LogRW.LogError(e, "GetStationOfListID)", eventID);
+                return null;
+            }
+        }
+        /// <summary>
+        /// Вернуть список станций не пренадлежащих списку
+        /// </summary>
+        /// <param name="id_statuins"></param>
+        /// <returns></returns>
+        public IQueryable<STATIONS> GetStationOfNotListID(int[] id_statuins)
+        {
+            try
+            {
+                string station_uz_s = id_statuins.IntsToString(",");
+                string sql = "SELECT * FROM dbo.STATIONS where [id_stat] not in(" + station_uz_s + ") ";
+                return rep_st.db.SqlQuery<STATIONS>(sql).AsQueryable();
+            }
+            catch (Exception e)
+            {
+                LogRW.LogError(e, "GetStationOfListID)", eventID);
+                return null;
+            }
+        }
+
+
     }
 }

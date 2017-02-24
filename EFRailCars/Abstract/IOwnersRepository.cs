@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace EFRailCars.Abstract
 {
-    public interface IOwnersRepository
+    public interface IOwnersRepository : IDBRepository
     {
         IQueryable<OWNERS> OWNERS { get; }
         int SaveOWNERS(OWNERS OWNERS);

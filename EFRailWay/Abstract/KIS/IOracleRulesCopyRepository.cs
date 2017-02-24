@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace EFRailWay.Abstract.KIS
 {
-    public interface IOracleRulesCopyRepository 
+    public interface IOracleRulesCopyRepository : IDBRepository
     {
         IQueryable<Oracle_RulesCopy> Oracle_RulesCopy { get; }
         int SaveOracle_RulesCopy(Oracle_RulesCopy Oracle_RulesCopy);

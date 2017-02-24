@@ -70,7 +70,6 @@ namespace EFRailWay.KIS
         {
             return GetRulesCopy().Where(r => r.IDStationFrom == from & r.IDStationOn==on & r.TypeCopy==(int)tor).FirstOrDefault();
         }
-
         /// <summary>
         /// Сохранить правило
         /// </summary>

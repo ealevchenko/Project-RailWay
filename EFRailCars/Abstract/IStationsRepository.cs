@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace EFRailCars.Abstract
 {
-    public interface IStationsRepository
+    public interface IStationsRepository : IDBRepository
     {
         IQueryable<STATIONS> STATIONS { get; }
         int SaveSTATIONS(STATIONS STATIONS);
