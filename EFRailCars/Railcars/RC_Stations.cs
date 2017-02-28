@@ -193,7 +193,8 @@ namespace EFRailCars.Railcars
         {
             try
             {
-                string station_uz_s = id_statuins.IntsToString(",");
+                
+                string station_uz_s = id_statuins.Count() > 0 ? id_statuins.IntsToString(","): "0";
                 string sql = "SELECT * FROM dbo.STATIONS where [id_stat] not in(" + station_uz_s + ") ";
                 return rep_st.db.SqlQuery<STATIONS>(sql).AsQueryable();
             }

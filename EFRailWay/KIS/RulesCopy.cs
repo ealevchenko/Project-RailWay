@@ -88,11 +88,26 @@ namespace EFRailWay.KIS
         {
             return this.rep_rc.DeleteOracle_RulesCopy(IDRulesCopy);
         }
-
+        /// <summary>
+        /// Получить все правила по указанному типу правил
+        /// </summary>
+        /// <param name="tor"></param>
+        /// <returns></returns>
         public IQueryable<Oracle_RulesCopy>GetRulesCopy(typeOracleRules tor)
         {
             return GetRulesCopy().Where(r => r.TypeCopy == (int)tor);
         }
+        /// <summary>
+        /// Получить правила для станции прибытия по типу правила копирования
+        /// </summary>
+        /// <param name="station_on"></param>
+        /// <param name="tor"></param>
+        /// <returns></returns>
+        public IQueryable<Oracle_RulesCopy>GetRulesCopy(int station_on, typeOracleRules tor)
+        {
+            return GetRulesCopy().Where(r => r.TypeCopy == (int)tor & r.IDStationOn==station_on);
+        }
+
         /// <summary>
         /// Получить список правил с id системы railcars
         /// </summary>
@@ -141,7 +156,13 @@ namespace EFRailWay.KIS
             return list;
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="station_from"></param>
+        /// <param name="station_on"></param>
+        /// <param name="tor"></param>
+        /// <returns></returns>
         public OracleRules GetRulesCopyToOracleRules(int station_from, int station_on, typeOracleRules tor)
         {
             Oracle_RulesCopy rules = GetRulesCopy(station_from, station_on, tor);
@@ -158,6 +179,102 @@ namespace EFRailWay.KIS
         {
             Oracle_RulesCopy rules = GetRulesCopy().Where(r => r.TypeCopy == (int)tp & r.IDStationFrom == station_from & r.IDStationOn == station_on).FirstOrDefault();
             return rules != null ? true : false;
+        }
+        /// <summary>
+        /// Получение списка id правил для указанного списка правил
+        /// </summary>
+        /// <param name="rules"></param>
+        /// <returns></returns>
+        public List<int> GetListRules(IQueryable<Oracle_RulesCopy> rules)
+        {
+            List<int> list = new List<int>();
+            if (rules != null)
+            {
+                foreach (Oracle_RulesCopy rule in rules)
+                {
+                    list.Add(rule.IDRulesCopy);
+                }
+            }
+            return list;
+        }
+        /// <summary>
+        /// Получение списка idfrom для указанного списка правил
+        /// </summary>
+        /// <param name="rules"></param>
+        /// <returns></returns>
+        public List<int> GetListIDfromRules(IQueryable<Oracle_RulesCopy> rules)
+        {
+            List<int> list = new List<int>();
+            if (rules != null)
+            {
+                foreach (Oracle_RulesCopy rule in rules)
+                {
+                    list.Add(rule.IDStationFrom);
+                }
+            }
+            return list;
+        }
+
+        /// <summary>
+        /// Сохранить правило и для станции прибытия (если станция отправки station_from = 0, будут сохранены все станции которые еще не указанные для данной станции прибытия)
+        /// </summary>
+        /// <param name="station_on"></param>
+        /// <param name="station_from"></param>
+        /// <param name="tp"></param>
+        /// <returns></returns>
+        public int CreateRulesCopy(int station_on, int station_from, typeOracleRules tp) 
+        {
+            int result = 0;
+            int[] stations_from = station_from == 0 ? rcs.GetListStations(rcs.GetStationOfNotListID(GetListIDfromRules(GetRulesCopy(station_on, tp)).ToArray())).ToArray() : new int[] { station_from };
+            foreach (int ids in stations_from) {
+                Oracle_RulesCopy or_ryles = new Oracle_RulesCopy()
+                {
+                    IDRulesCopy = 0,
+                    IDStationFrom = ids,
+                    IDStationOn = station_on,
+                    TypeCopy = (int)typeOracleRules.Input
+                };
+                int res = SaveOracle_RulesCopy(or_ryles);
+                if (res>0) result++;
+            }
+            return result;
+        }
+
+        public int DeleteOracle_RulesCopy(int id_station_on, typeOracleRules tp)
+        {
+            try
+            {
+                return rep_rc.db.ExecuteSqlCommand("DELETE FROM RailWay.Oracle_RulesCopy WHERE IDStationOn=" + id_station_on.ToString() + " AND TypeCopy = "+((int)tp).ToString());
+            }
+            catch (Exception e)
+            {
+                LogRW.LogError(e, "DeleteRulesCopy(1)", eventID);
+                return -1;
+            }
+        }
+
+        public int DeleteOracle_RulesCopy(int id_station_on, int id_station_from, typeOracleRules tp)
+        {
+            try
+            {
+                return rep_rc.db.ExecuteSqlCommand("DELETE FROM RailWay.Oracle_RulesCopy WHERE IDStationOn=" + id_station_on.ToString() + " AND IDStationFrom = " + id_station_from.ToString() + " AND TypeCopy = " + ((int)tp).ToString());
+            }
+            catch (Exception e)
+            {
+                LogRW.LogError(e, "DeleteRulesCopy(2)", eventID);
+                return -1;
+            }
+        }
+        /// <summary>
+        /// Удалить правила копирования для станции прибытия
+        /// </summary>
+        /// <param name="station_on"></param>
+        /// <param name="station_from"></param>
+        /// <param name="tp"></param>
+        /// <returns></returns>
+        public int DeleteRulesCopy(int station_on, int station_from, typeOracleRules tp) 
+        {
+            return station_from == 0 ? DeleteOracle_RulesCopy(station_on, tp) : DeleteOracle_RulesCopy(station_on, station_from, tp);
         }
     }
 }
