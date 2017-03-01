@@ -232,7 +232,7 @@ namespace EFRailWay.KIS
                     IDRulesCopy = 0,
                     IDStationFrom = ids,
                     IDStationOn = station_on,
-                    TypeCopy = (int)typeOracleRules.Input
+                    TypeCopy = (int)tp
                 };
                 int res = SaveOracle_RulesCopy(or_ryles);
                 if (res>0) result++;
