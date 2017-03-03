@@ -58,6 +58,7 @@ namespace EFRailWay.References
         {
             return GetStates().Where(s => s.IDState == idstate).FirstOrDefault();
         }
+
         public string GetStateToState(int code)
         {
             Code_State state = GetState(code);

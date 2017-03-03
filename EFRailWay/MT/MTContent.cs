@@ -1,6 +1,7 @@
 ﻿using EFRailWay.Abstract.MT;
 using EFRailWay.Concrete.MT;
 using EFRailWay.Entities.MT;
+using EFRailWay.Statics;
 using Logs;
 using System;
 using System.Collections.Generic;
@@ -18,7 +19,6 @@ namespace EFRailWay.MT
     public class MTContent
     {
         private eventID eventID = eventID.EFRailWay_MT_MTContent;
-        
         private IMTRepository rep_MT;        
         #region КОНСТРУКТОРЫ
         /// <summary>
@@ -428,6 +428,28 @@ namespace EFRailWay.MT
         {
             IQueryable<MTList> list = Get_MTListToSostav(id_mtsostav);
             return list != null ? list.Count() : 0;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id_mtsostav"></param>
+        /// <param name="Consignees"></param>
+        /// <param name="station"></param>
+        /// <returns></returns>
+        public int CountMTList(int id_mtsostav, int[] Consignees) 
+        {
+            try
+            {
+                string Consignees_s = Consignees.IntsToString(",");
+                string sql = "SELECT * FROM RailWay.MTList where IDMTSostav = " + id_mtsostav.ToString() + " and [Consignee] in(" + Consignees_s + ")";
+                var list = rep_MT.db.SqlQuery<MTList>(sql);
+                return list != null ? list.Count() : 0;
+            }
+            catch (Exception e)
+            {
+                LogRW.LogError(e, "CountMTList(2)", eventID);
+                return 0;
+            }
         }
         /// <summary>
         /// Вернуть количество вагонов в составе

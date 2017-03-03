@@ -487,8 +487,9 @@ namespace TransferWagons.Railcars
                     else { 
                         // Проверим в наличии записи по данному составу и вагону на станциях АМКР
                         IQueryable<VAGON_OPERATIONS> vagons_amkr = rc_vo.GetVagonsOfArrival(idsostav, num_vag, rc_st.GetAMKRStationsToID().ToArray());
-                        if (vagons_amkr != null)
+                        if (vagons_amkr.Count()>0)
                         {
+                            //List<VAGON_OPERATIONS> test = vagons_amkr.ToList(); // тест
                             //TODO: если он отправлен на станции УЗ (закрыть прибытие уз и сделать строку в операциях)
                             // Обновим из КИС необходимости
                             rc_vo.UpdateVagon(idsostav, num_vag, rc_st.GetAMKRStationsToID().ToArray(), dt_amkr, pv.GODN != null ? (int)pv.GODN : -1, natur);

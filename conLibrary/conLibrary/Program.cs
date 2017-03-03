@@ -65,7 +65,7 @@ namespace conLibrary
 
             //test.Test_KIS_RC_Transfer_SetListWagon();
             //test.Test_References_SynchronizeWagons(2);
-            test.Test_KIS_RC_Transfer_ClearArrivingWagons(); // Убрать
+            //test.Test_KIS_RC_Transfer_ClearArrivingWagons(); // Убрать
             //test.Test_KIS_RC_Transfer_DeleteInArrival();
             //test.Test_SAP_IncomingSupply();
             //test.Test_KIS_RulesCopy_GetRulesCopyToOracleRules();
@@ -74,7 +74,7 @@ namespace conLibrary
             //test.Test_KIS_RC_Transfer_PutOutputSostavToStation();   // Перенос вагонов по отправке +
             //test.Test_KIS_Transfer_PutInputSostavToStation();
             //test.Test_KIS_RC_Transfer_PutInputSostavToStation();  // тест поставить строку (копирование внутрених станций) на путь
-            //test.Test_KIS_RC_Transfer_PutCarsToStation_UpdateCarsToStation();
+            test.Test_KIS_RC_Transfer_PutCarsToStation_UpdateCarsToStation();
 
             //test.Test_SAPIncomingSupply_GetDefaultIDSostav();
             //test.Test_KIS_RC_Transfer_CorrectionArrivalSostav();

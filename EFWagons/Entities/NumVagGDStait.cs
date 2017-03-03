@@ -17,11 +17,11 @@ namespace EFWagons.Entities
         public  string NAMEGD { get; set; }
         public  int N_GD { get; set; }
         public  int EXP { get; set; }
-        public  int ST_PEREXOD { get; set; }
+        public  int? ST_PEREXOD { get; set; }
         public  int SPC11 { get; set; }
         public  int SPC3 { get; set; }
         public  int PROM { get; set; }
-        public  int VOST { get; set; }        
+        public  int? VOST { get; set; }        
         public  int CPMP { get; set; }
         public  DateTime? DAT_INSERT { get; set; }
     }
